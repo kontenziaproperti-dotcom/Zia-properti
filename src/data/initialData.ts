@@ -56,7 +56,7 @@ export const INITIAL_PROJECTS: ProjectEntity[] = [
     socialHashtags: ['#ZIAEmerald', '#RumahBekasi', '#RumahTarumajaya', '#PerumahanBekasi', '#RumahAmericanClassic', '#RumahMezzanine', '#KPRRumah', '#HunianKeluarga'],
     ctaLabel: 'Jadwalkan Kunjungan ZIA Emerald',
     visitOfferLabel: 'Promo atau benefit yang ingin ditanyakan',
-    visitOfferOptions: ['Informasi diskon atau promo kunjungan', 'DP dan pilihan cara bayar', 'Simulasi KPR dan estimasi cicilan', 'Promo biaya KPR atau legalitas', 'Informasi tipe, harga, dan ketersediaan unit', 'Konsultasi umum'],
+    visitOfferOptions: ['Informasi diskon atau promo yang sedang berlaku (S&K dikonfirmasi tim sales)', 'DP dan pilihan cara bayar', 'Simulasi KPR dan estimasi cicilan', 'Promo biaya KPR atau legalitas', 'Informasi tipe, harga, dan ketersediaan unit', 'Konsultasi umum'],
     sitePlanImage: '/brands/zia-emerald/images/site-plan/site-plan-utama.webp',
     contactWhatsApp: '6281288889922',
     accentColor: '#0f4c3a', // Emerald
@@ -80,7 +80,7 @@ export const INITIAL_PROJECTS: ProjectEntity[] = [
     socialHashtags: ['#KavHillside', '#KavlingBekasi', '#TanahKavling', '#KavlingSiapBangun', '#InvestasiProperti', '#PropertiBekasi'],
     ctaLabel: 'Jadwalkan Survei Kav Hillside',
     visitOfferLabel: 'Penawaran yang ingin ditanyakan',
-    visitOfferOptions: ['Informasi diskon atau penawaran survei', 'Daftar harga dan ketersediaan kavling', 'Site plan dan nomor kavling', 'Informasi legalitas dan proses transaksi', 'Konsultasi pembelian beberapa kavling'],
+    visitOfferOptions: ['Informasi diskon atau penawaran survei jika tersedia (S&K dikonfirmasi tim)', 'Daftar harga dan ketersediaan kavling', 'Site plan dan nomor kavling', 'Informasi legalitas dan proses transaksi', 'Konsultasi pembelian beberapa kavling'],
     contactWhatsApp: '6281288889933',
     accentColor: '#365314', // Earth / Moss Green
   },
@@ -103,7 +103,7 @@ export const INITIAL_PROJECTS: ProjectEntity[] = [
     socialHashtags: ['#ZIAFarm', '#KandangTernakHBowo', '#SapiQurban', '#DombaQurban', '#KambingQurban', '#PeternakanBekasi', '#AqiqahBekasi'],
     ctaLabel: 'Jadwalkan Kunjungan ZIA Farm',
     visitOfferLabel: 'Kebutuhan atau penawaran yang ingin ditanyakan',
-    visitOfferOptions: ['Penawaran sapi qurban', 'Penawaran domba atau kambing', 'Paket aqiqah', 'Jadwal kunjungan dan pemilihan ternak', 'Kemitraan pasokan atau pembelian partai', 'Konsultasi umum'],
+    visitOfferOptions: ['Informasi diskon atau penawaran ternak jika tersedia', 'Penawaran sapi qurban', 'Penawaran domba atau kambing', 'Paket aqiqah', 'Jadwal kunjungan dan pemilihan ternak', 'Kemitraan pasokan atau pembelian partai', 'Konsultasi umum'],
     contactWhatsApp: '6281288889944',
     accentColor: '#854d0e', // Warm Ochre / Earth
   },
@@ -126,7 +126,7 @@ export const INITIAL_PROJECTS: ProjectEntity[] = [
     socialHashtags: ['#AltaraZIAInternational', '#IndonesianVanilla', '#VanillaBeans', '#VanillaExporter', '#VanillaSourcing', '#B2BExport', '#IndonesianSpices'],
     ctaLabel: 'Jadwalkan Konsultasi Altara',
     visitOfferLabel: 'Kebutuhan komersial yang ingin dibahas',
-    visitOfferOptions: ['Request sample', 'Quotation dan harga berdasarkan volume', 'Spesifikasi produk dan dokumen mutu', 'Kebutuhan ekspor dan logistik', 'Buyer meeting atau konsultasi sourcing', 'Contract farming atau kerja sama pasokan'],
+    visitOfferOptions: ['Request sample', 'Informasi penawaran komersial atau diskon volume jika tersedia', 'Quotation dan harga berdasarkan volume', 'Spesifikasi produk dan dokumen mutu', 'Kebutuhan ekspor dan logistik', 'Buyer meeting atau konsultasi sourcing', 'Contract farming atau kerja sama pasokan'],
     contactWhatsApp: '6281288889955',
     accentColor: '#1c1917', // Midnight / Vanilla Dark Earth
   },

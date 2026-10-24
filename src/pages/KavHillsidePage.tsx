@@ -11,7 +11,7 @@ import {
   ShieldCheck,
   ChevronRight
 } from 'lucide-react';
-import { KavlingPlot, FAQItem, TestimonialItem, CompanySettings } from '../types';
+import { KavlingPlot, FAQItem, TestimonialItem, CompanySettings, ProjectEntity } from '../types';
 import { LeadCaptureForm } from '../components/LeadCaptureForm';
 import { GoogleMapsView } from '../components/maps/GoogleMapsView';
 import { cleanWhatsAppNumber, formatIndonesianPhone } from '../lib/contactUtils';
@@ -21,6 +21,7 @@ interface KavHillsideProps {
   faqs: FAQItem[];
   testimonials: TestimonialItem[];
   settings: CompanySettings;
+  project?: ProjectEntity | null;
   onNavigate: (route: string) => void;
 }
 
@@ -29,6 +30,7 @@ export const KavHillsidePage: React.FC<KavHillsideProps> = ({
   faqs,
   testimonials,
   settings,
+  project,
   onNavigate
 }) => {
   const [filterBlock, setFilterBlock] = useState<string>('All');
@@ -324,7 +326,7 @@ export const KavHillsidePage: React.FC<KavHillsideProps> = ({
       </section>
 
       {/* 5. INQUIRY FORM */}
-      <section className="py-24 bg-[#141b10] text-white">
+      <section id="project-visit-form" className="py-24 bg-[#141b10] text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-5 space-y-6">
@@ -356,6 +358,9 @@ export const KavHillsidePage: React.FC<KavHillsideProps> = ({
                 title="Permintaan Daftar Harga & Site Visit Kav Hillside"
                 subtitle="Isi formulir di bawah ini untuk menerima peta kavling detail dan jadwal pendampingan ke lokasi."
                 buttonColorClass="bg-stone-100 hover:bg-white text-stone-950 font-bold"
+                ctaLabel={project?.ctaLabel}
+                visitOfferLabel={project?.visitOfferLabel}
+                visitOfferOptions={project?.visitOfferOptions}
               />
             </div>
           </div>

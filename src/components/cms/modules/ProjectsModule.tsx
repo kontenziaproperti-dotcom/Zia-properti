@@ -432,7 +432,7 @@ export const ProjectsModule: React.FC<ProjectsModuleProps> = ({
                 <textarea
                   rows={4}
                   placeholder="rumah dijual Bekasi, perumahan Tarumajaya"
-                  value={(editingProject.seoKeywords || []).join(', ')}
+                  value={(editingProject.seoKeywords || getProjectMarketing(String(editingProject.slug || ''))?.seoKeywords || []).join(', ')}
                   onChange={(e) => setEditingProject({
                     ...editingProject,
                     seoKeywords: e.target.value.split(',').map((value) => value.trim()).filter(Boolean)
@@ -448,7 +448,7 @@ export const ProjectsModule: React.FC<ProjectsModuleProps> = ({
                 <textarea
                   rows={4}
                   placeholder="#ZIAEmerald, #RumahBekasi"
-                  value={(editingProject.socialHashtags || []).join(', ')}
+                  value={(editingProject.socialHashtags || getProjectMarketing(String(editingProject.slug || ''))?.socialHashtags || []).join(', ')}
                   onChange={(e) => setEditingProject({
                     ...editingProject,
                     socialHashtags: e.target.value.split(',').map((value) => value.trim()).filter(Boolean)
@@ -467,7 +467,7 @@ export const ProjectsModule: React.FC<ProjectsModuleProps> = ({
                 <input
                   type="text"
                   placeholder="/brands/zia-emerald/images/site-plan/site-plan-utama.webp"
-                  value={editingProject.sitePlanImage || ''}
+                  value={editingProject.sitePlanImage || (editingProject.slug === 'zia-emerald' ? '/brands/zia-emerald/images/site-plan/site-plan-utama.webp' : '')}
                   onChange={(e) => setEditingProject({ ...editingProject, sitePlanImage: e.target.value })}
                   className="w-full bg-stone-950 border border-stone-800 p-2.5 text-white font-mono text-[11px]"
                 />

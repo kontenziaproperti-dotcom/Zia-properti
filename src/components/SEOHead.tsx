@@ -50,6 +50,18 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
     };
 
     setMeta('name', 'description', finalDesc);
+    const keywordContent = (project?.seoKeywords?.length ? project.seoKeywords : settings?.metaKeywords?.split(',').map((keyword) => keyword.trim()).filter(Boolean) || []).join(', ');
+    if (keywordContent) setMeta('name', 'keywords', keywordContent);
+
+    // Canonical URL helps crawlers consolidate URL variants; update one link rather than duplicating it.
+    const canonicalUrl = `https://ziaproperti.co.id${canonicalPath === '/' ? '/' : canonicalPath}`;
+    let canonicalLink = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
+    if (!canonicalLink) {
+      canonicalLink = document.createElement('link');
+      canonicalLink.rel = 'canonical';
+      document.head.appendChild(canonicalLink);
+    }
+    canonicalLink.href = canonicalUrl;
     setMeta('property', 'og:title', finalTitle);
     setMeta('property', 'og:description', finalDesc);
     setMeta('property', 'og:image', finalImage);

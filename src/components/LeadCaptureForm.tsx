@@ -48,7 +48,7 @@ export const LeadCaptureForm: React.FC<LeadFormProps> = ({
     budgetRange: 'Di bawah Rp 700 Juta',
     visitDate: '',
     visitTime: '',
-    requestedOffer: marketing?.offerOptions[0] || 'Konsultasi umum',
+    requestedOffer: visitOfferOptions?.[0] || marketing?.offerOptions[0] || 'Konsultasi umum',
     message: '',
     honeypot: '' // Anti-spam trap
   };

@@ -37,7 +37,7 @@ export const PROJECT_MARKETING: Record<string, ProjectMarketingProfile> = {
     visitTimeLabel: 'Waktu yang diinginkan',
     offerLabel: 'Promo atau benefit yang ingin ditanyakan',
     offerOptions: [
-      'Informasi diskon atau promo kunjungan',
+      'Informasi diskon atau promo yang sedang berlaku (S&K dikonfirmasi tim sales)',
       'DP dan pilihan cara bayar',
       'Simulasi KPR dan estimasi cicilan',
       'Promo biaya KPR atau legalitas',
@@ -68,7 +68,7 @@ export const PROJECT_MARKETING: Record<string, ProjectMarketingProfile> = {
     visitTimeLabel: 'Waktu yang diinginkan',
     offerLabel: 'Penawaran yang ingin ditanyakan',
     offerOptions: [
-      'Informasi diskon atau penawaran survei',
+      'Informasi diskon atau penawaran survei jika tersedia (S&K dikonfirmasi tim)',
       'Daftar harga dan ketersediaan kavling',
       'Site plan dan nomor kavling',
       'Informasi legalitas dan proses transaksi',
@@ -100,6 +100,7 @@ export const PROJECT_MARKETING: Record<string, ProjectMarketingProfile> = {
     visitTimeLabel: 'Waktu yang diinginkan',
     offerLabel: 'Kebutuhan atau penawaran yang ingin ditanyakan',
     offerOptions: [
+      'Informasi diskon atau penawaran ternak jika tersedia',
       'Penawaran sapi qurban',
       'Penawaran domba atau kambing',
       'Paket aqiqah',
@@ -134,6 +135,7 @@ export const PROJECT_MARKETING: Record<string, ProjectMarketingProfile> = {
     offerLabel: 'Kebutuhan komersial yang ingin dibahas',
     offerOptions: [
       'Request sample',
+      'Informasi penawaran komersial atau diskon volume jika tersedia',
       'Quotation dan harga berdasarkan volume',
       'Spesifikasi produk dan dokumen mutu',
       'Kebutuhan ekspor dan logistik',

@@ -45,6 +45,37 @@ export const ZiaEmeraldPage: React.FC<ZiaEmeraldProps> = ({
   const emeraldFaqs = faqs.filter((f) => f.projectSlug === 'zia-emerald');
   const emeraldTestimonials = testimonials.filter((t) => t.projectSlug === 'zia-emerald');
 
+  const getSelectedTypeImage = (property: PropertyItem) => {
+    const isGenericStock = !property.mainImage || property.mainImage.includes('unsplash.com');
+    if (!isGenericStock) return property.mainImage;
+    if (property.code === 'ZE-50') return '/brands/zia-emerald/images/units/zia-emerald-fasad-type-50-72.webp';
+    if (property.code === 'ZE-80') return '/brands/zia-emerald/images/units/zia-emerald-fasad-type-80-72.webp';
+    if (property.code === 'ZE-65M') return '/brands/zia-emerald/images/hero/hero-utama-zia-emerald.webp';
+    return property.mainImage;
+  };
+
+  const getSelectedTypeGallery = (property: PropertyItem) => {
+    const gallery = property.gallery || [];
+    const allGenericStock = gallery.length === 0 || gallery.every((image) => image.includes('unsplash.com'));
+    if (!allGenericStock) return gallery;
+    if (property.code === 'ZE-50') {
+      return [
+        '/brands/zia-emerald/images/units/zia-emerald-fasad-type-50-72.webp',
+        '/brands/zia-emerald/images/units/zia-emerald-type-50-72.webp',
+      ];
+    }
+    if (property.code === 'ZE-80') {
+      return [
+        '/brands/zia-emerald/images/units/zia-emerald-fasad-type-80-72.webp',
+        '/brands/zia-emerald/images/units/zia-emerald-type-80-72.webp',
+      ];
+    }
+    if (property.code === 'ZE-65M') {
+      return ['/brands/zia-emerald/images/hero/hero-utama-zia-emerald.webp'];
+    }
+    return gallery;
+  };
+
   const getWaEmeraldLink = (text?: string) => {
     const rawNum = settings.emeraldWhatsApp || '6281288889922';
     const cleanNum = cleanWhatsAppNumber(rawNum, '6281288889922');
@@ -54,40 +85,44 @@ export const ZiaEmeraldPage: React.FC<ZiaEmeraldProps> = ({
 
   return (
     <div className="min-h-screen bg-stone-50 font-sans">
-      {/* 1. HERO - American Classic Editorial */}
-      <section className="relative min-h-[90vh] flex items-center bg-[#092b21] text-stone-100 overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <img
-            src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2000&q=85"
-            alt="ZIA Emerald American Classic Residence"
-            className="w-full h-full object-cover opacity-40 filter saturate-[0.8] contrast-[1.1]"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#061e17] via-[#092b21]/80 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#061e17] via-transparent to-transparent" />
+      {/* 1. HERO - supplied ZIA Emerald brand visual */}
+      <section className="bg-[#092b21] text-stone-100 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-5">
+          <div className="relative overflow-hidden border border-emerald-900/50">
+            <img
+              src="/brands/zia-emerald/images/hero/hero-utama-zia-emerald.webp"
+              alt="Visual utama ZIA Emerald untuk keluarga modern, menggunakan materi visual resmi yang diberikan."
+              className="w-full aspect-[16/9] sm:aspect-[16/7] object-cover object-center"
+              fetchPriority="high"
+              decoding="async"
+            />
+          </div>
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
-          <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 border border-[#1b4d3e] bg-[#0c3629]/90 text-amber-200 text-[11px] uppercase tracking-[0.25em] font-medium mb-6">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-              Tarumajaya, Kabupaten Bekasi • Jawa Barat
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div className="lg:col-span-7">
+              <div className="inline-flex items-center gap-2 px-3 py-1 border border-[#1b4d3e] bg-[#0c3629] text-amber-200 text-[11px] uppercase tracking-[0.25em] font-medium mb-5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                Tarumajaya, Kabupaten Bekasi • Jawa Barat
+              </div>
+
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif text-white tracking-tight leading-[1.08] mb-4">
+                ZIA EMERALD
+                <span className="block text-xl sm:text-2xl font-light text-amber-100/90 font-serif italic mt-3">
+                  American Classic × Modern Family Living
+                </span>
+              </h1>
+
+              <p className="text-base text-stone-200 font-light leading-relaxed max-w-2xl">
+                Hunian bergaya American Classic untuk keluarga modern. Lihat pilihan tipe rumah, pelajari denah dan lokasi, lalu hubungi tim ZIA Emerald untuk informasi unit dan jadwal kunjungan.
+              </p>
             </div>
 
-            <h1 className="text-4xl sm:text-6xl font-serif text-white tracking-tight leading-[1.1] mb-6">
-              ZIA EMERALD
-              <span className="block text-xl sm:text-2xl font-light text-amber-100/90 font-serif italic mt-3">
-                American Classic × Modern Family Living
-              </span>
-            </h1>
-
-            <p className="text-base text-stone-200 font-light leading-relaxed mb-8 max-w-xl">
-              Harmonisasi keanggunan fasad klasik abadi dengan kebutuhan gaya hidup keluarga modern. Menghadirkan plafon tinggi (high ceiling), fleksibilitas mezanin, serta lingkungan asri yang terjaga.
-            </p>
-
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+            <div className="lg:col-span-5 flex flex-col sm:flex-row lg:flex-col gap-3">
               <a
                 href="#house-types"
-                className="px-8 py-4 bg-amber-100 text-[#092b21] text-xs uppercase tracking-[0.2em] font-semibold hover:bg-white transition-all text-center"
+                className="px-7 py-4 bg-amber-100 text-[#092b21] text-xs uppercase tracking-[0.2em] font-semibold hover:bg-white transition-all text-center"
               >
                 Pilihan Tipe Rumah
               </a>
@@ -96,26 +131,25 @@ export const ZiaEmeraldPage: React.FC<ZiaEmeraldProps> = ({
                 href={getWaEmeraldLink()}
                 target="_blank"
                 rel="noreferrer"
-                className="px-8 py-4 border border-amber-200/50 text-amber-100 hover:bg-white/10 text-xs uppercase tracking-[0.2em] font-semibold transition-all text-center flex items-center justify-center gap-2"
+                className="px-7 py-4 border border-amber-200/50 text-amber-100 hover:bg-white/10 text-xs uppercase tracking-[0.2em] font-semibold transition-all text-center"
               >
                 Konsultasi WhatsApp
               </a>
             </div>
+          </div>
 
-            {/* Micro Highlights */}
-            <div className="grid grid-cols-3 gap-6 pt-12 border-t border-emerald-900/60 mt-12 text-xs">
-              <div>
-                <span className="text-amber-200 uppercase tracking-wider block text-[10px]">Arsitektur</span>
-                <span className="font-serif text-base text-white">American Classic</span>
-              </div>
-              <div>
-                <span className="text-amber-200 uppercase tracking-wider block text-[10px]">Plafon Ruang</span>
-                <span className="font-serif text-base text-white">Hingga 4.2 Meter</span>
-              </div>
-              <div>
-                <span className="text-amber-200 uppercase tracking-wider block text-[10px]">Akses Tol</span>
-                <span className="font-serif text-base text-white">Tol Cibitung - Cilincing</span>
-              </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-6 border-t border-emerald-900/60 mt-8 text-xs">
+            <div>
+              <span className="text-amber-200 uppercase tracking-wider block text-[10px]">Arsitektur</span>
+              <span className="font-serif text-base text-white">American Classic</span>
+            </div>
+            <div>
+              <span className="text-amber-200 uppercase tracking-wider block text-[10px]">Pilihan Unit</span>
+              <span className="font-serif text-base text-white">1 dan 2 Lantai</span>
+            </div>
+            <div>
+              <span className="text-amber-200 uppercase tracking-wider block text-[10px]">Lokasi</span>
+              <span className="font-serif text-base text-white">Tarumajaya, Bekasi</span>
             </div>
           </div>
         </div>
@@ -160,13 +194,13 @@ export const ZiaEmeraldPage: React.FC<ZiaEmeraldProps> = ({
             <div className="lg:col-span-6">
               <div className="grid grid-cols-2 gap-4">
                 <img
-                  src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80"
-                  alt="ZIA Emerald Exterior Detail"
+                  src="/brands/zia-emerald/images/units/zia-emerald-fasad-type-50-72.webp"
+                  alt="Fasad rumah ZIA Emerald Type 50/72 dari materi yang diberikan"
                   className="w-full h-64 object-cover border border-stone-200 shadow-md"
                 />
                 <img
-                  src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=800&q=80"
-                  alt="ZIA Emerald Interior Living Room"
+                  src="/brands/zia-emerald/images/units/zia-emerald-fasad-type-80-72.webp"
+                  alt="Fasad rumah ZIA Emerald Type 80/72 dari materi yang diberikan"
                   className="w-full h-64 object-cover border border-stone-200 shadow-md translate-y-6"
                 />
               </div>
@@ -215,13 +249,18 @@ export const ZiaEmeraldPage: React.FC<ZiaEmeraldProps> = ({
                 <div className="lg:col-span-7 bg-stone-950 p-6 flex flex-col justify-between">
                   <div className="relative h-[380px] sm:h-[450px] overflow-hidden border border-stone-800">
                     <img
-                      src={selectedType.mainImage}
-                      alt={selectedType.name}
+                      src={getSelectedTypeImage(selectedType)}
+                      alt={selectedType.code === 'ZE-65M' && selectedType.mainImage?.includes('unsplash.com') ? 'Gambaran kawasan ZIA Emerald; visual khusus tipe mezzanine belum tersedia' : selectedType.name}
                       className="w-full h-full object-cover"
                     />
                     <div className="absolute top-4 left-4 bg-stone-900/90 text-amber-300 px-3 py-1 text-xs uppercase tracking-wider font-semibold border border-stone-700">
                       Status: {selectedType.status}
                     </div>
+                    {selectedType.code === 'ZE-65M' && selectedType.mainImage?.includes('unsplash.com') && (
+                      <div className="absolute bottom-4 right-4 bg-stone-900/90 text-stone-200 px-3 py-1.5 text-[10px] border border-stone-700">
+                        Visual khusus mezzanine belum tersedia
+                      </div>
+                    )}
                     {selectedType.promoBadge && (
                       <div className="absolute bottom-4 left-4 bg-emerald-800 text-white px-3 py-1.5 text-xs font-semibold">
                         Promo: {selectedType.promoBadge}
@@ -230,9 +269,9 @@ export const ZiaEmeraldPage: React.FC<ZiaEmeraldProps> = ({
                   </div>
 
                   {/* Thumbnail gallery */}
-                  {selectedType.gallery && selectedType.gallery.length > 0 && (
+                  {getSelectedTypeGallery(selectedType).length > 0 && (
                     <div className="flex gap-3 mt-4 overflow-x-auto pb-2">
-                      {selectedType.gallery.map((img, i) => (
+                      {getSelectedTypeGallery(selectedType).map((img, i) => (
                         <img
                           key={i}
                           src={img}

@@ -1,0 +1,145 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isRootAdmin() {
+      return isAuthenticated() && (
+        request.auth.uid == "str6aMtNRzVF3ttdQtG0Z7pVUTX2" ||
+        request.auth.uid == "jI2BH93v4JPWPZ6ULONFA9LaDdz1" ||
+        request.auth.token.email == "ziaproperti@corporate.co.id" ||
+        request.auth.token.email == "konten.ziaproperti@gmail.com" ||
+        request.auth.token.email == "garenkdeathcore@gmail.com" ||
+        request.auth.token.email == "admin@ziaproperti.co.id"
+      );
+    }
+
+    function userDocExists() {
+      return isAuthenticated() && exists(/databases/$(database)/documents/users/$(request.auth.uid));
+    }
+
+    function getUserRole() {
+      return userDocExists() ? get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role : 'none';
+    }
+
+    function hasAdminRole() {
+      return isRootAdmin() || (
+        isAuthenticated() && getUserRole() in ['super_admin', 'admin', 'editor', 'sales', 'marketing']
+      );
+    }
+
+    function isEditorOrAdmin() {
+      return isRootAdmin() || (
+        isAuthenticated() && getUserRole() in ['super_admin', 'admin', 'editor']
+      );
+    }
+
+    function isInitialBootstrap() {
+      return !exists(/databases/$(database)/documents/settings/global);
+    }
+
+    // Connection test probe
+    match /test/{testId} {
+      allow read: if true;
+    }
+
+    // Public readable content collections
+    match /projects/{projectId} {
+      allow read: if true;
+      allow write: if isEditorOrAdmin() || isInitialBootstrap();
+    }
+
+    match /properties/{propertyId} {
+      allow read: if true;
+      allow write: if isEditorOrAdmin() || isInitialBootstrap();
+    }
+
+    match /plots/{plotId} {
+      allow read: if true;
+      allow write: if isEditorOrAdmin() || isInitialBootstrap();
+    }
+
+    match /posts/{postId} {
+      allow read: if true;
+      allow write: if isEditorOrAdmin() || isInitialBootstrap();
+    }
+
+    match /media/{mediaId} {
+      allow read: if true;
+      allow write: if isEditorOrAdmin() || isInitialBootstrap();
+    }
+
+    match /settings/{settingId} {
+      allow read: if true;
+      allow write: if isEditorOrAdmin() || isInitialBootstrap();
+    }
+
+    match /testimonials/{id} {
+      allow read: if true;
+      allow write: if isEditorOrAdmin() || isInitialBootstrap();
+    }
+
+    match /faqs/{id} {
+      allow read: if true;
+      allow write: if isEditorOrAdmin() || isInitialBootstrap();
+    }
+
+    match /promotions/{id} {
+      allow read: if true;
+      allow write: if isEditorOrAdmin() || isInitialBootstrap();
+    }
+
+    match /pages/{id} {
+      allow read: if true;
+      allow write: if isEditorOrAdmin() || isInitialBootstrap();
+    }
+
+    match /sections/{id} {
+      allow read: if true;
+      allow write: if isEditorOrAdmin() || isInitialBootstrap();
+    }
+
+    match /navigation/{id} {
+      allow read: if true;
+      allow write: if isEditorOrAdmin() || isInitialBootstrap();
+    }
+
+    match /forms/{id} {
+      allow read: if true;
+      allow write: if isEditorOrAdmin() || isInitialBootstrap();
+    }
+
+    // Leads & Inquiries: public can create (submit form), admins/sales can view/update
+    match /leads/{leadId} {
+      allow create: if request.resource.data.name is string &&
+                       request.resource.data.phone is string;
+      allow read, update, delete: if hasAdminRole();
+    }
+
+    // User collection with RBAC and privilege escalation protection
+    match /users/{userId} {
+      allow read: if isAuthenticated() && (request.auth.uid == userId || hasAdminRole());
+      // Only root admin or admin can assign administrative roles ('super_admin', 'admin', 'editor')
+      // A normal user registering can only initialize unprivileged roles ('sales', 'marketing') or none
+      allow create: if isAuthenticated() && (
+        isRootAdmin() ||
+        hasAdminRole() ||
+        (request.auth.uid == userId && (
+          !('role' in request.resource.data) ||
+          request.resource.data.role in ['sales', 'marketing']
+        ))
+      );
+      // Users CANNOT elevate their own role: only root admin or admin can modify roles
+      allow update: if isAuthenticated() && (
+        isRootAdmin() ||
+        hasAdminRole() ||
+        (request.auth.uid == userId && request.resource.data.role == resource.data.role)
+      );
+      allow delete: if isRootAdmin() || hasAdminRole();
+    }
+  }
+}

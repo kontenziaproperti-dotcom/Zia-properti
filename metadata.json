@@ -1,0 +1,6 @@
+{
+  "name": "PT ZIA Properti Indonesia",
+  "description": "Platform korporat resmi dan CMS ekosistem properti, agrikultur, dan ekspor PT ZIA Properti Indonesia, Kabupaten Bekasi.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

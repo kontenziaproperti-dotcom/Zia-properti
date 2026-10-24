@@ -1,0 +1,220 @@
+{
+  "entities": {
+    "users": {
+      "title": "User",
+      "description": "Administrator and staff users for PT ZIA Properti Indonesia CMS",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "role": { "type": "string", "enum": ["super_admin", "admin", "editor", "sales", "marketing"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "projects": {
+      "title": "Project",
+      "description": "Business entities and property developments under PT ZIA Properti Indonesia",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "slug": { "type": "string" },
+        "name": { "type": "string" },
+        "category": { "type": "string" },
+        "tagline": { "type": "string" },
+        "location": { "type": "string" },
+        "shortDescription": { "type": "string" },
+        "longDescription": { "type": "string" },
+        "status": { "type": "string" },
+        "heroImage": { "type": "string" },
+        "logoUrl": { "type": "string" },
+        "featured": { "type": "boolean" },
+        "order": { "type": "number" },
+        "seoTitle": { "type": "string" },
+        "seoDescription": { "type": "string" },
+        "contactWhatsApp": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["slug", "name", "category", "status"]
+    },
+    "properties": {
+      "title": "Property",
+      "description": "Residential units, house types, or plots in projects",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "projectId": { "type": "string" },
+        "projectSlug": { "type": "string" },
+        "name": { "type": "string" },
+        "type": { "type": "string" },
+        "code": { "type": "string" },
+        "block": { "type": "string" },
+        "lot": { "type": "string" },
+        "landArea": { "type": "number" },
+        "buildingArea": { "type": "number" },
+        "bedrooms": { "type": "number" },
+        "bathrooms": { "type": "number" },
+        "floors": { "type": "number" },
+        "price": { "type": "number" },
+        "priceFormatted": { "type": "string" },
+        "bookingFee": { "type": "number" },
+        "downPayment": { "type": "string" },
+        "installmentEstimate": { "type": "string" },
+        "status": { "type": "string", "enum": ["Available", "Reserved", "Sold", "Unavailable", "Coming Soon"] },
+        "mainImage": { "type": "string" },
+        "gallery": { "type": "array", "items": { "type": "string" } },
+        "floorPlanUrl": { "type": "string" },
+        "description": { "type": "string" },
+        "specifications": { "type": "object" },
+        "promoBadge": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["projectSlug", "name", "status"]
+    },
+    "plots": {
+      "title": "Kavling Plot",
+      "description": "Land plot inventory for Kav Hillside",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "plotId": { "type": "string" },
+        "block": { "type": "string" },
+        "lotNumber": { "type": "string" },
+        "landSize": { "type": "number" },
+        "frontage": { "type": "number" },
+        "price": { "type": "number" },
+        "priceFormatted": { "type": "string" },
+        "status": { "type": "string", "enum": ["Available", "Reserved", "Sold", "Coming Soon"] },
+        "notes": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["plotId", "landSize", "status"]
+    },
+    "leads": {
+      "title": "Lead",
+      "description": "Prospective buyers and inquiries captured via forms or WhatsApp",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "phone": { "type": "string" },
+        "email": { "type": "string" },
+        "projectSlug": { "type": "string" },
+        "projectName": { "type": "string" },
+        "propertyType": { "type": "string" },
+        "budgetRange": { "type": "string" },
+        "source": { "type": "string" },
+        "message": { "type": "string" },
+        "status": { "type": "string", "enum": ["New", "Contacted", "Qualified", "Site Visit", "Follow Up", "Booked", "Closed", "Lost"] },
+        "assignedStaff": { "type": "string" },
+        "notes": { "type": "string" },
+        "followUpDate": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "phone", "projectSlug", "status"]
+    },
+    "posts": {
+      "title": "Post / News",
+      "description": "Corporate insights, architectural updates, and official company news",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "slug": { "type": "string" },
+        "category": { "type": "string" },
+        "summary": { "type": "string" },
+        "content": { "type": "string" },
+        "coverImage": { "type": "string" },
+        "author": { "type": "string" },
+        "published": { "type": "boolean" },
+        "featured": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "slug", "content"]
+    },
+    "media": {
+      "title": "Media Asset",
+      "description": "Original image and visual asset library registry",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "url": { "type": "string" },
+        "title": { "type": "string" },
+        "alt": { "type": "string" },
+        "brand": { "type": "string" },
+        "category": { "type": "string" },
+        "caption": { "type": "string" },
+        "fileType": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["url", "title", "brand"]
+    },
+    "settings": {
+      "title": "Company Settings",
+      "description": "Global corporate contact information, social links, SEO and WhatsApp numbers",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "companyName": { "type": "string" },
+        "tagline": { "type": "string" },
+        "headquarters": { "type": "string" },
+        "fullAddress": { "type": "string" },
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "corporateWhatsApp": { "type": "string" },
+        "emeraldWhatsApp": { "type": "string" },
+        "kavWhatsApp": { "type": "string" },
+        "farmWhatsApp": { "type": "string" },
+        "altaraWhatsApp": { "type": "string" },
+        "officeHours": { "type": "string" },
+        "instagram": { "type": "string" },
+        "linkedin": { "type": "string" },
+        "youtube": { "type": "string" },
+        "ga4Id": { "type": "string" },
+        "metaPixelId": { "type": "string" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      }
+    }
+  },
+  "firestore": {
+    "/projects/{projectId}": {
+      "schema": "projects",
+      "description": "Business entities and developments under PT ZIA Properti Indonesia"
+    },
+    "/properties/{propertyId}": {
+      "schema": "properties",
+      "description": "Residential units, house types, and property listings"
+    },
+    "/plots/{plotId}": {
+      "schema": "plots",
+      "description": "Land plot inventory for Kav Hillside"
+    },
+    "/leads/{leadId}": {
+      "schema": "leads",
+      "description": "Prospective buyers and inquiries captured via forms or WhatsApp"
+    },
+    "/posts/{postId}": {
+      "schema": "posts",
+      "description": "Corporate insights, architectural updates, and official company news"
+    },
+    "/media/{mediaId}": {
+      "schema": "media",
+      "description": "Media and photography asset registry"
+    },
+    "/settings/{settingId}": {
+      "schema": "settings",
+      "description": "Global corporate contact information, social links, SEO and WhatsApp numbers"
+    },
+    "/users/{userId}": {
+      "schema": "users",
+      "description": "Administrator and staff users for PT ZIA Properti Indonesia CMS"
+    }
+  }
+}

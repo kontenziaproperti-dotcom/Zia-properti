@@ -248,7 +248,7 @@ export const LeadsModule: React.FC<LeadsModuleProps> = ({
                 <th className="p-3.5">Nama Konsumen</th>
                 <th className="p-3.5">WhatsApp / Telepon</th>
                 <th className="p-3.5">Kawasan / Minat</th>
-                <th className="p-3.5">Pesan Masuk</th>
+                <th className="p-3.5">Jadwal / Penawaran / Pesan</th>
                 <th className="p-3.5">Status Tahapan</th>
                 <th className="p-3.5 text-right">Aksi</th>
               </tr>

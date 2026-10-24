@@ -398,6 +398,57 @@ export const ProjectsModule: React.FC<ProjectsModuleProps> = ({
               />
             </div>
 
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="text-stone-400 uppercase tracking-wider block mb-1">
+                  SEO Keywords (pisahkan dengan koma)
+                </label>
+                <textarea
+                  rows={4}
+                  placeholder="rumah dijual Bekasi, perumahan Tarumajaya"
+                  value={(editingProject.seoKeywords || []).join(', ')}
+                  onChange={(e) => setEditingProject({
+                    ...editingProject,
+                    seoKeywords: e.target.value.split(',').map((value) => value.trim()).filter(Boolean)
+                  })}
+                  className="w-full bg-stone-950 border border-stone-800 p-2.5 text-white resize-y"
+                />
+                <p className="text-[10px] text-stone-500 mt-1">Gunakan frasa relevan. Metadata keywords bukan pengganti konten halaman yang bermanfaat.</p>
+              </div>
+              <div>
+                <label className="text-stone-400 uppercase tracking-wider block mb-1">
+                  Hashtag Sosial (pisahkan dengan koma)
+                </label>
+                <textarea
+                  rows={4}
+                  placeholder="#ZIAEmerald, #RumahBekasi"
+                  value={(editingProject.socialHashtags || []).join(', ')}
+                  onChange={(e) => setEditingProject({
+                    ...editingProject,
+                    socialHashtags: e.target.value.split(',').map((value) => value.trim()).filter(Boolean)
+                  })}
+                  className="w-full bg-stone-950 border border-stone-800 p-2.5 text-white resize-y"
+                />
+                <p className="text-[10px] text-stone-500 mt-1">Hashtag dipakai untuk kampanye sosial, bukan dimasukkan paksa ke teks website.</p>
+              </div>
+            </div>
+
+            {editingProject.slug === 'zia-emerald' && (
+              <div>
+                <label className="text-stone-400 uppercase tracking-wider block mb-1">
+                  Path Site Plan Resmi (di folder public)
+                </label>
+                <input
+                  type="text"
+                  placeholder="/brands/zia-emerald/images/site-plan/site-plan-utama.webp"
+                  value={editingProject.sitePlanImage || ''}
+                  onChange={(e) => setEditingProject({ ...editingProject, sitePlanImage: e.target.value })}
+                  className="w-full bg-stone-950 border border-stone-800 p-2.5 text-white font-mono text-[11px]"
+                />
+                <p className="text-[10px] text-stone-500 mt-1">Unggah site plan resmi dari tim internal; jangan menggunakan ilustrasi pengganti seolah-olah site plan asli.</p>
+              </div>
+            )}
+
             <div className="flex justify-end gap-3 pt-4 border-t border-stone-800">
               <button
                 type="button"

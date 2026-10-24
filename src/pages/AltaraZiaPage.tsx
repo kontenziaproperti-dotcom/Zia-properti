@@ -11,19 +11,21 @@ import {
   ChevronRight,
   ArrowRight
 } from 'lucide-react';
-import { FAQItem, CompanySettings } from '../types';
+import { FAQItem, CompanySettings, ProjectEntity } from '../types';
 import { LeadCaptureForm } from '../components/LeadCaptureForm';
 import { cleanWhatsAppNumber, formatIndonesianPhone } from '../lib/contactUtils';
 
 interface AltaraZiaProps {
   faqs: FAQItem[];
   settings: CompanySettings;
+  project?: ProjectEntity | null;
   onNavigate: (route: string) => void;
 }
 
 export const AltaraZiaPage: React.FC<AltaraZiaProps> = ({
   faqs,
   settings,
+  project,
   onNavigate
 }) => {
   const [lang, setLang] = useState<'EN' | 'ID'>('EN');
@@ -393,7 +395,7 @@ export const AltaraZiaPage: React.FC<AltaraZiaProps> = ({
       </section>
 
       {/* 6. B2B INQUIRY & SAMPLE REQUEST */}
-      <section className="py-24 bg-[#0a0f0d] text-white">
+      <section id="project-visit-form" className="py-24 bg-[#0a0f0d] text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-5 space-y-6">
@@ -435,6 +437,9 @@ export const AltaraZiaPage: React.FC<AltaraZiaProps> = ({
                     : 'Sampaikan profil perusahaan dan estimasi volume kebutuhan vanilla bean Anda.'
                 }
                 buttonColorClass="bg-amber-400 hover:bg-amber-300 text-stone-950 font-bold"
+                ctaLabel={project?.ctaLabel}
+                visitOfferLabel={project?.visitOfferLabel}
+                visitOfferOptions={project?.visitOfferOptions}
               />
             </div>
           </div>

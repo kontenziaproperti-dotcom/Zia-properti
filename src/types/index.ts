@@ -32,6 +32,9 @@ export interface ProjectEntity {
   socialHashtags?: string[];
   /** Optional official site-plan image path, served from public/. */
   sitePlanImage?: string;
+  ctaLabel?: string;
+  visitOfferLabel?: string;
+  visitOfferOptions?: string[];
   contactWhatsApp: string;
   accentColor?: string;
   themeStyle?: 'emerald' | 'moss' | 'earth' | 'midnight' | 'classic';

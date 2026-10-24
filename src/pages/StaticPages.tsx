@@ -3,6 +3,7 @@ import { Mail, Phone, MapPin, MessageSquare, Clock, Globe } from 'lucide-react';
 import { CompanySettings } from '../types';
 import { LeadCaptureForm } from '../components/LeadCaptureForm';
 import { cleanWhatsAppNumber, formatIndonesianPhone } from '../lib/contactUtils';
+import { GoogleMapsView } from '../components/maps/GoogleMapsView';
 
 export const ContactPage: React.FC<{ settings: CompanySettings }> = ({ settings }) => {
   return (

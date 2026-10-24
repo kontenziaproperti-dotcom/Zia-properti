@@ -399,6 +399,31 @@ export const ProjectsModule: React.FC<ProjectsModuleProps> = ({
               />
             </div>
 
+            <div>
+              <label className="text-stone-400 uppercase tracking-wider block mb-1">SEO Title</label>
+              <input
+                type="text"
+                maxLength={70}
+                value={editingProject.seoTitle || ''}
+                onChange={(e) => setEditingProject({ ...editingProject, seoTitle: e.target.value })}
+                placeholder="Judul pencarian yang jelas dan spesifik"
+                className="w-full bg-stone-950 border border-stone-800 p-2.5 text-white"
+              />
+              <p className="text-[10px] text-stone-500 mt-1">Disarankan ringkas dan unik untuk tiap proyek; batas 70 karakter menjadi panduan editorial.</p>
+            </div>
+            <div>
+              <label className="text-stone-400 uppercase tracking-wider block mb-1">SEO Meta Description</label>
+              <textarea
+                rows={3}
+                maxLength={170}
+                value={editingProject.seoDescription || ''}
+                onChange={(e) => setEditingProject({ ...editingProject, seoDescription: e.target.value })}
+                placeholder="Ringkasan halaman yang akurat, natural, dan sesuai kebutuhan pengunjung"
+                className="w-full bg-stone-950 border border-stone-800 p-2.5 text-white resize-y"
+              />
+              <p className="text-[10px] text-stone-500 mt-1">Tulis deskripsi yang unik dan sesuai isi halaman. Tampilan hasil pencarian dapat berubah.</p>
+            </div>
+
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="text-stone-400 uppercase tracking-wider block mb-1">

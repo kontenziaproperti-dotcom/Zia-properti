@@ -1,7 +1,8 @@
 import React, { lazy, Suspense, useState, useEffect } from 'react';
-import { AuthProvider } from './context/AuthContext';
+
 import { CorporateHeader, CorporateFooter } from './components/CorporateLayout';
 import { SEOHead } from './components/SEOHead';
+const AuthProvider = lazy(() => import('./context/AuthContext').then((module) => ({ default: module.AuthProvider })));
 const HomePage = lazy(() => import('./pages/HomePage').then((module) => ({ default: module.HomePage })));
 const ZiaEmeraldPage = lazy(() => import('./pages/ZiaEmeraldPage').then((module) => ({ default: module.ZiaEmeraldPage })));
 const KavHillsidePage = lazy(() => import('./pages/KavHillsidePage').then((module) => ({ default: module.KavHillsidePage })));
@@ -143,11 +144,11 @@ export default function App() {
   // Admin CMS layout
   if (route.startsWith('/admin')) {
     return (
-      <AuthProvider>
-        <Suspense fallback={<PageLoadingFallback />}>
+      <Suspense fallback={<PageLoadingFallback />}>
+        <AuthProvider>
           <AdminDashboard onNavigatePublic={navigateTo} />
-        </Suspense>
-      </AuthProvider>
+        </AuthProvider>
+      </Suspense>
     );
   }
 

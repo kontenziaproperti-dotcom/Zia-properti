@@ -153,32 +153,32 @@ export default function App() {
     if (route === '/projects/zia-emerald') {
       const p = projects.find(item => item.slug === 'zia-emerald');
       return {
-        title: 'ZIA Emerald | Perumahan American Classic Tarumajaya Bekasi',
-        description: p?.shortDescription || 'Hunian American Classic berplafon tinggi di Tarumajaya, Kabupaten Bekasi oleh PT ZIA Properti Indonesia.',
+        title: p?.seoTitle || 'ZIA Emerald | Perumahan American Classic Tarumajaya Bekasi',
+        description: p?.seoDescription || p?.shortDescription || 'Hunian American Classic berplafon tinggi di Tarumajaya, Kabupaten Bekasi oleh PT ZIA Properti Indonesia.',
         project: p || null
       };
     }
     if (route === '/projects/kav-hillside') {
       const p = projects.find(item => item.slug === 'kav-hillside');
       return {
-        title: 'Kav Hillside | Kavling Siap Bangun Eksklusif Kabupaten Bekasi',
-        description: p?.shortDescription || 'Kavling matang siap bangun dengan infrastruktur tertata dan legalitas terjamin di Kabupaten Bekasi.',
+        title: p?.seoTitle || 'Kav Hillside | Kavling Siap Bangun Eksklusif Kabupaten Bekasi',
+        description: p?.seoDescription || p?.shortDescription || 'Kavling matang siap bangun dengan infrastruktur tertata dan legalitas terjamin di Kabupaten Bekasi.',
         project: p || null
       };
     }
     if (route === '/projects/zia-farm') {
       const p = projects.find(item => item.slug === 'zia-farm');
       return {
-        title: 'ZIA Farm | Peternakan Domba Modern & Higienis Bekasi',
-        description: p?.shortDescription || 'Sentra peternakan domba modern, qurban premium, dan aqiqah higienis Kabupaten Bekasi.',
+        title: p?.seoTitle || 'ZIA Farm | Peternakan Domba Modern & Higienis Bekasi',
+        description: p?.seoDescription || p?.shortDescription || 'Sentra peternakan domba modern, qurban premium, dan aqiqah higienis Kabupaten Bekasi.',
         project: p || null
       };
     }
     if (route === '/projects/altara-zia-international') {
       const p = projects.find(item => item.slug === 'altara-zia-international');
       return {
-        title: 'Altara ZIA International | Eksportir Vanilla Gourmet Indonesia',
-        description: p?.shortDescription || 'Pemasok dan eksportir vanilla beans premium Indonesia berstandar mutu internasional.',
+        title: p?.seoTitle || 'Altara ZIA International | Eksportir Vanilla Gourmet Indonesia',
+        description: p?.seoDescription || p?.shortDescription || 'Pemasok dan eksportir vanilla beans premium Indonesia berstandar mutu internasional.',
         project: p || null
       };
     }
@@ -255,6 +255,7 @@ export default function App() {
       case '/projects/zia-emerald':
         return (
           <ZiaEmeraldPage
+            project={projects.find((item) => item.slug === 'zia-emerald') || null}
             properties={properties}
             faqs={faqs}
             testimonials={testimonials}
@@ -265,6 +266,7 @@ export default function App() {
       case '/projects/kav-hillside':
         return (
           <KavHillsidePage
+            project={projects.find((item) => item.slug === 'kav-hillside') || null}
             plots={plots}
             faqs={faqs}
             testimonials={testimonials}
@@ -275,6 +277,7 @@ export default function App() {
       case '/projects/zia-farm':
         return (
           <ZiaFarmPage
+            project={projects.find((item) => item.slug === 'zia-farm') || null}
             faqs={faqs}
             settings={settings}
             onNavigate={navigateTo}
@@ -283,6 +286,7 @@ export default function App() {
       case '/projects/altara-zia-international':
         return (
           <AltaraZiaPage
+            project={projects.find((item) => item.slug === 'altara-zia-international') || null}
             faqs={faqs}
             settings={settings}
             onNavigate={navigateTo}

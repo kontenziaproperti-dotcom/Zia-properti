@@ -35,6 +35,16 @@ jobs:
           sha256sum artifact1 artifact2 > subjects.txt
           echo "hashes=$(base64 -w0 subjects.txt)" >> "$GITHUB_OUTPUT"
 
+      - name: Upload build artifacts for verification
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: |
+            artifact1
+            artifact2
+          if-no-files-found: error
+          retention-days: 5    
+
   provenance:
     needs: [build]
     permissions:

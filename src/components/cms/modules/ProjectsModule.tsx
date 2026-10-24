@@ -11,6 +11,7 @@ import {
   FileText
 } from 'lucide-react';
 import { ProjectEntity, ContentStatus } from '../../../types';
+import { getProjectMarketing } from '../../../config/projectMarketing';
 import {
   CMSModuleHeader,
   CMSSearchFilter,
@@ -448,6 +449,45 @@ export const ProjectsModule: React.FC<ProjectsModuleProps> = ({
                 <p className="text-[10px] text-stone-500 mt-1">Unggah site plan resmi dari tim internal; jangan menggunakan ilustrasi pengganti seolah-olah site plan asli.</p>
               </div>
             )}
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="text-stone-400 uppercase tracking-wider block mb-1">Label CTA Utama</label>
+                <input
+                  type="text"
+                  value={editingProject.ctaLabel || getProjectMarketing(String(editingProject.slug || ''))?.ctaLabel || ''}
+                  onChange={(e) => setEditingProject({ ...editingProject, ctaLabel: e.target.value })}
+                  placeholder="Jadwalkan kunjungan"
+                  className="w-full bg-stone-950 border border-stone-800 p-2.5 text-white"
+                />
+              </div>
+              <div>
+                <label className="text-stone-400 uppercase tracking-wider block mb-1">Label Minat Promo / Penawaran</label>
+                <input
+                  type="text"
+                  value={editingProject.visitOfferLabel || getProjectMarketing(String(editingProject.slug || ''))?.offerLabel || ''}
+                  onChange={(e) => setEditingProject({ ...editingProject, visitOfferLabel: e.target.value })}
+                  placeholder="Promo yang ingin ditanyakan"
+                  className="w-full bg-stone-950 border border-stone-800 p-2.5 text-white"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="text-stone-400 uppercase tracking-wider block mb-1">
+                Pilihan Promo / Penawaran Form (pisahkan dengan koma)
+              </label>
+              <textarea
+                rows={3}
+                value={(editingProject.visitOfferOptions || getProjectMarketing(String(editingProject.slug || ''))?.offerOptions || []).join(', ')}
+                onChange={(e) => setEditingProject({
+                  ...editingProject,
+                  visitOfferOptions: e.target.value.split(',').map((value) => value.trim()).filter(Boolean)
+                })}
+                placeholder="Diskon kunjungan, simulasi KPR, konsultasi"
+                className="w-full bg-stone-950 border border-stone-800 p-2.5 text-white resize-y"
+              />
+            </div>
 
             <div className="flex justify-end gap-3 pt-4 border-t border-stone-800">
               <button

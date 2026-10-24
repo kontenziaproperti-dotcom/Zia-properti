@@ -1,35 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { lazy, Suspense, useState, useEffect } from 'react';
 import { AuthProvider } from './context/AuthContext';
 import { CorporateHeader, CorporateFooter } from './components/CorporateLayout';
 import { SEOHead } from './components/SEOHead';
-import { HomePage } from './pages/HomePage';
-import { ZiaEmeraldPage } from './pages/ZiaEmeraldPage';
-import { KavHillsidePage } from './pages/KavHillsidePage';
-import { ZiaFarmPage } from './pages/ZiaFarmPage';
-import { AltaraZiaPage } from './pages/AltaraZiaPage';
-import { DynamicProjectPage } from './pages/DynamicProjectPage';
-import { DynamicCMSPage } from './pages/DynamicCMSPage';
-import { ProjectDirectoryPage } from './pages/ProjectDirectoryPage';
-import { AboutPage } from './pages/AboutPage';
-import { ContactPage, BlogPage } from './pages/StaticPages';
-import { LegalPages } from './pages/LegalPages';
-import { AdminDashboard } from './pages/AdminDashboard';
+const HomePage = lazy(() => import('./pages/HomePage').then((module) => ({ default: module.HomePage })));
+const ZiaEmeraldPage = lazy(() => import('./pages/ZiaEmeraldPage').then((module) => ({ default: module.ZiaEmeraldPage })));
+const KavHillsidePage = lazy(() => import('./pages/KavHillsidePage').then((module) => ({ default: module.KavHillsidePage })));
+const ZiaFarmPage = lazy(() => import('./pages/ZiaFarmPage').then((module) => ({ default: module.ZiaFarmPage })));
+const AltaraZiaPage = lazy(() => import('./pages/AltaraZiaPage').then((module) => ({ default: module.AltaraZiaPage })));
+const DynamicProjectPage = lazy(() => import('./pages/DynamicProjectPage').then((module) => ({ default: module.DynamicProjectPage })));
+const DynamicCMSPage = lazy(() => import('./pages/DynamicCMSPage').then((module) => ({ default: module.DynamicCMSPage })));
+const ProjectDirectoryPage = lazy(() => import('./pages/ProjectDirectoryPage').then((module) => ({ default: module.ProjectDirectoryPage })));
+const AboutPage = lazy(() => import('./pages/AboutPage').then((module) => ({ default: module.AboutPage })));
+const ContactPage = lazy(() => import('./pages/StaticPages').then((module) => ({ default: module.ContactPage })));
+const BlogPage = lazy(() => import('./pages/StaticPages').then((module) => ({ default: module.BlogPage })));
+const LegalPages = lazy(() => import('./pages/LegalPages').then((module) => ({ default: module.LegalPages })));
+const AdminDashboard = lazy(() => import('./pages/AdminDashboard').then((module) => ({ default: module.AdminDashboard })));
 import { WhatsAppFloatingButton } from './components/WhatsAppFloatingButton';
 import { X } from 'lucide-react';
-import {
-  initializeDatabaseIfEmpty,
-  getCompanySettings,
-  getProjects,
-  getProperties,
-  getKavlingPlots,
-  getPosts,
-  getFAQs,
-  getTestimonials,
-  getPages,
-  getSections,
-  getPromotions,
-  getNavigation
-} from './services/dataService';
 import {
   INITIAL_SETTINGS,
   INITIAL_PROJECTS,
@@ -57,6 +44,16 @@ import {
   NavigationItem
 } from './types';
 
+const PageLoadingFallback = () => (
+  <div
+    role="status"
+    aria-live="polite"
+    className="min-h-[40vh] flex items-center justify-center px-6 py-16 text-sm text-stone-500"
+  >
+    Memuat halaman...
+  </div>
+);
+
 export default function App() {
   const [route, setRoute] = useState<string>(() => {
     return window.location.pathname === '/' ? '/' : window.location.pathname;
@@ -81,24 +78,31 @@ export default function App() {
     return () => window.removeEventListener('gmp-quota-exceeded', handleQuota);
   }, []);
 
-  // Initialize and load live data from Firestore
+  // Load the data service after the first render so Firebase and its SDKs
+  // are not part of the initial route bundle.
   useEffect(() => {
+    let cancelled = false;
+
     const init = async () => {
-      await initializeDatabaseIfEmpty();
       try {
+        const dataService = await import('./services/dataService');
+        await dataService.initializeDatabaseIfEmpty();
+
         const [stgs, pjs, props, pls, pts, fqs, tsts, pgs, secs, prms, navs] = await Promise.all([
-          getCompanySettings(),
-          getProjects(),
-          getProperties(),
-          getKavlingPlots(),
-          getPosts(),
-          getFAQs(),
-          getTestimonials(),
-          getPages(),
-          getSections(),
-          getPromotions(),
-          getNavigation()
+          dataService.getCompanySettings(),
+          dataService.getProjects(),
+          dataService.getProperties(),
+          dataService.getKavlingPlots(),
+          dataService.getPosts(),
+          dataService.getFAQs(),
+          dataService.getTestimonials(),
+          dataService.getPages(),
+          dataService.getSections(),
+          dataService.getPromotions(),
+          dataService.getNavigation()
         ]);
+
+        if (cancelled) return;
         if (stgs) setSettings(stgs);
         if (pjs.length) setProjects(pjs);
         if (props.length) setProperties(props);
@@ -114,7 +118,11 @@ export default function App() {
         console.warn('Init error, utilizing initial robust datasets', e);
       }
     };
-    init();
+
+    void init();
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   // Handle client-side routing & history
@@ -136,7 +144,9 @@ export default function App() {
   if (route.startsWith('/admin')) {
     return (
       <AuthProvider>
-        <AdminDashboard onNavigatePublic={navigateTo} />
+        <Suspense fallback={<PageLoadingFallback />}>
+          <AdminDashboard onNavigatePublic={navigateTo} />
+        </Suspense>
       </AuthProvider>
     );
   }
@@ -422,7 +432,9 @@ export default function App() {
           onNavigate={navigateTo}
         />
         <main className="flex-1" id="main-content">
-          {renderPublicPage()}
+          <Suspense fallback={<PageLoadingFallback />}>
+            {renderPublicPage()}
+          </Suspense>
         </main>
         <CorporateFooter settings={settings} onNavigate={navigateTo} />
         <WhatsAppFloatingButton

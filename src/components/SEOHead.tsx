@@ -115,16 +115,7 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
             '@type': 'Brand',
             'name': companyName
           },
-          'offers': {
-            '@type': 'Offer',
-            'availability': 'https://schema.org/InStock',
-            'priceCurrency': 'IDR',
-            'price': '0',
-            'seller': {
-              '@type': 'Organization',
-              'name': companyName
-            }
-          }
+          // Do not publish a fabricated zero-price Offer. Add an Offer only when a verified current price is available.
         } : null
       ].filter(Boolean)
     };

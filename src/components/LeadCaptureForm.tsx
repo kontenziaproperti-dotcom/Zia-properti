@@ -12,6 +12,11 @@ interface LeadFormProps {
   accentColorClass?: string;
   buttonColorClass?: string;
   submitButtonText?: string;
+  ctaLabel?: string;
+  visitDateLabel?: string;
+  visitTimeLabel?: string;
+  visitOfferLabel?: string;
+  visitOfferOptions?: string[];
   onSuccess?: () => void;
 }
 
@@ -24,9 +29,15 @@ export const LeadCaptureForm: React.FC<LeadFormProps> = ({
   accentColorClass = 'text-stone-900',
   buttonColorClass = 'bg-stone-900 hover:bg-stone-800 text-white',
   submitButtonText,
+  ctaLabel,
+  visitDateLabel,
+  visitTimeLabel,
+  visitOfferLabel,
+  visitOfferOptions,
   onSuccess
 }) => {
   const marketing = getProjectMarketing(projectSlug);
+  const activeOfferOptions = visitOfferOptions?.length ? visitOfferOptions : marketing?.offerOptions || ['Konsultasi umum'];
   const today = new Date();
   const minimumVisitDate = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
   const initialFormData = {
@@ -226,7 +237,7 @@ export const LeadCaptureForm: React.FC<LeadFormProps> = ({
         <div className="border border-stone-800 bg-stone-950/60 p-4 md:p-5 space-y-4">
           <div>
             <span className="block text-xs uppercase tracking-wider text-amber-300 mb-1 font-semibold">
-              {marketing?.ctaLabel || 'Jadwalkan Kunjungan / Konsultasi'}
+              {ctaLabel || marketing?.ctaLabel || 'Jadwalkan Kunjungan / Konsultasi'}
             </span>
             <p className="text-[11px] leading-relaxed text-stone-500">
               Pilih minat penawaran dan, bila sudah ada rencana, isi tanggal serta waktu yang Anda inginkan. Jadwal akan dikonfirmasi oleh tim, bukan langsung dianggap booking final.
@@ -234,14 +245,14 @@ export const LeadCaptureForm: React.FC<LeadFormProps> = ({
           </div>
           <div>
             <label className="block text-xs uppercase tracking-wider text-stone-400 mb-1.5 font-medium">
-              {marketing?.offerLabel || 'Penawaran yang ingin ditanyakan'}
+              {visitOfferLabel || marketing?.offerLabel || 'Penawaran yang ingin ditanyakan'}
             </label>
             <select
               value={formData.requestedOffer}
               onChange={(e) => setFormData({ ...formData, requestedOffer: e.target.value })}
               className="w-full bg-stone-900 border border-stone-700 px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-amber-300"
             >
-              {(marketing?.offerOptions || ['Konsultasi umum']).map((offer) => (
+              {activeOfferOptions.map((offer) => (
                 <option key={offer} value={offer} className="bg-stone-900 text-stone-200">{offer}</option>
               ))}
             </select>
@@ -249,7 +260,7 @@ export const LeadCaptureForm: React.FC<LeadFormProps> = ({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs uppercase tracking-wider text-stone-400 mb-1.5 font-medium">
-                {marketing?.visitDateLabel || 'Tanggal kunjungan / konsultasi (opsional)'}
+                {visitDateLabel || marketing?.visitDateLabel || 'Tanggal kunjungan / konsultasi (opsional)'}
               </label>
               <input
                 type="date"
@@ -261,7 +272,7 @@ export const LeadCaptureForm: React.FC<LeadFormProps> = ({
             </div>
             <div>
               <label className="block text-xs uppercase tracking-wider text-stone-400 mb-1.5 font-medium">
-                {marketing?.visitTimeLabel || 'Waktu kunjungan / konsultasi (opsional)'}
+                {visitTimeLabel || marketing?.visitTimeLabel || 'Waktu kunjungan / konsultasi (opsional)'}
               </label>
               <select
                 value={formData.visitTime}

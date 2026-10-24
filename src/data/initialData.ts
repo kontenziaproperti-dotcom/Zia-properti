@@ -52,6 +52,9 @@ export const INITIAL_PROJECTS: ProjectEntity[] = [
     order: 1,
     seoTitle: 'ZIA Emerald | Rumah American Classic di Tarumajaya Bekasi',
     seoDescription: 'ZIA Emerald - Hunian American Classic elegan di Tarumajaya Bekasi oleh PT ZIA Properti Indonesia. Type 50/72, 80/72, mezzanine opsional.',
+    seoKeywords: ['rumah dijual Bekasi', 'perumahan Tarumajaya', 'rumah American Classic Bekasi', 'rumah 1 lantai Bekasi', 'rumah mezzanine Bekasi', 'rumah 2 lantai Bekasi', 'simulasi KPR rumah Bekasi', 'ZIA Emerald'],
+    socialHashtags: ['#ZIAEmerald', '#RumahBekasi', '#RumahTarumajaya', '#PerumahanBekasi', '#RumahAmericanClassic', '#RumahMezzanine', '#KPRRumah', '#HunianKeluarga'],
+    sitePlanImage: '/brands/zia-emerald/images/site-plan/site-plan-utama.webp',
     contactWhatsApp: '6281288889922',
     accentColor: '#0f4c3a', // Emerald
   },
@@ -70,6 +73,8 @@ export const INITIAL_PROJECTS: ProjectEntity[] = [
     order: 2,
     seoTitle: 'Kav Hillside | Kavling Siap Bangun American Classic Bekasi',
     seoDescription: 'Kav Hillside oleh PT ZIA Properti Indonesia. Kavling tanah matang berinfrastruktur lengkap untuk investasi properti masa depan.',
+    seoKeywords: ['kavling dijual Bekasi', 'tanah kavling Tarumajaya', 'kavling siap bangun Bekasi', 'investasi tanah Bekasi', 'site plan kavling Bekasi', 'Kav Hillside'],
+    socialHashtags: ['#KavHillside', '#KavlingBekasi', '#TanahKavling', '#KavlingSiapBangun', '#InvestasiProperti', '#PropertiBekasi'],
     contactWhatsApp: '6281288889933',
     accentColor: '#365314', // Earth / Moss Green
   },
@@ -88,6 +93,8 @@ export const INITIAL_PROJECTS: ProjectEntity[] = [
     order: 3,
     seoTitle: 'ZIA Farm | Peternakan & Agrikultur Terpadu Bekasi',
     seoDescription: 'ZIA Farm - Ekosistem peternakan domba, kambing, dan sapi modern berstandar kesehatan veteriner resmi di Kabupaten Bekasi.',
+    seoKeywords: ['jual sapi qurban Bekasi', 'jual domba qurban Bekasi', 'jual kambing qurban', 'peternakan Bekasi', 'Kandang Ternak H. Bowo', 'ZIA Farm', 'layanan aqiqah Bekasi'],
+    socialHashtags: ['#ZIAFarm', '#KandangTernakHBowo', '#SapiQurban', '#DombaQurban', '#KambingQurban', '#PeternakanBekasi', '#AqiqahBekasi'],
     contactWhatsApp: '6281288889944',
     accentColor: '#854d0e', // Warm Ochre / Earth
   },
@@ -106,6 +113,8 @@ export const INITIAL_PROJECTS: ProjectEntity[] = [
     order: 4,
     seoTitle: 'Altara ZIA International | Premium Indonesian Vanilla Bean Exporter',
     seoDescription: 'Leading Indonesian vanilla bean exporter supplying Planifolia and Tahitensis gourmet grades worldwide with direct origin traceability.',
+    seoKeywords: ['Indonesian vanilla bean exporter', 'premium vanilla beans Indonesia', 'vanilla planifolia supplier', 'vanilla tahitensis exporter', 'vanilla bean wholesale B2B', 'Indonesian vanilla sourcing', 'Altara ZIA International'],
+    socialHashtags: ['#AltaraZIAInternational', '#IndonesianVanilla', '#VanillaBeans', '#VanillaExporter', '#VanillaSourcing', '#B2BExport', '#IndonesianSpices'],
     contactWhatsApp: '6281288889955',
     accentColor: '#1c1917', // Midnight / Vanilla Dark Earth
   },

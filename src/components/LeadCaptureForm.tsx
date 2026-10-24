@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Send, CheckCircle2, ShieldAlert } from 'lucide-react';
 import { createLead } from '../services/dataService';
+import { getProjectMarketing } from '../config/projectMarketing';
 
 interface LeadFormProps {
   projectSlug: string;
@@ -10,6 +11,7 @@ interface LeadFormProps {
   subtitle?: string;
   accentColorClass?: string;
   buttonColorClass?: string;
+  submitButtonText?: string;
   onSuccess?: () => void;
 }
 
@@ -21,17 +23,25 @@ export const LeadCaptureForm: React.FC<LeadFormProps> = ({
   subtitle = 'Dapatkan brosur spesifikasi lengkap, simulasi pembiayaan, atau jadwalkan survei privat langsung dengan representatif PT ZIA Properti Indonesia.',
   accentColorClass = 'text-stone-900',
   buttonColorClass = 'bg-stone-900 hover:bg-stone-800 text-white',
+  submitButtonText,
   onSuccess
 }) => {
-  const [formData, setFormData] = useState({
+  const marketing = getProjectMarketing(projectSlug);
+  const today = new Date();
+  const minimumVisitDate = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+  const initialFormData = {
     name: '',
     phone: '',
     email: '',
     propertyType: propertyOptions[0] || '',
     budgetRange: 'Di bawah Rp 700 Juta',
+    visitDate: '',
+    visitTime: '',
+    requestedOffer: marketing?.offerOptions[0] || 'Konsultasi umum',
     message: '',
     honeypot: '' // Anti-spam trap
-  });
+  };
+  const [formData, setFormData] = useState(initialFormData);
 
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -62,6 +72,9 @@ export const LeadCaptureForm: React.FC<LeadFormProps> = ({
         projectName,
         propertyType: formData.propertyType,
         budgetRange: formData.budgetRange,
+        visitDate: formData.visitDate,
+        visitTime: formData.visitTime,
+        requestedOffer: formData.requestedOffer,
         message: formData.message.trim(),
         source: 'Website Lead Form',
         status: 'New'
@@ -87,15 +100,7 @@ export const LeadCaptureForm: React.FC<LeadFormProps> = ({
         <button
           onClick={() => {
             setSubmitted(false);
-            setFormData({
-              name: '',
-              phone: '',
-              email: '',
-              propertyType: propertyOptions[0] || '',
-              budgetRange: 'Di bawah Rp 700 Juta',
-              message: '',
-              honeypot: ''
-            });
+            setFormData(initialFormData);
           }}
           className="text-xs uppercase tracking-widest text-stone-300 hover:text-white underline underline-offset-4"
         >
@@ -218,9 +223,67 @@ export const LeadCaptureForm: React.FC<LeadFormProps> = ({
           )}
         </div>
 
+        <div className="border border-stone-800 bg-stone-950/60 p-4 md:p-5 space-y-4">
+          <div>
+            <span className="block text-xs uppercase tracking-wider text-amber-300 mb-1 font-semibold">
+              {marketing?.ctaLabel || 'Jadwalkan Kunjungan / Konsultasi'}
+            </span>
+            <p className="text-[11px] leading-relaxed text-stone-500">
+              Pilih minat penawaran dan, bila sudah ada rencana, isi tanggal serta waktu yang Anda inginkan. Jadwal akan dikonfirmasi oleh tim, bukan langsung dianggap booking final.
+            </p>
+          </div>
+          <div>
+            <label className="block text-xs uppercase tracking-wider text-stone-400 mb-1.5 font-medium">
+              {marketing?.offerLabel || 'Penawaran yang ingin ditanyakan'}
+            </label>
+            <select
+              value={formData.requestedOffer}
+              onChange={(e) => setFormData({ ...formData, requestedOffer: e.target.value })}
+              className="w-full bg-stone-900 border border-stone-700 px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-amber-300"
+            >
+              {(marketing?.offerOptions || ['Konsultasi umum']).map((offer) => (
+                <option key={offer} value={offer} className="bg-stone-900 text-stone-200">{offer}</option>
+              ))}
+            </select>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs uppercase tracking-wider text-stone-400 mb-1.5 font-medium">
+                {marketing?.visitDateLabel || 'Tanggal kunjungan / konsultasi (opsional)'}
+              </label>
+              <input
+                type="date"
+                min={minimumVisitDate}
+                value={formData.visitDate}
+                onChange={(e) => setFormData({ ...formData, visitDate: e.target.value })}
+                className="w-full bg-stone-900 border border-stone-700 px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-amber-300"
+              />
+            </div>
+            <div>
+              <label className="block text-xs uppercase tracking-wider text-stone-400 mb-1.5 font-medium">
+                {marketing?.visitTimeLabel || 'Waktu kunjungan / konsultasi (opsional)'}
+              </label>
+              <select
+                value={formData.visitTime}
+                onChange={(e) => setFormData({ ...formData, visitTime: e.target.value })}
+                className="w-full bg-stone-900 border border-stone-700 px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-amber-300"
+              >
+                <option value="">Belum ditentukan</option>
+                <option value="09:00">09.00 WIB</option>
+                <option value="10:00">10.00 WIB</option>
+                <option value="11:00">11.00 WIB</option>
+                <option value="13:00">13.00 WIB</option>
+                <option value="14:00">14.00 WIB</option>
+                <option value="15:00">15.00 WIB</option>
+                <option value="16:00">16.00 WIB</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
         <div>
           <label className="block text-xs uppercase tracking-wider text-stone-400 mb-1.5 font-medium">
-            Pesan Tambahan / Jadwal Rencana Kunjungan
+            Pesan Tambahan / Kebutuhan Khusus
           </label>
           <textarea
             rows={3}
@@ -237,7 +300,7 @@ export const LeadCaptureForm: React.FC<LeadFormProps> = ({
             disabled={submitting}
             className={`w-full py-4 px-6 flex items-center justify-center gap-3 text-xs uppercase tracking-[0.2em] font-semibold transition-all duration-300 ${buttonColorClass} disabled:opacity-50`}
           >
-            {submitting ? 'Mengirim Data...' : 'Kirim Permintaan Konsultasi'}
+            {submitting ? 'Mengirim Data...' : (submitButtonText || marketing?.submitButtonText || 'Kirim Permintaan Konsultasi')}
             <Send className="w-4 h-4" />
           </button>
         </div>

@@ -1,0 +1,29 @@
+name: Validate Project Features
+
+on:
+  push:
+    branches:
+      - feature/multi-project-conversion-cms
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install dependencies from lockfile
+        run: bun install --frozen-lockfile
+
+      - name: Build website
+        run: bun run build

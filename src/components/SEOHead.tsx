@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { CompanySettings, ProjectEntity } from '../types';
+import { getProjectMarketing } from '../config/projectMarketing';
 
 interface SEOHeadProps {
   title?: string;
@@ -50,7 +51,7 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
     };
 
     setMeta('name', 'description', finalDesc);
-    const keywordContent = (project?.seoKeywords?.length ? project.seoKeywords : settings?.metaKeywords?.split(',').map((keyword) => keyword.trim()).filter(Boolean) || []).join(', ');
+    const keywordContent = (project?.seoKeywords?.length ? project.seoKeywords : getProjectMarketing(project?.slug || '')?.seoKeywords || settings?.metaKeywords?.split(',').map((keyword) => keyword.trim()).filter(Boolean) || []).join(', ');
     if (keywordContent) setMeta('name', 'keywords', keywordContent);
 
     // Canonical URL helps crawlers consolidate URL variants; update one link rather than duplicating it.

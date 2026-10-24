@@ -12,8 +12,9 @@ import {
   HelpCircle,
   FileText
 } from 'lucide-react';
-import { PropertyItem, FAQItem, TestimonialItem, CompanySettings } from '../types';
+import { PropertyItem, FAQItem, TestimonialItem, CompanySettings, ProjectEntity } from '../types';
 import { LeadCaptureForm } from '../components/LeadCaptureForm';
+import { KPRCalculator } from '../components/KPRCalculator';
 import { GoogleMapsView } from '../components/maps/GoogleMapsView';
 import { cleanWhatsAppNumber, formatIndonesianPhone } from '../lib/contactUtils';
 
@@ -22,6 +23,7 @@ interface ZiaEmeraldProps {
   faqs: FAQItem[];
   testimonials: TestimonialItem[];
   settings: CompanySettings;
+  project?: ProjectEntity | null;
   onNavigate: (route: string) => void;
 }
 
@@ -30,6 +32,7 @@ export const ZiaEmeraldPage: React.FC<ZiaEmeraldProps> = ({
   faqs,
   testimonials,
   settings,
+  project,
   onNavigate
 }) => {
   const emeraldProps = properties.filter((p) => p.projectSlug === 'zia-emerald');
@@ -37,6 +40,7 @@ export const ZiaEmeraldPage: React.FC<ZiaEmeraldProps> = ({
     emeraldProps[0] || properties[0]
   );
   const [activeFaq, setActiveFaq] = useState<string | null>(null);
+  const [sitePlanImageFailed, setSitePlanImageFailed] = useState(false);
 
   const emeraldFaqs = faqs.filter((f) => f.projectSlug === 'zia-emerald');
   const emeraldTestimonials = testimonials.filter((t) => t.projectSlug === 'zia-emerald');
@@ -319,6 +323,8 @@ export const ZiaEmeraldPage: React.FC<ZiaEmeraldProps> = ({
         </div>
       </section>
 
+      <KPRCalculator properties={emeraldProps.filter((property) => Boolean(property.price && property.price > 0))} />
+
       {/* 4. LOCATION & ACCESS ROAD HIGHLIGHTS */}
       <section className="py-24 bg-white border-b border-stone-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -368,18 +374,29 @@ export const ZiaEmeraldPage: React.FC<ZiaEmeraldProps> = ({
                 <p className="text-xs text-stone-300 leading-relaxed">
                   Peta lokasi resmi dan koordinat terpasang pada masterplan proyek. Anda dapat mengunjungi show unit dengan pendampingan langsung staf pemasaran kami.
                 </p>
-                <div className="h-64 bg-stone-950 flex flex-col items-center justify-center p-6 text-center border border-stone-800">
-                  <Compass className="w-10 h-10 text-emerald-400 mb-2 stroke-1" />
-                  <span className="text-sm font-serif text-stone-200 font-semibold">Kawasan Residensial ZIA Emerald</span>
-                  <span className="text-xs text-stone-500 mt-1">Tarumajaya, Kabupaten Bekasi, Jawa Barat</span>
-                  <a
-                    href="https://maps.google.com/?q=Tarumajaya+Bekasi"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="mt-4 px-4 py-2 border border-stone-700 hover:border-amber-300 text-amber-200 text-[11px] uppercase tracking-wider transition-colors"
-                  >
-                    Buka Panduan Rute Google Maps →
-                  </a>
+                <div className="min-h-64 bg-stone-950 border border-stone-800 overflow-hidden">
+                  {!sitePlanImageFailed ? (
+                    <img
+                      src={project?.sitePlanImage || '/brands/zia-emerald/images/site-plan/site-plan-utama.webp'}
+                      alt="Site plan resmi ZIA Emerald"
+                      className="w-full max-h-[520px] object-contain bg-stone-950"
+                      onError={() => setSitePlanImageFailed(true)}
+                    />
+                  ) : (
+                    <div className="min-h-64 flex flex-col items-center justify-center p-6 text-center">
+                      <Compass className="w-10 h-10 text-emerald-400 mb-3 stroke-1" />
+                      <span className="text-sm font-serif text-stone-200 font-semibold">Site Plan Resmi ZIA Emerald</span>
+                      <span className="text-xs text-stone-400 mt-2 max-w-md">
+                        Aset site plan resmi belum ditemukan di path yang dikonfigurasi. Tim internal dapat mengunggah gambar site plan asli ke public/brands/zia-emerald/images/site-plan/ dan memperbarui path melalui CMS.
+                      </span>
+                    </div>
+                  )}
+                  <div className="p-4 border-t border-stone-800 flex flex-wrap items-center justify-between gap-3">
+                    <span className="text-[11px] text-stone-400">Tarumajaya, Kabupaten Bekasi, Jawa Barat</span>
+                    <a href="https://maps.google.com/?q=Tarumajaya+Bekasi" target="_blank" rel="noreferrer" className="px-4 py-2 border border-stone-700 hover:border-amber-300 text-amber-200 text-[11px] uppercase tracking-wider transition-colors">
+                      Buka Rute Google Maps →
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -478,7 +495,7 @@ export const ZiaEmeraldPage: React.FC<ZiaEmeraldProps> = ({
       </section>
 
       {/* 7. LEAD GENERATION SECTION */}
-      <section className="py-24 bg-[#08221a] text-white">
+      <section id="emerald-visit-form" className="py-24 bg-[#08221a] text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-5 space-y-6">
@@ -518,6 +535,9 @@ export const ZiaEmeraldPage: React.FC<ZiaEmeraldProps> = ({
                 title="Dapatkan Brosur Lengkap & Pricelist ZIA Emerald"
                 subtitle="Isi kontak Anda agar konsultan perumahan kami dapat mengirimkan denah resolusi tinggi dan jadwal kunjungan."
                 buttonColorClass="bg-amber-300 hover:bg-amber-200 text-stone-950 font-bold"
+                ctaLabel={project?.ctaLabel}
+                visitOfferLabel={project?.visitOfferLabel}
+                visitOfferOptions={project?.visitOfferOptions}
               />
             </div>
           </div>

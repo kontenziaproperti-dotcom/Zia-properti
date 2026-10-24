@@ -64,7 +64,7 @@ export const LeadsModule: React.FC<LeadsModuleProps> = ({
       return;
     }
 
-    const headers = ['Waktu Masuk', 'Nama Lengkap', 'Nomor WhatsApp', 'Email', 'Kawasan Proyek', 'Minat Tipe', 'Status Prospek', 'Pesan / Keterangan', 'Catatan'];
+    const headers = ['Waktu Masuk', 'Nama Lengkap', 'Nomor WhatsApp', 'Email', 'Kawasan Proyek', 'Minat Tipe', 'Tanggal Visit', 'Jam Visit', 'Promo / Penawaran', 'Status Prospek', 'Pesan / Keterangan', 'Catatan'];
     const rows = filteredLeads.map((l) => [
       `"${new Date(l.createdAt).toLocaleDateString('id-ID')}"`,
       `"${l.name.replace(/"/g, '""')}"`,
@@ -72,6 +72,9 @@ export const LeadsModule: React.FC<LeadsModuleProps> = ({
       `"${l.email || '-'}"`,
       `"${l.projectName || '-'}"`,
       `"${l.propertyType || '-'}"`,
+      `"${l.visitDate || '-'}"`,
+      `"${l.visitTime || '-'}"`,
+      `"${(l.requestedOffer || '-').replace(/"/g, '""')}"`,
       `"${l.status}"`,
       `"${(l.message || '').replace(/"/g, '""')}"`,
       `"${(l.notes || '').replace(/"/g, '""')}"`
@@ -277,7 +280,15 @@ export const LeadsModule: React.FC<LeadsModuleProps> = ({
                     <span className="font-semibold text-amber-200 block">{lead.projectName}</span>
                     <span className="text-[11px] text-stone-500">{lead.propertyType || '-'}</span>
                   </td>
-                  <td className="p-3.5 text-stone-400 max-w-xs truncate">{lead.message || '-'}</td>
+                  <td className="p-3.5 text-stone-400 max-w-xs">
+                    <div className="space-y-1">
+                      {lead.requestedOffer && <div className="text-amber-200">Penawaran: {lead.requestedOffer}</div>}
+                      {(lead.visitDate || lead.visitTime) && (
+                        <div className="text-emerald-300">Visit: {lead.visitDate || 'Tanggal belum dipilih'}{lead.visitTime ? ' • ' + lead.visitTime + ' WIB' : ''}</div>
+                      )}
+                      <div className="whitespace-normal break-words">{lead.message || '-'}</div>
+                    </div>
+                  </td>
                   <td className="p-3.5">
                     <select
                       value={lead.status}

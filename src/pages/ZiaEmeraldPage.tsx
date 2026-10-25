@@ -379,6 +379,51 @@ export const ZiaEmeraldPage: React.FC<ZiaEmeraldProps> = ({
         </div>
       </section>
 
+      {/* Project visual gallery: supplied project imagery, not generated replacements */}
+      <section id="emerald-visual-gallery" className="py-20 bg-white border-y border-stone-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-2xl mb-10">
+            <span className="text-[11px] uppercase tracking-[0.25em] text-[#0f4c3a] font-bold block mb-2">
+              Galeri ZIA Emerald
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-serif text-stone-900 mb-4">
+              Fasad, Interior, dan Kawasan
+            </h2>
+            <p className="text-sm text-stone-600 leading-relaxed">
+              Jelajahi materi visual ZIA Emerald yang disediakan untuk pengenalan arsitektur dan suasana hunian. Detail unit dan fasilitas akhir tetap perlu dikonfirmasi kepada tim pengembang.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <figure className="border border-stone-200 bg-stone-50 overflow-hidden">
+              <img
+                src="/brands/zia-emerald/images/facilities/zia-emerald-area-komunal.webp"
+                alt="Visual kawasan ZIA Emerald dengan deretan fasad rumah dan area lapangan"
+                loading="lazy"
+                className="w-full aspect-[16/9] object-cover"
+              />
+              <figcaption className="p-4">
+                <span className="text-xs uppercase tracking-wider font-semibold text-[#0f4c3a]">Kawasan & Fasilitas</span>
+                <p className="text-sm text-stone-600 mt-1">Visual kawasan dan lapangan dari materi referensi yang diunggah.</p>
+              </figcaption>
+            </figure>
+
+            <figure className="border border-stone-200 bg-stone-50 overflow-hidden">
+              <img
+                src="/brands/zia-emerald/images/interior/zia-emerald-interior-ruang-tamu.webp"
+                alt="Referensi interior ruang tamu bernuansa netral"
+                loading="lazy"
+                className="w-full aspect-[16/9] object-cover object-center"
+              />
+              <figcaption className="p-4">
+                <span className="text-xs uppercase tracking-wider font-semibold text-[#0f4c3a]">Interior Hunian</span>
+                <p className="text-sm text-stone-600 mt-1">Referensi interior ruang tamu untuk inspirasi penataan ruang.</p>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
       <KPRCalculator properties={emeraldProps.filter((property) => Boolean(property.price && property.price > 0))} />
 
       {/* 4. LOCATION & ACCESS ROAD HIGHLIGHTS */}

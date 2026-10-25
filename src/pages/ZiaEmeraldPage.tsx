@@ -39,6 +39,7 @@ export const ZiaEmeraldPage: React.FC<ZiaEmeraldProps> = ({
   const [selectedType, setSelectedType] = useState<PropertyItem>(
     emeraldProps[0] || properties[0]
   );
+  const [activeGalleryImage, setActiveGalleryImage] = useState<string | null>(null);
   const [activeFaq, setActiveFaq] = useState<string | null>(null);
   const [sitePlanImageFailed, setSitePlanImageFailed] = useState(false);
 
@@ -46,34 +47,36 @@ export const ZiaEmeraldPage: React.FC<ZiaEmeraldProps> = ({
   const emeraldTestimonials = testimonials.filter((t) => t.projectSlug === 'zia-emerald');
 
   const getSelectedTypeImage = (property: PropertyItem) => {
-    const isGenericStock = !property.mainImage || property.mainImage.includes('unsplash.com');
-    if (!isGenericStock) return property.mainImage;
-    if (property.code === 'ZE-50') return '/brands/zia-emerald/images/units/zia-emerald-fasad-type-50-72.webp';
-    if (property.code === 'ZE-80') return '/brands/zia-emerald/images/units/zia-emerald-fasad-type-80-72.webp';
-    if (property.code === 'ZE-65M') return '/brands/zia-emerald/images/hero/hero-utama-zia-emerald.webp';
-    return property.mainImage;
+    if (property.code === 'ZE-50' && (!property.mainImage || property.mainImage.includes('unsplash.com'))) {
+      return '/brands/zia-emerald/images/units/zia-emerald-fasad-type-50-72.webp';
+    }
+    if (property.code === 'ZE-80' && (!property.mainImage || property.mainImage.includes('unsplash.com'))) {
+      return '/brands/zia-emerald/images/units/zia-emerald-fasad-type-80-72.webp';
+    }
+    if (property.code === 'ZE-65M' && (!property.mainImage || property.mainImage.includes('unsplash.com'))) {
+      return '/brands/zia-emerald/images/hero/hero-utama-zia-emerald.webp';
+    }
+    return property.mainImage || '/brands/zia-emerald/images/hero/hero-utama-zia-emerald.webp';
   };
 
   const getSelectedTypeGallery = (property: PropertyItem) => {
-    const gallery = property.gallery || [];
-    const allGenericStock = gallery.length === 0 || gallery.every((image) => image.includes('unsplash.com'));
-    if (!allGenericStock) return gallery;
     if (property.code === 'ZE-50') {
       return [
         '/brands/zia-emerald/images/units/zia-emerald-fasad-type-50-72.webp',
-        '/brands/zia-emerald/images/units/zia-emerald-type-50-72.webp',
+        '/brands/zia-emerald/images/units/zia-emerald-fasad-type-50-72-angle.webp',
+        '/brands/zia-emerald/images/interior/zia-emerald-interior-ruang-tamu.webp',
       ];
     }
     if (property.code === 'ZE-80') {
       return [
         '/brands/zia-emerald/images/units/zia-emerald-fasad-type-80-72.webp',
-        '/brands/zia-emerald/images/units/zia-emerald-type-80-72.webp',
+        '/brands/zia-emerald/images/units/zia-emerald-fasad-type-80-72-detail.webp',
+        '/brands/zia-emerald/images/interior/zia-emerald-interior-ruang-tamu.webp',
       ];
     }
-    if (property.code === 'ZE-65M') {
-      return ['/brands/zia-emerald/images/hero/hero-utama-zia-emerald.webp'];
-    }
-    return gallery;
+    // No type-specific mezzanine photograph was supplied. Keep the main
+    // project hero, and do not imply that a general area image is a unit photo.
+    return [];
   };
 
   const getWaEmeraldLink = (text?: string) => {
@@ -199,8 +202,8 @@ export const ZiaEmeraldPage: React.FC<ZiaEmeraldProps> = ({
                   className="w-full h-64 object-cover border border-stone-200 shadow-md"
                 />
                 <img
-                  src="/brands/zia-emerald/images/units/zia-emerald-fasad-type-80-72.webp"
-                  alt="Fasad rumah ZIA Emerald Type 80/72 dari materi yang diberikan"
+                  src="/brands/zia-emerald/images/interior/zia-emerald-interior-ruang-tamu.webp"
+                  alt="Referensi interior ruang tamu bernuansa netral untuk ZIA Emerald"
                   className="w-full h-64 object-cover border border-stone-200 shadow-md translate-y-6"
                 />
               </div>
@@ -229,7 +232,7 @@ export const ZiaEmeraldPage: React.FC<ZiaEmeraldProps> = ({
             {emeraldProps.map((prop) => (
               <button
                 key={prop.id}
-                onClick={() => setSelectedType(prop)}
+                onClick={() => { setSelectedType(prop); setActiveGalleryImage(null); }}
                 className={`px-6 py-3 text-xs uppercase tracking-widest font-semibold border transition-all ${
                   selectedType?.id === prop.id
                     ? 'bg-[#0f4c3a] text-white border-[#0f4c3a] shadow-md'
@@ -249,16 +252,16 @@ export const ZiaEmeraldPage: React.FC<ZiaEmeraldProps> = ({
                 <div className="lg:col-span-7 bg-stone-950 p-6 flex flex-col justify-between">
                   <div className="relative h-[380px] sm:h-[450px] overflow-hidden border border-stone-800">
                     <img
-                      src={getSelectedTypeImage(selectedType)}
-                      alt={selectedType.code === 'ZE-65M' && selectedType.mainImage?.includes('unsplash.com') ? 'Gambaran kawasan ZIA Emerald; visual khusus tipe mezzanine belum tersedia' : selectedType.name}
+                      src={activeGalleryImage || getSelectedTypeImage(selectedType)}
+                      alt={activeGalleryImage?.includes('/interior/') ? 'Referensi interior ruang tamu ZIA Emerald' : selectedType.code === 'ZE-65M' ? 'Visual umum kawasan ZIA Emerald; foto khusus tipe mezzanine belum tersedia' : selectedType.name}
                       className="w-full h-full object-cover"
                     />
                     <div className="absolute top-4 left-4 bg-stone-900/90 text-amber-300 px-3 py-1 text-xs uppercase tracking-wider font-semibold border border-stone-700">
                       Status: {selectedType.status}
                     </div>
-                    {selectedType.code === 'ZE-65M' && selectedType.mainImage?.includes('unsplash.com') && (
+                    {selectedType.code === 'ZE-65M' && (
                       <div className="absolute bottom-4 right-4 bg-stone-900/90 text-stone-200 px-3 py-1.5 text-[10px] border border-stone-700">
-                        Visual khusus mezzanine belum tersedia
+                        Visual fasad umum; foto khusus mezzanine belum tersedia
                       </div>
                     )}
                     {selectedType.promoBadge && (
@@ -272,12 +275,21 @@ export const ZiaEmeraldPage: React.FC<ZiaEmeraldProps> = ({
                   {getSelectedTypeGallery(selectedType).length > 0 && (
                     <div className="flex gap-3 mt-4 overflow-x-auto pb-2">
                       {getSelectedTypeGallery(selectedType).map((img, i) => (
-                        <img
-                          key={i}
-                          src={img}
-                          alt={`${selectedType.name} gallery ${i}`}
-                          className="w-20 h-16 object-cover border border-stone-700 cursor-pointer opacity-80 hover:opacity-100"
-                        />
+                        <button
+                          key={img}
+                          type="button"
+                          onClick={() => setActiveGalleryImage(img)}
+                          aria-label={img.includes('/interior/') ? 'Lihat referensi interior ruang tamu' : `Lihat foto fasad ${i + 1} untuk ${selectedType.name}`}
+                          aria-pressed={activeGalleryImage === img}
+                          className={`shrink-0 border-2 transition-opacity ${activeGalleryImage === img ? 'border-amber-300 opacity-100' : 'border-stone-700 opacity-80 hover:opacity-100'}`}
+                        >
+                          <img
+                            src={img}
+                            alt=""
+                            loading="lazy"
+                            className="w-24 h-16 object-cover"
+                          />
+                        </button>
                       ))}
                     </div>
                   )}
@@ -295,6 +307,11 @@ export const ZiaEmeraldPage: React.FC<ZiaEmeraldProps> = ({
                     <p className="text-xs text-stone-600 leading-relaxed mb-6">
                       {selectedType.description}
                     </p>
+                    {selectedType.code === 'ZE-65M' && (
+                      <p className="text-xs text-amber-800 bg-amber-50 border border-amber-200 px-3 py-2 mb-5">
+                        Foto khusus tipe mezzanine belum tersedia dalam materi yang diunggah. Gambar utama adalah visual umum kawasan ZIA Emerald, bukan klaim foto unit mezzanine.
+                      </p>
+                    )}
 
                     {/* Area parameters */}
                     <div className="grid grid-cols-2 gap-4 p-4 bg-stone-50 border border-stone-200 mb-6 text-xs">

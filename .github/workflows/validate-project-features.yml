@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - feature/multi-project-conversion-cms
+      - feature/nextjs-migration-spike
   pull_request:
     branches:
       - main

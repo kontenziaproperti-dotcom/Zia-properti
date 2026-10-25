@@ -1,0 +1,40 @@
+name: Refresh Bun lockfile for Next.js migration
+
+on:
+  push:
+    branches:
+      - feature/nextjs-migration-spike
+    paths:
+      - package.json
+      - .github/workflows/refresh-nextjs-lock.yml
+
+permissions:
+  contents: write
+
+jobs:
+  refresh-lockfile:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout migration branch
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: true
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Refresh dependency lockfile
+        run: bun install
+
+      - name: Commit refreshed lockfile when changed
+        shell: bash
+        run: |
+          if git diff --quiet -- bun.lock; then
+            echo "bun.lock is already current"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add bun.lock
+          git commit -m "chore: refresh Bun lockfile for Next.js"
+          git push

@@ -156,10 +156,10 @@ export const INITIAL_PROPERTIES: PropertyItem[] = [
     mainImage: '/brands/zia-emerald/images/units/zia-emerald-fasad-type-50-72.webp',
     gallery: [
       '/brands/zia-emerald/images/units/zia-emerald-fasad-type-50-72.webp',
-      '/brands/zia-emerald/images/units/zia-emerald-type-50-72.webp',
-      '/brands/zia-emerald/images/site-plan/site-plan-utama.webp'
+      '/brands/zia-emerald/images/units/zia-emerald-fasad-type-50-72-angle.webp',
+      '/brands/zia-emerald/images/interior/zia-emerald-interior-ruang-tamu.webp'
     ],
-    floorPlanUrl: '/brands/zia-emerald/images/units/zia-emerald-type-50-72.webp',
+    floorPlanUrl: '',
     description: 'Tipe 50 dirancang bagi keluarga muda modern yang mengutamakan privasi dan efisiensi ruang. Plafon tinggi setinggi 4.2 meter menghadirkan sirkulasi udara alami optimal serta opsi mezzanine modular.',
     specifications: {
       'Pondasi': 'Batu Kali & Cakar Ayam Beton Bertulang',
@@ -194,10 +194,10 @@ export const INITIAL_PROPERTIES: PropertyItem[] = [
     mainImage: '/brands/zia-emerald/images/units/zia-emerald-fasad-type-80-72.webp',
     gallery: [
       '/brands/zia-emerald/images/units/zia-emerald-fasad-type-80-72.webp',
-      '/brands/zia-emerald/images/units/zia-emerald-type-80-72.webp',
-      '/brands/zia-emerald/images/site-plan/site-plan-utama.webp'
+      '/brands/zia-emerald/images/units/zia-emerald-fasad-type-80-72-detail.webp',
+      '/brands/zia-emerald/images/interior/zia-emerald-interior-ruang-tamu.webp'
     ],
-    floorPlanUrl: '/brands/zia-emerald/images/units/zia-emerald-type-80-72.webp',
+    floorPlanUrl: '',
     description: 'Unit 2 lantai prestisius dengan fasad American Classic seimbang, balkon pribadi di kamar utama, 3 kamar tidur lega, dan ruang keluarga lapang yang menghadap taman belakang.',
     specifications: {
       'Pondasi': 'Tiang Pancang Mini Pile & Beton Bertulang',
@@ -230,9 +230,7 @@ export const INITIAL_PROPERTIES: PropertyItem[] = [
     promoBadge: 'Limited Series Loft',
     status: 'Reserved',
     mainImage: '/brands/zia-emerald/images/hero/hero-utama-zia-emerald.webp',
-    gallery: [
-      '/brands/zia-emerald/images/hero/hero-utama-zia-emerald.webp'
-    ],
+    gallery: [],
     description: 'Konsep inovatif mezanin struktural besi hollow dan lantai kayu komposit yang dapat difungsikan sebagai ruang kerja pribadi (work from home) atau kamar santai anak.',
     specifications: {
       'Struktur Mezanin': 'Baja I-Beam Fin. Black Industrial & Lantai Solid Wood',

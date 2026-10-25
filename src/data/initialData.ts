@@ -46,12 +46,18 @@ export const INITIAL_PROJECTS: ProjectEntity[] = [
     shortDescription: 'Hunian eksklusif berarsitektur American Classic dengan penataan lansekap asri dan fasilitas ramah keluarga di lokasi strategis Tarumajaya.',
     longDescription: 'ZIA Emerald menghadirkan perpaduan keindahan estetika American Classic yang abadi dengan kenyamanan tata ruang modern. Dirancang secara presisi untuk kenyamanan jangka panjang keluarga, dilengkapi sistem keamanan terintegrasi, taman komunal, dan aksesibilitas cepat ke koridor bisnis Jabodetabek.',
     status: 'Development',
-    heroImage: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1800&q=80',
+    heroImage: '/brands/zia-emerald/images/hero/hero-utama-zia-emerald.webp',
     logoUrl: '',
     featured: true,
     order: 1,
     seoTitle: 'ZIA Emerald | Rumah American Classic di Tarumajaya Bekasi',
     seoDescription: 'ZIA Emerald - Hunian American Classic elegan di Tarumajaya Bekasi oleh PT ZIA Properti Indonesia. Type 50/72, 80/72, mezzanine opsional.',
+    seoKeywords: ['rumah dijual Bekasi', 'perumahan Tarumajaya', 'rumah American Classic Bekasi', 'rumah 1 lantai Bekasi', 'rumah mezzanine Bekasi', 'rumah 2 lantai Bekasi', 'simulasi KPR rumah Bekasi', 'ZIA Emerald'],
+    socialHashtags: ['#ZIAEmerald', '#RumahBekasi', '#RumahTarumajaya', '#PerumahanBekasi', '#RumahAmericanClassic', '#RumahMezzanine', '#KPRRumah', '#HunianKeluarga'],
+    ctaLabel: 'Jadwalkan Kunjungan ZIA Emerald',
+    visitOfferLabel: 'Promo atau benefit yang ingin ditanyakan',
+    visitOfferOptions: ['Informasi diskon atau promo yang sedang berlaku (S&K dikonfirmasi tim sales)', 'DP dan pilihan cara bayar', 'Simulasi KPR dan estimasi cicilan', 'Promo biaya KPR atau legalitas', 'Informasi tipe, harga, dan ketersediaan unit', 'Konsultasi umum'],
+    sitePlanImage: '/brands/zia-emerald/images/site-plan/site-plan-utama.webp',
     contactWhatsApp: '6281288889922',
     accentColor: '#0f4c3a', // Emerald
   },
@@ -70,6 +76,11 @@ export const INITIAL_PROJECTS: ProjectEntity[] = [
     order: 2,
     seoTitle: 'Kav Hillside | Kavling Siap Bangun American Classic Bekasi',
     seoDescription: 'Kav Hillside oleh PT ZIA Properti Indonesia. Kavling tanah matang berinfrastruktur lengkap untuk investasi properti masa depan.',
+    seoKeywords: ['kavling dijual Bekasi', 'tanah kavling Tarumajaya', 'kavling siap bangun Bekasi', 'investasi tanah Bekasi', 'site plan kavling Bekasi', 'Kav Hillside'],
+    socialHashtags: ['#KavHillside', '#KavlingBekasi', '#TanahKavling', '#KavlingSiapBangun', '#InvestasiProperti', '#PropertiBekasi'],
+    ctaLabel: 'Jadwalkan Survei Kav Hillside',
+    visitOfferLabel: 'Penawaran yang ingin ditanyakan',
+    visitOfferOptions: ['Informasi diskon atau penawaran survei jika tersedia (S&K dikonfirmasi tim)', 'Daftar harga dan ketersediaan kavling', 'Site plan dan nomor kavling', 'Informasi legalitas dan proses transaksi', 'Konsultasi pembelian beberapa kavling'],
     contactWhatsApp: '6281288889933',
     accentColor: '#365314', // Earth / Moss Green
   },
@@ -88,6 +99,11 @@ export const INITIAL_PROJECTS: ProjectEntity[] = [
     order: 3,
     seoTitle: 'ZIA Farm | Peternakan & Agrikultur Terpadu Bekasi',
     seoDescription: 'ZIA Farm - Ekosistem peternakan domba, kambing, dan sapi modern berstandar kesehatan veteriner resmi di Kabupaten Bekasi.',
+    seoKeywords: ['jual sapi qurban Bekasi', 'jual domba qurban Bekasi', 'jual kambing qurban', 'peternakan Bekasi', 'Kandang Ternak H. Bowo', 'ZIA Farm', 'layanan aqiqah Bekasi'],
+    socialHashtags: ['#ZIAFarm', '#KandangTernakHBowo', '#SapiQurban', '#DombaQurban', '#KambingQurban', '#PeternakanBekasi', '#AqiqahBekasi'],
+    ctaLabel: 'Jadwalkan Kunjungan ZIA Farm',
+    visitOfferLabel: 'Kebutuhan atau penawaran yang ingin ditanyakan',
+    visitOfferOptions: ['Informasi diskon atau penawaran ternak jika tersedia', 'Penawaran sapi qurban', 'Penawaran domba atau kambing', 'Paket aqiqah', 'Jadwal kunjungan dan pemilihan ternak', 'Kemitraan pasokan atau pembelian partai', 'Konsultasi umum'],
     contactWhatsApp: '6281288889944',
     accentColor: '#854d0e', // Warm Ochre / Earth
   },
@@ -106,6 +122,11 @@ export const INITIAL_PROJECTS: ProjectEntity[] = [
     order: 4,
     seoTitle: 'Altara ZIA International | Premium Indonesian Vanilla Bean Exporter',
     seoDescription: 'Leading Indonesian vanilla bean exporter supplying Planifolia and Tahitensis gourmet grades worldwide with direct origin traceability.',
+    seoKeywords: ['Indonesian vanilla bean exporter', 'premium vanilla beans Indonesia', 'vanilla planifolia supplier', 'vanilla tahitensis exporter', 'vanilla bean wholesale B2B', 'Indonesian vanilla sourcing', 'Altara ZIA International'],
+    socialHashtags: ['#AltaraZIAInternational', '#IndonesianVanilla', '#VanillaBeans', '#VanillaExporter', '#VanillaSourcing', '#B2BExport', '#IndonesianSpices'],
+    ctaLabel: 'Jadwalkan Konsultasi Altara',
+    visitOfferLabel: 'Kebutuhan komersial yang ingin dibahas',
+    visitOfferOptions: ['Request sample', 'Informasi penawaran komersial atau diskon volume jika tersedia', 'Quotation dan harga berdasarkan volume', 'Spesifikasi produk dan dokumen mutu', 'Kebutuhan ekspor dan logistik', 'Buyer meeting atau konsultasi sourcing', 'Contract farming atau kerja sama pasokan'],
     contactWhatsApp: '6281288889955',
     accentColor: '#1c1917', // Midnight / Vanilla Dark Earth
   },
@@ -132,13 +153,13 @@ export const INITIAL_PROPERTIES: PropertyItem[] = [
     installmentEstimate: 'Mulai Rp 3.8 Jt / bln',
     promoBadge: 'Subsidi Biaya KPR & Free Kanopi',
     status: 'Available',
-    mainImage: 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=1200&q=80',
+    mainImage: '/brands/zia-emerald/images/units/zia-emerald-fasad-type-50-72.webp',
     gallery: [
-      'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=80'
+      '/brands/zia-emerald/images/units/zia-emerald-fasad-type-50-72.webp',
+      '/brands/zia-emerald/images/units/zia-emerald-fasad-type-50-72-angle.webp',
+      '/brands/zia-emerald/images/interior/zia-emerald-interior-ruang-tamu.webp'
     ],
-    floorPlanUrl: 'https://images.unsplash.com/photo-1600585152220-90363fe7e115?auto=format&fit=crop&w=1200&q=80',
+    floorPlanUrl: '',
     description: 'Tipe 50 dirancang bagi keluarga muda modern yang mengutamakan privasi dan efisiensi ruang. Plafon tinggi setinggi 4.2 meter menghadirkan sirkulasi udara alami optimal serta opsi mezzanine modular.',
     specifications: {
       'Pondasi': 'Batu Kali & Cakar Ayam Beton Bertulang',
@@ -170,12 +191,13 @@ export const INITIAL_PROPERTIES: PropertyItem[] = [
     installmentEstimate: 'Mulai Rp 5.5 Jt / bln',
     promoBadge: 'Free BPHTB & Notaris',
     status: 'Available',
-    mainImage: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80',
+    mainImage: '/brands/zia-emerald/images/units/zia-emerald-fasad-type-80-72.webp',
     gallery: [
-      'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1200&q=80'
+      '/brands/zia-emerald/images/units/zia-emerald-fasad-type-80-72.webp',
+      '/brands/zia-emerald/images/units/zia-emerald-fasad-type-80-72-detail.webp',
+      '/brands/zia-emerald/images/interior/zia-emerald-interior-ruang-tamu.webp'
     ],
-    floorPlanUrl: 'https://images.unsplash.com/photo-1600585152220-90363fe7e115?auto=format&fit=crop&w=1200&q=80',
+    floorPlanUrl: '',
     description: 'Unit 2 lantai prestisius dengan fasad American Classic seimbang, balkon pribadi di kamar utama, 3 kamar tidur lega, dan ruang keluarga lapang yang menghadap taman belakang.',
     specifications: {
       'Pondasi': 'Tiang Pancang Mini Pile & Beton Bertulang',
@@ -207,10 +229,8 @@ export const INITIAL_PROPERTIES: PropertyItem[] = [
     installmentEstimate: 'Mulai Rp 4.4 Jt / bln',
     promoBadge: 'Limited Series Loft',
     status: 'Reserved',
-    mainImage: 'https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1200&q=80',
-    gallery: [
-      'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=80'
-    ],
+    mainImage: '/brands/zia-emerald/images/hero/hero-utama-zia-emerald.webp',
+    gallery: [],
     description: 'Konsep inovatif mezanin struktural besi hollow dan lantai kayu komposit yang dapat difungsikan sebagai ruang kerja pribadi (work from home) atau kamar santai anak.',
     specifications: {
       'Struktur Mezanin': 'Baja I-Beam Fin. Black Industrial & Lantai Solid Wood',

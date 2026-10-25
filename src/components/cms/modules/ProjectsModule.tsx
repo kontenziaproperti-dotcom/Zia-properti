@@ -11,6 +11,7 @@ import {
   FileText
 } from 'lucide-react';
 import { ProjectEntity, ContentStatus } from '../../../types';
+import { getProjectMarketing } from '../../../config/projectMarketing';
 import {
   CMSModuleHeader,
   CMSSearchFilter,
@@ -395,6 +396,121 @@ export const ProjectsModule: React.FC<ProjectsModuleProps> = ({
                 value={editingProject.longDescription || ''}
                 onChange={(e) => setEditingProject({ ...editingProject, longDescription: e.target.value })}
                 className="w-full bg-stone-950 border border-stone-800 p-2.5 text-white resize-none"
+              />
+            </div>
+
+            <div>
+              <label className="text-stone-400 uppercase tracking-wider block mb-1">SEO Title</label>
+              <input
+                type="text"
+                maxLength={70}
+                value={editingProject.seoTitle || ''}
+                onChange={(e) => setEditingProject({ ...editingProject, seoTitle: e.target.value })}
+                placeholder="Judul pencarian yang jelas dan spesifik"
+                className="w-full bg-stone-950 border border-stone-800 p-2.5 text-white"
+              />
+              <p className="text-[10px] text-stone-500 mt-1">Disarankan ringkas dan unik untuk tiap proyek; batas 70 karakter menjadi panduan editorial.</p>
+            </div>
+            <div>
+              <label className="text-stone-400 uppercase tracking-wider block mb-1">SEO Meta Description</label>
+              <textarea
+                rows={3}
+                maxLength={170}
+                value={editingProject.seoDescription || ''}
+                onChange={(e) => setEditingProject({ ...editingProject, seoDescription: e.target.value })}
+                placeholder="Ringkasan halaman yang akurat, natural, dan sesuai kebutuhan pengunjung"
+                className="w-full bg-stone-950 border border-stone-800 p-2.5 text-white resize-y"
+              />
+              <p className="text-[10px] text-stone-500 mt-1">Tulis deskripsi yang unik dan sesuai isi halaman. Tampilan hasil pencarian dapat berubah.</p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="text-stone-400 uppercase tracking-wider block mb-1">
+                  SEO Keywords (pisahkan dengan koma)
+                </label>
+                <textarea
+                  rows={4}
+                  placeholder="rumah dijual Bekasi, perumahan Tarumajaya"
+                  value={(editingProject.seoKeywords || getProjectMarketing(String(editingProject.slug || ''))?.seoKeywords || []).join(', ')}
+                  onChange={(e) => setEditingProject({
+                    ...editingProject,
+                    seoKeywords: e.target.value.split(',').map((value) => value.trim()).filter(Boolean)
+                  })}
+                  className="w-full bg-stone-950 border border-stone-800 p-2.5 text-white resize-y"
+                />
+                <p className="text-[10px] text-stone-500 mt-1">Gunakan frasa relevan. Metadata keywords bukan pengganti konten halaman yang bermanfaat.</p>
+              </div>
+              <div>
+                <label className="text-stone-400 uppercase tracking-wider block mb-1">
+                  Hashtag Sosial (pisahkan dengan koma)
+                </label>
+                <textarea
+                  rows={4}
+                  placeholder="#ZIAEmerald, #RumahBekasi"
+                  value={(editingProject.socialHashtags || getProjectMarketing(String(editingProject.slug || ''))?.socialHashtags || []).join(', ')}
+                  onChange={(e) => setEditingProject({
+                    ...editingProject,
+                    socialHashtags: e.target.value.split(',').map((value) => value.trim()).filter(Boolean)
+                  })}
+                  className="w-full bg-stone-950 border border-stone-800 p-2.5 text-white resize-y"
+                />
+                <p className="text-[10px] text-stone-500 mt-1">Hashtag dipakai untuk kampanye sosial, bukan dimasukkan paksa ke teks website.</p>
+              </div>
+            </div>
+
+            {editingProject.slug === 'zia-emerald' && (
+              <div>
+                <label className="text-stone-400 uppercase tracking-wider block mb-1">
+                  Path Site Plan Resmi (di folder public)
+                </label>
+                <input
+                  type="text"
+                  placeholder="/brands/zia-emerald/images/site-plan/site-plan-utama.webp"
+                  value={editingProject.sitePlanImage || (editingProject.slug === 'zia-emerald' ? '/brands/zia-emerald/images/site-plan/site-plan-utama.webp' : '')}
+                  onChange={(e) => setEditingProject({ ...editingProject, sitePlanImage: e.target.value })}
+                  className="w-full bg-stone-950 border border-stone-800 p-2.5 text-white font-mono text-[11px]"
+                />
+                <p className="text-[10px] text-stone-500 mt-1">Unggah site plan resmi dari tim internal; jangan menggunakan ilustrasi pengganti seolah-olah site plan asli.</p>
+              </div>
+            )}
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="text-stone-400 uppercase tracking-wider block mb-1">Label CTA Utama</label>
+                <input
+                  type="text"
+                  value={editingProject.ctaLabel || getProjectMarketing(String(editingProject.slug || ''))?.ctaLabel || ''}
+                  onChange={(e) => setEditingProject({ ...editingProject, ctaLabel: e.target.value })}
+                  placeholder="Jadwalkan kunjungan"
+                  className="w-full bg-stone-950 border border-stone-800 p-2.5 text-white"
+                />
+              </div>
+              <div>
+                <label className="text-stone-400 uppercase tracking-wider block mb-1">Label Minat Promo / Penawaran</label>
+                <input
+                  type="text"
+                  value={editingProject.visitOfferLabel || getProjectMarketing(String(editingProject.slug || ''))?.offerLabel || ''}
+                  onChange={(e) => setEditingProject({ ...editingProject, visitOfferLabel: e.target.value })}
+                  placeholder="Promo yang ingin ditanyakan"
+                  className="w-full bg-stone-950 border border-stone-800 p-2.5 text-white"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="text-stone-400 uppercase tracking-wider block mb-1">
+                Pilihan Promo / Penawaran Form (pisahkan dengan koma)
+              </label>
+              <textarea
+                rows={3}
+                value={(editingProject.visitOfferOptions || getProjectMarketing(String(editingProject.slug || ''))?.offerOptions || []).join(', ')}
+                onChange={(e) => setEditingProject({
+                  ...editingProject,
+                  visitOfferOptions: e.target.value.split(',').map((value) => value.trim()).filter(Boolean)
+                })}
+                placeholder="Diskon kunjungan, simulasi KPR, konsultasi"
+                className="w-full bg-stone-950 border border-stone-800 p-2.5 text-white resize-y"
               />
             </div>
 

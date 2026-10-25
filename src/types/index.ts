@@ -26,6 +26,15 @@ export interface ProjectEntity {
   order: number;
   seoTitle: string;
   seoDescription: string;
+  /** SEO keywords are editorial guidance; they do not replace useful page content. */
+  seoKeywords?: string[];
+  /** Social campaign hashtags, intended for social copy and internal CMS planning. */
+  socialHashtags?: string[];
+  /** Optional official site-plan image path, served from public/. */
+  sitePlanImage?: string;
+  ctaLabel?: string;
+  visitOfferLabel?: string;
+  visitOfferOptions?: string[];
   contactWhatsApp: string;
   accentColor?: string;
   themeStyle?: 'emerald' | 'moss' | 'earth' | 'midnight' | 'classic';
@@ -95,6 +104,9 @@ export interface LeadItem {
   budgetRange?: string;
   source: string;
   message?: string;
+  visitDate?: string;
+  visitTime?: string;
+  requestedOffer?: string;
   status: LeadStatus;
   assignedStaff?: string;
   notes?: string;

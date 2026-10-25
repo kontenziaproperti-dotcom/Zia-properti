@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { CompanySettings, ProjectEntity } from '../types';
+import { getProjectMarketing } from '../config/projectMarketing';
 
 interface SEOHeadProps {
   title?: string;
@@ -50,6 +51,18 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
     };
 
     setMeta('name', 'description', finalDesc);
+    const keywordContent = (project?.seoKeywords?.length ? project.seoKeywords : getProjectMarketing(project?.slug || '')?.seoKeywords || settings?.metaKeywords?.split(',').map((keyword) => keyword.trim()).filter(Boolean) || []).join(', ');
+    if (keywordContent) setMeta('name', 'keywords', keywordContent);
+
+    // Canonical URL helps crawlers consolidate URL variants; update one link rather than duplicating it.
+    const canonicalUrl = `https://ziaproperti.co.id${canonicalPath === '/' ? '/' : canonicalPath}`;
+    let canonicalLink = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
+    if (!canonicalLink) {
+      canonicalLink = document.createElement('link');
+      canonicalLink.rel = 'canonical';
+      document.head.appendChild(canonicalLink);
+    }
+    canonicalLink.href = canonicalUrl;
     setMeta('property', 'og:title', finalTitle);
     setMeta('property', 'og:description', finalDesc);
     setMeta('property', 'og:image', finalImage);
@@ -102,16 +115,7 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
             '@type': 'Brand',
             'name': companyName
           },
-          'offers': {
-            '@type': 'Offer',
-            'availability': 'https://schema.org/InStock',
-            'priceCurrency': 'IDR',
-            'price': '0',
-            'seller': {
-              '@type': 'Organization',
-              'name': companyName
-            }
-          }
+          // Do not publish a fabricated zero-price Offer. Add an Offer only when a verified current price is available.
         } : null
       ].filter(Boolean)
     };

@@ -10,19 +10,21 @@ import {
   FileBadge,
   ChevronRight
 } from 'lucide-react';
-import { FAQItem, CompanySettings } from '../types';
+import { FAQItem, CompanySettings, ProjectEntity } from '../types';
 import { LeadCaptureForm } from '../components/LeadCaptureForm';
 import { cleanWhatsAppNumber, formatIndonesianPhone } from '../lib/contactUtils';
 
 interface ZiaFarmProps {
   faqs: FAQItem[];
   settings: CompanySettings;
+  project?: ProjectEntity | null;
   onNavigate: (route: string) => void;
 }
 
 export const ZiaFarmPage: React.FC<ZiaFarmProps> = ({
   faqs,
   settings,
+  project,
   onNavigate
 }) => {
   const [activeFaq, setActiveFaq] = useState<string | null>(null);
@@ -304,7 +306,7 @@ export const ZiaFarmPage: React.FC<ZiaFarmProps> = ({
       </section>
 
       {/* 5. INQUIRY FORM */}
-      <section className="py-24 bg-[#1a140d] text-white">
+      <section id="project-visit-form" className="py-24 bg-[#1a140d] text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-5 space-y-6">
@@ -336,6 +338,9 @@ export const ZiaFarmPage: React.FC<ZiaFarmProps> = ({
                 title="Formulir Konsultasi & Kunjungan Kandang"
                 subtitle="Isi kontak Anda agar staf peternakan kami dapat membagikan katalog bobot ternak dan panduan rute ke kandang."
                 buttonColorClass="bg-amber-300 hover:bg-amber-200 text-stone-950 font-bold"
+                ctaLabel={project?.ctaLabel}
+                visitOfferLabel={project?.visitOfferLabel}
+                visitOfferOptions={project?.visitOfferOptions}
               />
             </div>
           </div>

@@ -14,7 +14,7 @@ import {
 import { CompanySettings, ProjectEntity, PostItem } from '../types';
 import { LeadCaptureForm } from '../components/LeadCaptureForm';
 import { cleanWhatsAppNumber, formatIndonesianPhone } from '../lib/contactUtils';
-import { ADDITIONAL_BUSINESS_UNITS, BusinessDirectoryItem } from '../features/corporate-refresh/businessUnits';
+import { getBusinessDirectoryItems } from '../features/corporate-refresh/businessUnits';
 import { CorporateBusinessCard } from '../features/corporate-refresh/components/CorporateBusinessCard';
 
 interface HomePageProps {
@@ -30,15 +30,7 @@ export const HomePage: React.FC<HomePageProps> = ({
   posts,
   onNavigate
 }) => {
-  const directoryItems: BusinessDirectoryItem[] = [
-    ...projects.map((project): BusinessDirectoryItem => {
-      const category: BusinessDirectoryItem['category'] = project.slug === 'zia-farm' ? 'agriculture' : project.slug === 'altara-zia-international' ? 'export' : 'property';
-      const visual: BusinessDirectoryItem['visual'] = project.slug === 'zia-emerald' ? 'emerald' : project.slug === 'kav-hillside' ? 'moss' : project.slug === 'zia-farm' ? 'earth' : 'vanilla';
-      const icon: BusinessDirectoryItem['icon'] = project.slug === 'zia-emerald' ? 'building' : project.slug === 'kav-hillside' ? 'land' : project.slug === 'zia-farm' ? 'farm' : 'globe';
-      return { slug: project.slug, name: project.name, sector: project.category, category, location: project.location, summary: project.shortDescription || project.tagline, route: `/projects/${project.slug}`, visual, icon, heroImage: project.heroImage, tagline: project.tagline };
-    }),
-    ...ADDITIONAL_BUSINESS_UNITS.filter((unit) => !projects.some((project) => project.slug === unit.slug)),
-  ];
+  const directoryItems = getBusinessDirectoryItems(projects);
 
   const getWaCorporateLink = () => {
     const rawNumber = settings.contactWhatsApp || settings.corporateWhatsApp;

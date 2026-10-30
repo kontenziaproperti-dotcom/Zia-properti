@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { Search, SlidersHorizontal } from 'lucide-react';
 import { ProjectEntity, PropertyItem } from '../../../types';
-import { ADDITIONAL_BUSINESS_UNITS, BusinessCategory, BusinessDirectoryItem } from '../businessUnits';
+import { BusinessCategory, getBusinessDirectoryItems } from '../businessUnits';
 import { CorporateBusinessCard } from '../components/CorporateBusinessCard';
 import { CorporatePageHero } from '../components/CorporatePageHero';
 
@@ -20,41 +20,6 @@ const filters: { label: string; value: 'all' | BusinessCategory }[] = [
   { label: 'Direct Selling', value: 'direct' },
 ];
 
-const mapProject = (project: ProjectEntity): BusinessDirectoryItem => {
-  const categoryText = project.category.toLowerCase();
-  const category: BusinessCategory = categoryText.includes('export') || categoryText.includes('vanilla')
-    ? 'export'
-    : categoryText.includes('agricultural') || categoryText.includes('livestock')
-      ? 'agriculture'
-      : 'property';
-
-  const visual: BusinessDirectoryItem['visual'] =
-    project.slug === 'zia-emerald' ? 'emerald'
-      : project.slug === 'kav-hillside' ? 'moss'
-        : project.slug === 'zia-farm' ? 'earth'
-          : 'vanilla';
-
-  const icon: BusinessDirectoryItem['icon'] =
-    project.slug === 'zia-emerald' ? 'building'
-      : project.slug === 'kav-hillside' ? 'land'
-        : project.slug === 'zia-farm' ? 'farm'
-          : 'globe';
-
-  return {
-    slug: project.slug,
-    name: project.name,
-    sector: project.category,
-    category,
-    location: project.location,
-    summary: project.shortDescription || project.tagline,
-    route: `/projects/${project.slug}`,
-    visual,
-    icon,
-    heroImage: project.heroImage,
-    tagline: project.tagline,
-  };
-};
-
 export const ProjectDirectoryPage: React.FC<ProjectDirectoryProps> = ({
   projects,
   properties,
@@ -63,13 +28,7 @@ export const ProjectDirectoryPage: React.FC<ProjectDirectoryProps> = ({
   const [selectedCategory, setSelectedCategory] = useState<'all' | BusinessCategory>('all');
   const [searchQuery, setSearchQuery] = useState('');
 
-  const items = useMemo(() => {
-    const projectSlugs = new Set(projects.map((project) => project.slug));
-    return [
-      ...projects.map(mapProject),
-      ...ADDITIONAL_BUSINESS_UNITS.filter((unit) => !projectSlugs.has(unit.slug)),
-    ];
-  }, [projects]);
+  const items = useMemo(() => getBusinessDirectoryItems(projects), [projects]);
 
   const filteredItems = items.filter((item) => {
     const matchesCategory = selectedCategory === 'all' || item.category === selectedCategory;

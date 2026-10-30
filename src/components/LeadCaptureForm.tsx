@@ -23,7 +23,7 @@ export const LeadCaptureForm: React.FC<LeadFormProps> = ({
   buttonColorClass = 'bg-stone-900 hover:bg-stone-800 text-white',
   onSuccess
 }) => {
-  const isCorporateForm = projectSlug === 'corporate-general';
+  const isCorporateForm = projectSlug === 'corporate-general' || projectSlug === 'contact-page-inquiry';
 
   const [formData, setFormData] = useState({
     name: '',

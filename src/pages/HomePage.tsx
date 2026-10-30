@@ -200,7 +200,7 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
       </section>
 
-      {/* 3. BUSINESS ECOSYSTEM (4 CARDS) */}
+      {/* 3. BUSINESS ECOSYSTEM (6 BUSINESS UNITS) */}
       <section className="py-24 bg-stone-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-16">

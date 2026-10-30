@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { ArrowUpRight, CalendarDays, Search, X } from 'lucide-react';
 import { PostItem } from '../../../types';
 import { CorporatePageHero } from '../components/CorporatePageHero';
@@ -21,15 +21,18 @@ export const BlogPage: React.FC<BlogPageProps> = ({ posts, onNavigate }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeArticle, setActiveArticle] = useState<PostItem | null>(null);
 
+  // Never expose unpublished CMS drafts on the public corporate website.
+  const publishedPosts = useMemo(() => posts.filter((post) => post.published === true && post.status !== 'draft'), [posts]);
+
   const categories = useMemo(() => [
     'Semua topik',
-    ...Array.from(new Set(posts.map((post) => post.category).filter(Boolean))).sort((a, b) => a.localeCompare(b, 'id')),
-  ], [posts]);
+    ...Array.from(new Set(publishedPosts.map((post) => post.category).filter(Boolean))).sort((a, b) => a.localeCompare(b, 'id')),
+  ], [publishedPosts]);
 
-  const sortedPosts = useMemo(() => [...posts].sort((a, b) => {
+  const sortedPosts = useMemo(() => [...publishedPosts].sort((a, b) => {
     if (Boolean(a.featured) !== Boolean(b.featured)) return a.featured ? -1 : 1;
     return (Date.parse(b.createdAt || '') || 0) - (Date.parse(a.createdAt || '') || 0);
-  }), [posts]);
+  }), [publishedPosts]);
 
   const filteredPosts = sortedPosts.filter((post) => {
     const matchesCategory = selectedCategory === 'Semua topik' || post.category === selectedCategory;
@@ -40,6 +43,23 @@ export const BlogPage: React.FC<BlogPageProps> = ({ posts, onNavigate }) => {
   });
 
   const featuredPost = filteredPosts.find((post) => post.featured) || filteredPosts[0] || null;
+  const remainingPosts = featuredPost ? filteredPosts.filter((post) => post.id !== featuredPost.id) : filteredPosts;
+
+  useEffect(() => {
+    if (!activeArticle) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setActiveArticle(null);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [activeArticle]);
 
   return (
     <div className="se-corporate-page se-blog-page">
@@ -104,9 +124,9 @@ export const BlogPage: React.FC<BlogPageProps> = ({ posts, onNavigate }) => {
             <span>{filteredPosts.length} artikel</span>
           </div>
 
-          {filteredPosts.length ? (
+          {remainingPosts.length ? (
             <div className="se-blog-grid">
-              {filteredPosts.map((post) => (
+              {remainingPosts.map((post) => (
                 <article className="se-blog-card" key={post.id}>
                   <button type="button" className="se-blog-card__image" onClick={() => setActiveArticle(post)} aria-label={`Baca ${post.title}`}>
                     {post.coverImage ? <img src={post.coverImage} alt="" loading="lazy" decoding="async" /> : <span>ZIA Corporate</span>}
@@ -125,7 +145,7 @@ export const BlogPage: React.FC<BlogPageProps> = ({ posts, onNavigate }) => {
                 </article>
               ))}
             </div>
-          ) : (
+          ) : !featuredPost ? (
             <div className="se-empty-state">
               <h2>Belum ada publikasi untuk pencarian ini.</h2>
               <p>Konten yang tampil mengikuti artikel yang tersedia dan dipublikasikan melalui CMS.</p>
@@ -140,7 +160,7 @@ export const BlogPage: React.FC<BlogPageProps> = ({ posts, onNavigate }) => {
       {activeArticle ? (
         <div className="se-article-modal" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setActiveArticle(null); }}>
           <article className="se-article-modal__panel" role="dialog" aria-modal="true" aria-labelledby="se-article-title">
-            <button type="button" className="se-article-modal__close" aria-label="Tutup artikel" onClick={() => setActiveArticle(null)}><X size={20} /></button>
+            <button type="button" className="se-article-modal__close" aria-label="Tutup artikel" autoFocus onClick={() => setActiveArticle(null)}><X size={20} /></button>
             {activeArticle.coverImage ? <img className="se-article-modal__image" src={activeArticle.coverImage} alt="" /> : null}
             <div className="se-article-modal__body">
               <span className="se-blog-category">{activeArticle.category}</span>

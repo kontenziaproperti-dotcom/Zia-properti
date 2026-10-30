@@ -37,36 +37,36 @@ export const HomePage: React.FC<HomePageProps> = ({
   };
 
   return (
-    <div className="min-h-screen bg-stone-50">
+    <div className="se-home min-h-screen bg-stone-50">
       {/* 1. HERO SECTION */}
-      <section className="relative min-h-[92vh] flex items-center bg-stone-950 text-white overflow-hidden">
+      <section className="se-hero relative min-h-[92vh] flex items-center bg-stone-950 text-white overflow-hidden">
         {/* Authentic Background Architecture Canvas with subtle gradient overlay */}
-        <div className="absolute inset-0 z-0">
+        <div className="se-hero__media absolute inset-0 z-0">
           <img
             src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2000&q=85"
             alt="Arsitektur Residensial PT ZIA Properti Indonesia"
             className="w-full h-full object-cover opacity-35 filter saturate-[0.85] contrast-[1.05]"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-stone-950 via-stone-950/80 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-transparent to-stone-950/40" />
+          <div className="se-hero__overlay--horizontal absolute inset-0 bg-gradient-to-r from-stone-950 via-stone-950/80 to-transparent" />
+          <div className="se-hero__overlay--bottom absolute inset-0 bg-gradient-to-t from-stone-950 via-transparent to-stone-950/40" />
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
           <div className="max-w-3xl">
             {/* Architectural Corporate Badge */}
-            <div className="inline-flex items-center gap-2.5 px-3 py-1.5 border border-stone-700 bg-stone-900/80 backdrop-blur-sm text-stone-300 text-[11px] uppercase tracking-[0.25em] font-medium mb-6">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+            <div className="se-hero__eyebrow inline-flex items-center gap-2.5 px-3 py-1.5 border border-stone-700 bg-stone-900/80 backdrop-blur-sm text-stone-300 text-[11px] uppercase tracking-[0.25em] font-medium mb-6">
+              <span className="se-hero__eyebrow-dot w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
               Pengembang Properti • Kabupaten Bekasi, Jawa Barat
             </div>
 
             {/* Headline */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-normal tracking-tight text-white leading-[1.15] mb-6">
+            <h1 className="se-hero__title text-4xl sm:text-5xl lg:text-6xl font-serif font-normal tracking-tight text-white leading-[1.15] mb-6">
               Building Better Places, <br />
-              <span className="italic font-light text-stone-300">Creating Long Term Value</span>
+              <span className="se-hero__title-accent italic font-light text-stone-300">Creating Long Term Value</span>
             </h1>
 
             {/* Supporting Copy */}
-            <p className="text-base sm:text-lg text-stone-300 font-sans font-light leading-relaxed mb-10 max-w-2xl">
+            <p className="se-hero__copy text-base sm:text-lg text-stone-300 font-sans font-light leading-relaxed mb-10 max-w-2xl">
               PT ZIA Properti Indonesia mengembangkan kawasan hunian dan ekosistem bisnis terencana yang berorientasi pada kualitas bangunan, fungsionalitas tata ruang, kepastian legalitas, dan penciptaan nilai berkelanjutan.
             </p>
 
@@ -74,7 +74,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
               <button
                 onClick={() => onNavigate('/projects')}
-                className="px-8 py-4 bg-stone-100 text-stone-900 text-xs uppercase tracking-[0.2em] font-semibold hover:bg-white hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-3"
+                className="se-button se-button--light px-8 py-4 bg-stone-100 text-stone-900 text-xs uppercase tracking-[0.2em] font-semibold hover:bg-white hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-3"
               >
                 Eksplorasi Proyek Kami
                 <ArrowRight className="w-4 h-4" />
@@ -84,7 +84,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                 href={getWaCorporateLink()}
                 target="_blank"
                 rel="noreferrer"
-                className="px-8 py-4 border border-stone-600 hover:border-white text-stone-200 hover:text-white text-xs uppercase tracking-[0.2em] font-semibold transition-all duration-300 flex items-center justify-center gap-3"
+                className="se-button se-button--outline-light px-8 py-4 border border-stone-600 hover:border-white text-stone-200 hover:text-white text-xs uppercase tracking-[0.2em] font-semibold transition-all duration-300 flex items-center justify-center gap-3"
               >
                 <MessageSquare className="w-4 h-4 text-emerald-400" />
                 Konsultasi Langsung
@@ -94,8 +94,8 @@ export const HomePage: React.FC<HomePageProps> = ({
             {/* Corporate Value Metrics */}
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 pt-16 border-t border-stone-800/80 mt-16">
               <div>
-                <span className="block text-2xl lg:text-3xl font-serif text-white font-light">4 Pilar</span>
-                <span className="text-[11px] uppercase tracking-wider text-stone-400">Ekosistem Usaha Terpadu</span>
+                <span className="se-hero__metric-number block text-2xl lg:text-3xl font-serif text-white font-light">4 Pilar</span>
+                <span className="se-hero__metric-label text-[11px] uppercase tracking-wider text-stone-400">Ekosistem Usaha Terpadu</span>
               </div>
               <div>
                 <span className="block text-2xl lg:text-3xl font-serif text-white font-light">Bekasi</span>
@@ -217,7 +217,7 @@ export const HomePage: React.FC<HomePageProps> = ({
               return (
                 <div
                   key={proj.slug}
-                  className="bg-white border border-stone-200 flex flex-col group hover:shadow-xl transition-all duration-300"
+                  className="se-card se-card--project bg-white border border-stone-200 flex flex-col group hover:shadow-xl transition-all duration-300"
                 >
                   <div className="relative h-56 overflow-hidden bg-stone-900">
                     <img
@@ -226,7 +226,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                     />
                     <div className="absolute inset-0 bg-stone-950/20 group-hover:bg-transparent transition-colors" />
-                    <span className="absolute top-4 left-4 text-[10px] uppercase tracking-wider font-semibold bg-white text-stone-900 px-2.5 py-1 shadow-sm">
+                    <span className="se-card__tag absolute top-4 left-4 text-[10px] uppercase tracking-wider font-semibold bg-white text-stone-900 px-2.5 py-1 shadow-sm">
                       {proj.category.split(' ')[0]}
                     </span>
                   </div>
@@ -246,7 +246,7 @@ export const HomePage: React.FC<HomePageProps> = ({
 
                     <button
                       onClick={() => onNavigate(route)}
-                      className="w-full py-3 border border-stone-900 text-stone-900 text-xs uppercase tracking-widest font-semibold hover:bg-stone-900 hover:text-white transition-colors flex items-center justify-center gap-2"
+                      className="se-card__action w-full py-3 border border-stone-900 text-stone-900 text-xs uppercase tracking-widest font-semibold hover:bg-stone-900 hover:text-white transition-colors flex items-center justify-center gap-2"
                     >
                       Eksplorasi {proj.name}
                       <ArrowRight className="w-3.5 h-3.5" />
@@ -302,7 +302,7 @@ export const HomePage: React.FC<HomePageProps> = ({
               <div className="flex flex-wrap gap-4 pt-2">
                 <button
                   onClick={() => onNavigate('/projects/zia-emerald')}
-                  className="px-6 py-3.5 bg-emerald-900 text-white text-xs uppercase tracking-widest font-semibold hover:bg-emerald-800 transition-colors flex items-center gap-2"
+                  className="se-button se-featured-cta se-featured-cta--primary px-6 py-3.5 bg-emerald-900 text-white text-xs uppercase tracking-widest font-semibold hover:bg-emerald-800 transition-colors flex items-center gap-2"
                 >
                   Detail Lengkap ZIA Emerald
                   <ArrowRight className="w-4 h-4" />
@@ -311,7 +311,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                   href={`https://wa.me/${cleanWhatsAppNumber(settings.emeraldWhatsApp, '6281288889922')}?text=${encodeURIComponent('Halo Tim Sales ZIA Emerald, saya ingin informasi mengenai hunian American Classic di Tarumajaya.')}`}
                   target="_blank"
                   rel="noreferrer"
-                  className="px-6 py-3.5 border border-stone-300 text-stone-800 text-xs uppercase tracking-widest font-semibold hover:border-stone-900 transition-colors"
+                  className="se-button se-featured-cta se-featured-cta--outline px-6 py-3.5 border border-stone-300 text-stone-800 text-xs uppercase tracking-widest font-semibold hover:border-stone-900 transition-colors"
                 >
                   WhatsApp Sales Emerald
                 </a>
@@ -346,7 +346,7 @@ export const HomePage: React.FC<HomePageProps> = ({
               <div
                 key={post.id}
                 onClick={() => onNavigate('/blog')}
-                className="bg-white border border-stone-200 overflow-hidden cursor-pointer group hover:shadow-md transition-all"
+                className="se-card se-card--article bg-white border border-stone-200 overflow-hidden cursor-pointer group hover:shadow-md transition-all"
               >
                 <div className="h-48 overflow-hidden bg-stone-900">
                   <img
@@ -359,13 +359,13 @@ export const HomePage: React.FC<HomePageProps> = ({
                   <span className="text-[10px] uppercase tracking-wider text-stone-500 font-semibold block mb-2">
                     {post.category}
                   </span>
-                  <h3 className="font-serif text-lg font-bold text-stone-900 group-hover:text-stone-700 transition-colors line-clamp-2 mb-3">
+                  <h3 className="se-card__title font-serif text-lg font-bold text-stone-900 group-hover:text-stone-700 transition-colors line-clamp-2 mb-3">
                     {post.title}
                   </h3>
                   <p className="text-xs text-stone-600 leading-relaxed line-clamp-3 mb-4">
                     {post.summary}
                   </p>
-                  <span className="text-[11px] font-semibold text-stone-900 uppercase tracking-wider">
+                  <span className="se-card__read-more text-[11px] font-semibold text-stone-900 uppercase tracking-wider">
                     Baca Ulasan →
                   </span>
                 </div>
@@ -376,7 +376,7 @@ export const HomePage: React.FC<HomePageProps> = ({
       </section>
 
       {/* 6. GENERAL CORPORATE INQUIRY & CONTACT */}
-      <section className="py-24 bg-stone-900 text-stone-100">
+      <section className="se-cta-section py-24 bg-stone-900 text-stone-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
             <div className="lg:col-span-5 space-y-6">

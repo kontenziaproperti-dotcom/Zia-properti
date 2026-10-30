@@ -1,3 +1,5 @@
+import type { ProjectEntity } from '../../types';
+
 export type BusinessCategory = 'property' | 'agriculture' | 'export' | 'retail' | 'direct';
 
 export interface BusinessDirectoryItem {
@@ -135,6 +137,68 @@ export const ADDITIONAL_BUSINESS_UNITS: BusinessUnitContent[] = [
     ],
   },
 ];
+
+
+
+const mapCustomProject = (project: ProjectEntity): BusinessDirectoryItem => {
+  const categoryText = (project.category || '').toLowerCase();
+  const category: BusinessCategory =
+    categoryText.includes('export') || categoryText.includes('vanilla') ? 'export'
+      : categoryText.includes('agricultural') || categoryText.includes('livestock') || categoryText.includes('peternakan') ? 'agriculture'
+        : categoryText.includes('retail') || categoryText.includes('trade') || categoryText.includes('perdagangan') ? 'retail'
+          : categoryText.includes('direct') || categoryText.includes('selling') ? 'direct'
+            : 'property';
+
+  return {
+    slug: project.slug,
+    name: project.name,
+    sector: project.category || 'Lini bisnis',
+    category,
+    location: project.location || 'Indonesia',
+    summary: project.shortDescription || project.tagline || 'Informasi unit bisnis akan diperbarui.',
+    route: `/projects/${project.slug}`,
+    visual: category === 'export' ? 'vanilla'
+      : category === 'agriculture' ? 'earth'
+        : category === 'retail' ? 'raya'
+          : category === 'direct' ? 'direct'
+            : 'moss',
+    icon: category === 'export' ? 'globe'
+      : category === 'agriculture' ? 'farm'
+        : category === 'retail' ? 'shopping'
+          : category === 'direct' ? 'network'
+            : 'building',
+    heroImage: project.heroImage,
+    tagline: project.tagline,
+  };
+};
+
+/**
+ * Returns the six canonical business units on every public surface.
+ * CMS records override display details for known units, while missing records
+ * fall back to the approved directory content above. Additional CMS projects
+ * are appended without duplicating the six canonical units.
+ */
+export const getBusinessDirectoryItems = (projects: ProjectEntity[]): BusinessDirectoryItem[] => {
+  const projectsBySlug = new Map(projects.map((project) => [project.slug, project]));
+  const canonicalUnits = [...CORPORATE_BUSINESS_LINKS, ...ADDITIONAL_BUSINESS_UNITS].map((unit) => {
+    const project = projectsBySlug.get(unit.slug);
+    if (!project) return unit;
+
+    return {
+      ...unit,
+      sector: project.category || unit.sector,
+      location: project.location || unit.location,
+      summary: project.shortDescription || project.tagline || unit.summary,
+      heroImage: project.heroImage || unit.heroImage,
+      tagline: project.tagline || unit.tagline,
+    };
+  });
+
+  const canonicalSlugs = new Set(canonicalUnits.map((unit) => unit.slug));
+  const customProjects = projects.filter((project) => !canonicalSlugs.has(project.slug)).map(mapCustomProject);
+
+  return [...canonicalUnits, ...customProjects];
+};
 
 export const getAdditionalBusinessUnit = (slug: string) =>
   ADDITIONAL_BUSINESS_UNITS.find((unit) => unit.slug === slug);

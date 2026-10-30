@@ -78,10 +78,10 @@ export const LeadCaptureForm: React.FC<LeadFormProps> = ({
 
   if (submitted) {
     return (
-      <div className="bg-stone-900 text-white p-8 md:p-12 rounded-none border border-stone-800 text-center">
+      <div className="se-form-success bg-stone-900 text-white p-8 md:p-12 rounded-none border border-stone-800 text-center">
         <CheckCircle2 className="w-14 h-14 mx-auto text-emerald-400 mb-4 stroke-1" />
-        <h3 className="text-2xl font-serif mb-2">Terima Kasih, Permintaan Anda Telah Diterima</h3>
-        <p className="text-stone-400 max-w-md mx-auto text-sm leading-relaxed mb-6">
+        <h3 className="se-form-title text-2xl font-serif mb-2">Terima Kasih, Permintaan Anda Telah Diterima</h3>
+        <p className="se-form-copy text-stone-400 max-w-md mx-auto text-sm leading-relaxed mb-6">
           Representatif {projectName} akan segera menghubungi nomor WhatsApp Anda untuk memberikan katalog dan jadwal konsultasi yang nyaman.
         </p>
         <button
@@ -106,21 +106,21 @@ export const LeadCaptureForm: React.FC<LeadFormProps> = ({
   }
 
   return (
-    <div className="bg-stone-900 text-stone-100 p-8 md:p-12 border border-stone-800">
+    <div className="se-form-card bg-stone-900 text-stone-100 p-8 md:p-12 border border-stone-800">
       <div className="mb-8">
         <span className="text-[11px] uppercase tracking-[0.25em] text-stone-400 block mb-2 font-medium">
           Official Direct Developer
         </span>
-        <h3 className={`text-2xl md:text-3xl font-serif tracking-tight text-white mb-3`}>
+        <h3 className={`se-form-title text-2xl md:text-3xl font-serif tracking-tight text-white mb-3`}>
           {title}
         </h3>
-        <p className="text-stone-400 text-sm leading-relaxed max-w-xl">
+        <p className="se-form-copy text-stone-400 text-sm leading-relaxed max-w-xl">
           {subtitle}
         </p>
       </div>
 
       {errorMsg && (
-        <div className="mb-6 p-4 bg-red-950/50 border border-red-800 text-red-300 text-xs flex items-center gap-2">
+        <div className="se-form-alert mb-6 p-4 bg-red-950/50 border border-red-800 text-red-300 text-xs flex items-center gap-2" role="alert">
           <ShieldAlert className="w-4 h-4 shrink-0" />
           <span>{errorMsg}</span>
         </div>
@@ -140,8 +140,8 @@ export const LeadCaptureForm: React.FC<LeadFormProps> = ({
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-xs uppercase tracking-wider text-stone-400 mb-1.5 font-medium">
-              Nama Lengkap <span className="text-amber-500">*</span>
+            <label className="se-form-label block text-xs uppercase tracking-wider text-stone-400 mb-1.5 font-medium">
+              Nama Lengkap <span className="se-form-required text-amber-500">*</span>
             </label>
             <input
               type="text"
@@ -149,13 +149,13 @@ export const LeadCaptureForm: React.FC<LeadFormProps> = ({
               placeholder="Contoh: Budi Santoso"
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              className="w-full bg-stone-950 border border-stone-800 px-4 py-3 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-stone-500 transition-colors"
+              className="se-form-control w-full bg-stone-950 border border-stone-800 px-4 py-3 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-stone-500 transition-colors"
             />
           </div>
 
           <div>
-            <label className="block text-xs uppercase tracking-wider text-stone-400 mb-1.5 font-medium">
-              Nomor WhatsApp <span className="text-amber-500">*</span>
+            <label className="se-form-label block text-xs uppercase tracking-wider text-stone-400 mb-1.5 font-medium">
+              Nomor WhatsApp <span className="se-form-required text-amber-500">*</span>
             </label>
             <input
               type="tel"
@@ -163,14 +163,14 @@ export const LeadCaptureForm: React.FC<LeadFormProps> = ({
               placeholder="0812xxxxxxx"
               value={formData.phone}
               onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-              className="w-full bg-stone-950 border border-stone-800 px-4 py-3 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-stone-500 transition-colors"
+              className="se-form-control w-full bg-stone-950 border border-stone-800 px-4 py-3 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-stone-500 transition-colors"
             />
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-xs uppercase tracking-wider text-stone-400 mb-1.5 font-medium">
+            <label className="se-form-label block text-xs uppercase tracking-wider text-stone-400 mb-1.5 font-medium">
               Email Pribadi
             </label>
             <input
@@ -178,19 +178,19 @@ export const LeadCaptureForm: React.FC<LeadFormProps> = ({
               placeholder="budi@domain.com"
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              className="w-full bg-stone-950 border border-stone-800 px-4 py-3 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-stone-500 transition-colors"
+              className="se-form-control w-full bg-stone-950 border border-stone-800 px-4 py-3 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-stone-500 transition-colors"
             />
           </div>
 
           {propertyOptions.length > 0 ? (
             <div>
-              <label className="block text-xs uppercase tracking-wider text-stone-400 mb-1.5 font-medium">
+              <label className="se-form-label block text-xs uppercase tracking-wider text-stone-400 mb-1.5 font-medium">
                 Pilihan Unit / Kavling
               </label>
               <select
                 value={formData.propertyType}
                 onChange={(e) => setFormData({ ...formData, propertyType: e.target.value })}
-                className="w-full bg-stone-950 border border-stone-800 px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-stone-500 transition-colors"
+                className="se-form-control w-full bg-stone-950 border border-stone-800 px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-stone-500 transition-colors"
               >
                 {propertyOptions.map((opt) => (
                   <option key={opt} value={opt} className="bg-stone-900 text-stone-200">
@@ -201,13 +201,13 @@ export const LeadCaptureForm: React.FC<LeadFormProps> = ({
             </div>
           ) : (
             <div>
-              <label className="block text-xs uppercase tracking-wider text-stone-400 mb-1.5 font-medium">
+              <label className="se-form-label block text-xs uppercase tracking-wider text-stone-400 mb-1.5 font-medium">
                 Estimasi Rencana Investasi
               </label>
               <select
                 value={formData.budgetRange}
                 onChange={(e) => setFormData({ ...formData, budgetRange: e.target.value })}
-                className="w-full bg-stone-950 border border-stone-800 px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-stone-500 transition-colors"
+                className="se-form-control w-full bg-stone-950 border border-stone-800 px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-stone-500 transition-colors"
               >
                 <option value="Di bawah Rp 700 Juta">Di bawah Rp 700 Juta</option>
                 <option value="Rp 700 Juta - Rp 1 Milyar">Rp 700 Juta - Rp 1 Milyar</option>
@@ -219,7 +219,7 @@ export const LeadCaptureForm: React.FC<LeadFormProps> = ({
         </div>
 
         <div>
-          <label className="block text-xs uppercase tracking-wider text-stone-400 mb-1.5 font-medium">
+          <label className="se-form-label block text-xs uppercase tracking-wider text-stone-400 mb-1.5 font-medium">
             Pesan Tambahan / Jadwal Rencana Kunjungan
           </label>
           <textarea
@@ -227,7 +227,7 @@ export const LeadCaptureForm: React.FC<LeadFormProps> = ({
             placeholder="Tuliskan jika ada spesifikasi khusus atau rencana hari untuk survei lokasi..."
             value={formData.message}
             onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-            className="w-full bg-stone-950 border border-stone-800 px-4 py-3 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-stone-500 transition-colors resize-none"
+            className="se-form-control w-full bg-stone-950 border border-stone-800 px-4 py-3 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-stone-500 transition-colors resize-none"
           ></textarea>
         </div>
 
@@ -235,14 +235,14 @@ export const LeadCaptureForm: React.FC<LeadFormProps> = ({
           <button
             type="submit"
             disabled={submitting}
-            className={`w-full py-4 px-6 flex items-center justify-center gap-3 text-xs uppercase tracking-[0.2em] font-semibold transition-all duration-300 ${buttonColorClass} disabled:opacity-50`}
+            className={`se-form-submit w-full py-4 px-6 flex items-center justify-center gap-3 text-xs uppercase tracking-[0.2em] font-semibold transition-all duration-300 ${buttonColorClass} disabled:opacity-50`}
           >
             {submitting ? 'Mengirim Data...' : 'Kirim Permintaan Konsultasi'}
             <Send className="w-4 h-4" />
           </button>
         </div>
 
-        <p className="text-[11px] text-stone-500 text-center pt-2">
+        <p className="se-form-privacy text-[11px] text-stone-500 text-center pt-2">
           Privasi Anda terlindungi. Kami tidak membagikan kontak Anda kepada pihak ketiga manapun di luar PT ZIA Properti Indonesia.
         </p>
       </form>

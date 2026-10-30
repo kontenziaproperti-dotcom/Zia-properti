@@ -1,8 +1,7 @@
 import React from 'react';
-import { Clock3, Mail, MapPin, MessageCircle, Phone } from 'lucide-react';
+import { ArrowUpRight, Clock3, Mail, MapPin, MessageCircle, Phone } from 'lucide-react';
 import { CompanySettings } from '../../../types';
 import { LeadCaptureForm } from '../../../components/LeadCaptureForm';
-import { GoogleMapsView } from '../../../components/maps/GoogleMapsView';
 import { cleanWhatsAppNumber, formatIndonesianPhone } from '../../../lib/contactUtils';
 import { CorporatePageHero } from '../components/CorporatePageHero';
 
@@ -11,6 +10,7 @@ interface ContactPageProps {
 }
 
 export const ContactPage: React.FC<ContactPageProps> = ({ settings }) => {
+  const mapSearchUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(settings.fullAddress)}`;
   const channels = [
     { name: 'ZIA Emerald', sector: 'Properti · Residensial', number: settings.emeraldWhatsApp, message: 'Halo Tim ZIA Emerald, saya ingin informasi mengenai hunian.' },
     { name: 'Kav Hillside', sector: 'Properti · Kavling', number: settings.kavWhatsApp, message: 'Halo Tim Kav Hillside, saya ingin informasi mengenai kavling.' },
@@ -116,8 +116,15 @@ export const ContactPage: React.FC<ContactPageProps> = ({ settings }) => {
             <h2 className="se-section-title">Peta kantor dan jaringan lokasi ZIA.</h2>
             <p className="se-section-description">Gunakan peta untuk melihat titik lokasi yang tersedia pada direktori peta perusahaan.</p>
           </div>
-          <div className="se-contact-map">
-            <GoogleMapsView heightClassName="h-[420px] md:h-[480px]" showDirectory={true} />
+          <div className="se-contact-map se-contact-map--link">
+            <span className="se-contact-map__icon"><MapPin size={24} aria-hidden="true" /></span>
+            <p className="se-section-eyebrow">Alamat dari pengaturan korporat</p>
+            <h3>{settings.companyName}</h3>
+            <p className="se-contact-map__address">{settings.fullAddress}</p>
+            <a href={mapSearchUrl} target="_blank" rel="noreferrer">
+              Cari alamat ini di Google Maps <ArrowUpRight size={16} aria-hidden="true" />
+            </a>
+            <small>Direktori titik lokasi unit usaha akan ditampilkan setelah alamat operasional dan koordinat setiap lokasi dikonfirmasi.</small>
           </div>
         </div>
       </section>

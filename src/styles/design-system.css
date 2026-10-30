@@ -163,26 +163,26 @@
 .se-site .se-form-card--corporate { background:var(--forest-950); color:var(--earth-50); }
 .se-site .se-form-success { border:1px solid rgba(255,255,255,.12); border-radius:var(--radius-xl); }
 .se-site .se-form-success--corporate { background:var(--forest-900); color:var(--white); }
-.se-form-card .se-form-title { color:var(--white); font-family:var(--font-heading); }
-.se-form-card .se-form-copy { color:var(--earth-300); }
-.se-form-card .se-form-label { color:var(--earth-300); font-size:11px; font-weight:var(--weight-semibold); letter-spacing:.055em; }
-.se-form-card .se-form-required { color:var(--gold-500); }
-.se-form-card .se-form-control {
+.se-form-card--corporate .se-form-title { color:var(--white); font-family:var(--font-heading); }
+.se-form-card--corporate .se-form-copy { color:var(--earth-300); }
+.se-form-card--corporate .se-form-label { color:var(--earth-300); font-size:11px; font-weight:var(--weight-semibold); letter-spacing:.055em; }
+.se-form-card--corporate .se-form-required { color:var(--gold-500); }
+.se-form-card--corporate .se-form-control {
   box-sizing:border-box; width:100%; min-height:46px; border:1px solid rgba(201,191,175,.24);
   border-radius:var(--radius-md); background:rgba(255,255,255,.055); padding:.75rem 1rem;
   color:var(--earth-50); font:400 14px/1.5 var(--font-body);
   transition:border-color var(--transition-fast),box-shadow var(--transition-fast),background var(--transition-fast);
 }
-.se-form-card .se-form-control::placeholder { color:rgba(201,191,175,.58); }
-.se-form-card .se-form-control:hover { border-color:rgba(201,191,175,.48); }
-.se-form-card .se-form-control:focus { outline:none; border-color:var(--gold-500); background:rgba(255,255,255,.08); box-shadow:0 0 0 var(--focus-width) var(--focus-ring); }
-.se-form-card select.se-form-control option { background:var(--forest-950); color:var(--earth-50); }
-.se-form-card .se-form-alert { border:1px solid rgba(252,237,234,.28); border-radius:var(--radius-md); background:rgba(165,59,50,.18); color:#F7C8C1; }
+.se-form-card--corporate .se-form-control::placeholder { color:rgba(201,191,175,.58); }
+.se-form-card--corporate .se-form-control:hover { border-color:rgba(201,191,175,.48); }
+.se-form-card--corporate .se-form-control:focus { outline:none; border-color:var(--gold-500); background:rgba(255,255,255,.08); box-shadow:0 0 0 var(--focus-width) var(--focus-ring); }
+.se-form-card--corporate select.se-form-control option { background:var(--forest-950); color:var(--earth-50); }
+.se-form-card--corporate .se-form-alert { border:1px solid rgba(252,237,234,.28); border-radius:var(--radius-md); background:rgba(165,59,50,.18); color:#F7C8C1; }
 .se-form-card .se-form-submit { min-height:var(--button-height-lg); border-radius:var(--radius-md); font-family:var(--font-body); font-weight:var(--weight-bold); transition:background var(--transition-fast),border-color var(--transition-fast),transform var(--transition-fast); }
 .se-form-card--corporate .se-form-submit { border:1px solid var(--gold-500); background:var(--gold-500); color:var(--forest-950); }
 .se-form-card--corporate .se-form-submit:hover:not(:disabled) { background:#C29C60; border-color:#C29C60; }
 .se-form-card .se-form-submit:disabled { opacity:.55; cursor:wait; }
-.se-form-card .se-form-privacy { color:rgba(201,191,175,.72); }
+.se-form-card--corporate .se-form-privacy { color:rgba(201,191,175,.72); }
 
 @media (max-width:1023px) {
   .se-header .se-header__brand-title { font-size:15px; }

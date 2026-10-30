@@ -153,7 +153,7 @@ export default function App() {
     if (route === '/') {
       return {
         title: 'ZIA Corporate | Enam Lini Bisnis dalam Satu Ekosistem',
-        description: 'Jelajahi enam lini bisnis ZIA Corporate: properti, peternakan, agribisnis ekspor, retail, perdagangan, dan direct selling.'
+        description: 'Jelajahi enam lini bisnis ZIA Corporate: properti, peternakan, agribisnis ekspor, retail, perdagangan, dan direct selling.',
         project: null
       };
     }
@@ -199,6 +199,12 @@ export default function App() {
           project: p
         };
       }
+    }
+    if (route === '/business/zia-raya') {
+      return { title: 'ZIA Raya | Retail & Perdagangan ZIA Corporate', description: 'Informasi lini retail, apparel, aksesori, lifestyle, dan perdagangan umum ZIA Raya.', project: null };
+    }
+    if (route === '/business/zia-direct') {
+      return { title: 'ZIA Direct | Direct Selling & Kemitraan', description: 'Informasi produk perlengkapan rumah tangga dan program kemitraan ZIA Direct.', project: null };
     }
     if (route === '/business/zia-raya') {
       return { title: 'ZIA Raya | Retail & Perdagangan ZIA Corporate', description: 'Informasi lini retail, apparel, aksesori, lifestyle, dan perdagangan umum ZIA Raya.', project: null };

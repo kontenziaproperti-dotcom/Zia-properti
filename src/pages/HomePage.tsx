@@ -98,12 +98,12 @@ export const HomePage: React.FC<HomePageProps> = ({
                 <span className="se-hero__metric-label text-[11px] uppercase tracking-wider text-stone-400">Ekosistem Usaha Terpadu</span>
               </div>
               <div>
-                <span className="block text-2xl lg:text-3xl font-serif text-white font-light">Bekasi</span>
-                <span className="text-[11px] uppercase tracking-wider text-stone-400">Kantor Pusat & Basis Operasi</span>
+                <span className="se-hero__metric-number block text-2xl lg:text-3xl font-serif text-white font-light">Bekasi</span>
+                <span className="se-hero__metric-label text-[11px] uppercase tracking-wider text-stone-400">Kantor Pusat & Basis Operasi</span>
               </div>
               <div className="col-span-2 sm:col-span-1">
-                <span className="block text-2xl lg:text-3xl font-serif text-white font-light">100%</span>
-                <span className="text-[11px] uppercase tracking-wider text-stone-400">Transparansi Legalitas</span>
+                <span className="se-hero__metric-number block text-2xl lg:text-3xl font-serif text-white font-light">100%</span>
+                <span className="se-hero__metric-label text-[11px] uppercase tracking-wider text-stone-400">Transparansi Legalitas</span>
               </div>
             </div>
           </div>

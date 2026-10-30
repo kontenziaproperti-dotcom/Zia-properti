@@ -231,13 +231,13 @@ export const CorporateHeader: React.FC<HeaderProps> = ({
               </button>
               <button
                 onClick={() => handleNavClick('/about')}
-                className="block text-left w-full text-sm uppercase tracking-widest text-stone-300 py-1"
+                className="se-mobile-link block text-left w-full text-sm uppercase tracking-widest text-stone-300 py-1"
               >
                 Tentang ZIA
               </button>
               <button
                 onClick={() => handleNavClick('/projects')}
-                className="block text-left w-full text-sm uppercase tracking-widest text-stone-300 py-1"
+                className="se-mobile-link block text-left w-full text-sm uppercase tracking-widest text-stone-300 py-1"
               >
                 Semua Proyek & Portofolio
               </button>
@@ -257,13 +257,13 @@ export const CorporateHeader: React.FC<HeaderProps> = ({
               </div>
               <button
                 onClick={() => handleNavClick('/blog')}
-                className="block text-left w-full text-sm uppercase tracking-widest text-stone-300 py-1"
+                className="se-mobile-link block text-left w-full text-sm uppercase tracking-widest text-stone-300 py-1"
               >
                 Wawasan & Publikasi
               </button>
               <button
                 onClick={() => handleNavClick('/contact')}
-                className="block text-left w-full text-sm uppercase tracking-widest text-stone-300 py-1"
+                className="se-mobile-link block text-left w-full text-sm uppercase tracking-widest text-stone-300 py-1"
               >
                 Kontak Representatif
               </button>
@@ -466,7 +466,7 @@ export const CorporateFooter: React.FC<{
                 href={`https://wa.me/${cleanWhatsAppNumber(settings.kavWhatsApp, '6281288889933')}?text=${encodeURIComponent('Halo Tim Kav Hillside, saya ingin informasi mengenai kavling hunian siap bangun.')}`}
                 target="_blank"
                 rel="noreferrer"
-                className="block p-2.5 bg-stone-900 border border-stone-800 hover:border-stone-700 transition-colors"
+                className="se-footer__service block p-2.5 bg-stone-900 border border-stone-800 hover:border-stone-700 transition-colors"
               >
                 <div className="text-[10px] text-stone-400 uppercase tracking-wider font-semibold">Kavling Tanah</div>
                 <div className="text-stone-300 font-medium">WhatsApp Kav Hillside</div>
@@ -475,7 +475,7 @@ export const CorporateFooter: React.FC<{
                 href={`https://wa.me/${cleanWhatsAppNumber(settings.farmWhatsApp, '6281288889944')}?text=${encodeURIComponent('Halo Tim ZIA Farm, saya ingin informasi mengenai hewan ternak qurban dan agribisnis.')}`}
                 target="_blank"
                 rel="noreferrer"
-                className="block p-2.5 bg-stone-900 border border-stone-800 hover:border-stone-700 transition-colors"
+                className="se-footer__service block p-2.5 bg-stone-900 border border-stone-800 hover:border-stone-700 transition-colors"
               >
                 <div className="text-[10px] text-amber-500 uppercase tracking-wider font-semibold">Peternakan Terpadu</div>
                 <div className="text-stone-300 font-medium">WhatsApp ZIA Farm</div>
@@ -484,7 +484,7 @@ export const CorporateFooter: React.FC<{
                 href={`https://wa.me/${cleanWhatsAppNumber(settings.altaraWhatsApp, '6281288889955')}?text=${encodeURIComponent('Hello Altara ZIA International, I would like to inquire about premium Indonesian vanilla beans export.')}`}
                 target="_blank"
                 rel="noreferrer"
-                className="block p-2.5 bg-stone-900 border border-stone-800 hover:border-stone-700 transition-colors"
+                className="se-footer__service block p-2.5 bg-stone-900 border border-stone-800 hover:border-stone-700 transition-colors"
               >
                 <div className="text-[10px] text-amber-200 uppercase tracking-wider font-semibold">Vanilla Export Desk</div>
                 <div className="text-stone-300 font-medium">WhatsApp Altara B2B</div>

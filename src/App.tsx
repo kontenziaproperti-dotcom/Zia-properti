@@ -1,21 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { lazy, Suspense, useState, useEffect } from 'react';
 import { AuthProvider } from './context/AuthContext';
 import { CorporateHeader, CorporateFooter } from './components/CorporateLayout';
 import { SEOHead } from './components/SEOHead';
-import { HomePage } from './pages/HomePage';
-import { ZiaEmeraldPage } from './pages/ZiaEmeraldPage';
-import { KavHillsidePage } from './pages/KavHillsidePage';
-import { ZiaFarmPage } from './pages/ZiaFarmPage';
-import { AltaraZiaPage } from './pages/AltaraZiaPage';
-import { DynamicProjectPage } from './pages/DynamicProjectPage';
-import { DynamicCMSPage } from './pages/DynamicCMSPage';
-import { ProjectDirectoryPage } from './pages/ProjectDirectoryPage';
-import { AboutPage } from './pages/AboutPage';
-import { ContactPage, BlogPage } from './pages/StaticPages';
-import { LegalPages } from './pages/LegalPages';
-import { AdminDashboard } from './pages/AdminDashboard';
 import { WhatsAppFloatingButton } from './components/WhatsAppFloatingButton';
 import { X } from 'lucide-react';
+
+// Public and internal routes are split into on-demand chunks to keep the
+// first corporate page load smaller and defer the CMS/maps until requested.
+const HomePage = lazy(() => import('./pages/HomePage').then((m) => ({ default: m.HomePage })));
+const ZiaEmeraldPage = lazy(() => import('./pages/ZiaEmeraldPage').then((m) => ({ default: m.ZiaEmeraldPage })));
+const KavHillsidePage = lazy(() => import('./pages/KavHillsidePage').then((m) => ({ default: m.KavHillsidePage })));
+const ZiaFarmPage = lazy(() => import('./pages/ZiaFarmPage').then((m) => ({ default: m.ZiaFarmPage })));
+const AltaraZiaPage = lazy(() => import('./pages/AltaraZiaPage').then((m) => ({ default: m.AltaraZiaPage })));
+const DynamicProjectPage = lazy(() => import('./pages/DynamicProjectPage').then((m) => ({ default: m.DynamicProjectPage })));
+const DynamicCMSPage = lazy(() => import('./pages/DynamicCMSPage').then((m) => ({ default: m.DynamicCMSPage })));
+const ProjectDirectoryPage = lazy(() => import('./features/corporate-refresh/pages/ProjectDirectoryPage').then((m) => ({ default: m.ProjectDirectoryPage })));
+const AboutPage = lazy(() => import('./features/corporate-refresh/pages/AboutPage').then((m) => ({ default: m.AboutPage })));
+const ContactPage = lazy(() => import('./features/corporate-refresh/pages/ContactPage').then((m) => ({ default: m.ContactPage })));
+const BlogPage = lazy(() => import('./features/corporate-refresh/pages/BlogPage').then((m) => ({ default: m.BlogPage })));
+const BusinessUnitPage = lazy(() => import('./features/corporate-refresh/pages/BusinessUnitPage').then((m) => ({ default: m.BusinessUnitPage })));
+const LegalPages = lazy(() => import('./pages/LegalPages').then((m) => ({ default: m.LegalPages })));
+const AdminDashboard = lazy(() => import('./pages/AdminDashboard').then((m) => ({ default: m.AdminDashboard })));
 import {
   initializeDatabaseIfEmpty,
   getCompanySettings,
@@ -136,7 +141,9 @@ export default function App() {
   if (route.startsWith('/admin')) {
     return (
       <AuthProvider>
+        <Suspense fallback={<div className="se-route-loading" role="status">Memuat panel administrasi...</div>}>
         <AdminDashboard onNavigatePublic={navigateTo} />
+      </Suspense>
       </AuthProvider>
     );
   }
@@ -288,6 +295,10 @@ export default function App() {
             onNavigate={navigateTo}
           />
         );
+      case '/business/zia-raya':
+        return <BusinessUnitPage slug="zia-raya" onNavigate={navigateTo} />;
+      case '/business/zia-direct':
+        return <BusinessUnitPage slug="zia-direct" onNavigate={navigateTo} />;
       case '/projects':
       case '/properties':
         return (
@@ -418,7 +429,9 @@ export default function App() {
           onNavigate={navigateTo}
         />
         <main className="flex-1" id="main-content">
-          {renderPublicPage()}
+          <Suspense fallback={<div className="se-route-loading" role="status">Memuat halaman...</div>}>
+            {renderPublicPage()}
+          </Suspense>
         </main>
         <CorporateFooter settings={settings} onNavigate={navigateTo} />
         <WhatsAppFloatingButton

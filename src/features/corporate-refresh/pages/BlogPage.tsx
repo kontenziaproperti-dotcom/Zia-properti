@@ -153,7 +153,7 @@ export const BlogPage: React.FC<BlogPageProps> = ({ posts, onNavigate }) => {
                 Reset pencarian
               </button>
             </div>
-          )}
+          ) : null}
         </div>
       </section>
 

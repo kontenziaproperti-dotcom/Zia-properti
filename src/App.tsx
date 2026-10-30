@@ -387,7 +387,7 @@ export default function App() {
         project={seoData.project}
         settings={settings}
       />
-      <div className="min-h-screen flex flex-col bg-stone-50 selection:bg-stone-800 selection:text-white">
+      <div className="se-site min-h-screen flex flex-col bg-stone-50 selection:bg-stone-800 selection:text-white">
         {gmpQuotaExceeded && (
           <div className="bg-amber-50 border-b border-amber-200 text-amber-900 px-4 py-2 text-xs md:text-sm sticky top-0 z-50 shadow-sm flex items-center justify-between">
             <div className="flex-1 text-center">

@@ -21,6 +21,7 @@ export default defineConfig(() => {
               {
                 name: 'firebase-vendor',
                 test: /node_modules[\\/](@firebase|firebase)[\\/]/,
+                maxSize: 350000,
                 priority: 25,
               },
               {

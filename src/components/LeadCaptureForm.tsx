@@ -23,6 +23,8 @@ export const LeadCaptureForm: React.FC<LeadFormProps> = ({
   buttonColorClass = 'bg-stone-900 hover:bg-stone-800 text-white',
   onSuccess
 }) => {
+  const isCorporateForm = projectSlug === 'corporate-general';
+
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -78,7 +80,7 @@ export const LeadCaptureForm: React.FC<LeadFormProps> = ({
 
   if (submitted) {
     return (
-      <div className="se-form-success bg-stone-900 text-white p-8 md:p-12 rounded-none border border-stone-800 text-center">
+      <div className={`se-form-success ${isCorporateForm ? "se-form-success--corporate" : ""} bg-stone-900 text-white p-8 md:p-12 rounded-none border border-stone-800 text-center`}>
         <CheckCircle2 className="w-14 h-14 mx-auto text-emerald-400 mb-4 stroke-1" />
         <h3 className="se-form-title text-2xl font-serif mb-2">Terima Kasih, Permintaan Anda Telah Diterima</h3>
         <p className="se-form-copy text-stone-400 max-w-md mx-auto text-sm leading-relaxed mb-6">
@@ -106,7 +108,7 @@ export const LeadCaptureForm: React.FC<LeadFormProps> = ({
   }
 
   return (
-    <div className="se-form-card bg-stone-900 text-stone-100 p-8 md:p-12 border border-stone-800">
+    <div className={`se-form-card ${isCorporateForm ? "se-form-card--corporate" : ""} bg-stone-900 text-stone-100 p-8 md:p-12 border border-stone-800`}>
       <div className="mb-8">
         <span className="text-[11px] uppercase tracking-[0.25em] text-stone-400 block mb-2 font-medium">
           Official Direct Developer

@@ -391,6 +391,7 @@ export default function App() {
   };
 
   return (
+    <>
       <SEOHead
         title={seoData.title}
         description={seoData.description}
@@ -440,5 +441,6 @@ export default function App() {
           projects={projects}
         />
       </div>
+    </>
   );
 }

@@ -457,6 +457,14 @@
 .se-contact-channel a:hover { color: var(--gold-600); }
 .se-contact-channel__fallback { margin-top: auto; color: var(--text-muted); font: 500 10px/1.6 var(--font-body); }
 .se-contact-map { overflow: hidden; border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); background: var(--earth-100); }
+.se-contact-map--link { display: flex; min-height: 260px; flex-direction: column; align-items: flex-start; justify-content: center; padding: clamp(24px, 5vw, 44px); background: var(--white); }
+.se-contact-map__icon { display: grid; width: 48px; height: 48px; place-items: center; margin-bottom: 18px; border-radius: 50%; background: var(--forest-100); color: var(--forest-900); }
+.se-contact-map--link .se-section-eyebrow { margin: 0 0 8px; }
+.se-contact-map--link h3 { margin: 0 0 10px; color: var(--forest-950); font: 700 22px/1.25 var(--font-heading); }
+.se-contact-map--link .se-contact-map__address { max-width: 620px; margin: 0 0 18px; color: var(--text-secondary); font-size: 13px; line-height: 1.8; }
+.se-contact-map--link a { display: inline-flex; align-items: center; gap: 8px; color: var(--forest-900); font: 700 10px/1.5 var(--font-body); letter-spacing: .1em; text-transform: uppercase; text-decoration: none; }
+.se-contact-map--link a:hover { color: var(--gold-600); }
+.se-contact-map--link small { max-width: 650px; margin-top: 18px; color: var(--text-muted); font-size: 10px; line-height: 1.7; }
 
 /* Loading state for lazy routes */
 .se-route-loading { display: grid; min-height: 45vh; place-items: center; padding: 40px 24px; color: var(--text-secondary); font: 600 12px/1.5 var(--font-body); }

@@ -85,29 +85,29 @@ export const CorporateHeader: React.FC<HeaderProps> = ({
   return (
     <>
       {/* Top utility announcement bar */}
-      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-stone-200 transition-all duration-300">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20">
+      <header className="se-header sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-stone-200 transition-all duration-300">
+        <div className="se-header__container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="se-header__row flex items-center justify-between h-20">
             {/* Corporate Brand Identity */}
             <div
               onClick={() => handleNavClick('/')}
-              className="cursor-pointer group flex items-center gap-3.5"
+              className="se-header__brand cursor-pointer group flex items-center gap-3.5"
             >
-              <div className="w-10 h-10 bg-stone-900 text-stone-100 flex items-center justify-center font-serif text-xl tracking-wider font-semibold border border-stone-800 shadow-sm group-hover:bg-stone-800 transition-colors">
+              <div className="se-header__brand-mark w-10 h-10 bg-stone-900 text-stone-100 flex items-center justify-center font-serif text-xl tracking-wider font-semibold border border-stone-800 shadow-sm group-hover:bg-stone-800 transition-colors">
                 Z
               </div>
               <div className="flex flex-col">
-                <span className="font-serif text-lg tracking-wider font-bold text-stone-900 leading-tight group-hover:text-stone-700 transition-colors uppercase">
+                <span className="se-header__brand-title font-serif text-lg tracking-wider font-bold text-stone-900 leading-tight group-hover:text-stone-700 transition-colors uppercase">
                   PT ZIA Properti Indonesia
                 </span>
-                <span className="text-[10px] uppercase tracking-[0.25em] text-stone-500 font-medium">
+                <span className="se-header__brand-subtitle text-[10px] uppercase tracking-[0.25em] text-stone-500 font-medium">
                   Pengembang Properti & Ekosistem Bisnis
                 </span>
               </div>
             </div>
 
             {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center space-x-7">
+            <nav className="se-nav hidden lg:flex items-center space-x-7" aria-label="Navigasi utama">
               {navLinks.map((item, idx) => {
                 if (item.isDropdown) {
                   return (
@@ -130,8 +130,8 @@ export const CorporateHeader: React.FC<HeaderProps> = ({
 
                       {/* Dropdown panel */}
                       {projectDropdownOpen && (
-                        <div className="absolute top-full left-0 w-80 bg-white border border-stone-200 shadow-xl py-2 animate-fadeIn z-50">
-                          <div className="px-4 py-2 border-b border-stone-100 bg-stone-50">
+                        <div className="se-nav-dropdown absolute top-full left-0 w-80 bg-white border border-stone-200 shadow-xl py-2 animate-fadeIn z-50">
+                          <div className="se-nav-dropdown__heading px-4 py-2 border-b border-stone-100 bg-stone-50">
                             <span className="text-[10px] uppercase tracking-widest font-semibold text-stone-500">
                               Unit Usaha & Proyek Mandiri
                             </span>
@@ -140,7 +140,7 @@ export const CorporateHeader: React.FC<HeaderProps> = ({
                             <div
                               key={proj.route}
                               onClick={() => handleNavClick(proj.route)}
-                              className="px-4 py-3 hover:bg-stone-50 cursor-pointer border-b border-stone-100 last:border-none transition-colors"
+                              className="se-nav-dropdown__item px-4 py-3 hover:bg-stone-50 cursor-pointer border-b border-stone-100 last:border-none transition-colors"
                             >
                               <div className="flex items-center justify-between mb-0.5">
                                 <span className="font-serif text-sm font-semibold text-stone-900">
@@ -183,7 +183,7 @@ export const CorporateHeader: React.FC<HeaderProps> = ({
                 href={getWaLink()}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 border border-stone-300 text-stone-800 px-4 py-2.5 text-xs uppercase tracking-widest hover:border-stone-900 hover:bg-stone-50 transition-all font-medium"
+                className="se-button se-button--outline se-header__contact inline-flex items-center gap-2 border border-stone-300 text-stone-800 px-4 py-2.5 text-xs uppercase tracking-widest hover:border-stone-900 hover:bg-stone-50 transition-all font-medium"
               >
                 <MessageSquare className="w-3.5 h-3.5" />
                 Konsultasi WhatsApp
@@ -192,7 +192,7 @@ export const CorporateHeader: React.FC<HeaderProps> = ({
               <button
                 onClick={() => handleNavClick('/admin')}
                 title="Akses CMS Internal"
-                className="p-2.5 text-stone-400 hover:text-stone-900 hover:bg-stone-100 rounded-none transition-colors"
+                className="se-header__cms p-2.5 text-stone-400 hover:text-stone-900 hover:bg-stone-100 rounded-none transition-colors"
               >
                 <Lock className="w-4 h-4" />
               </button>
@@ -204,14 +204,14 @@ export const CorporateHeader: React.FC<HeaderProps> = ({
                 href={getWaLink()}
                 target="_blank"
                 rel="noreferrer"
-                className="p-2 text-stone-800 bg-stone-100 rounded-none"
+                className="se-mobile-icon-button p-2 text-stone-800 bg-stone-100 rounded-none"
                 title="WhatsApp ZIA"
               >
                 <MessageSquare className="w-4 h-4" />
               </a>
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="p-2 text-stone-800 hover:bg-stone-100 rounded-none"
+                className="se-mobile-icon-button p-2 text-stone-800 hover:bg-stone-100 rounded-none"
               >
                 {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
               </button>
@@ -221,11 +221,11 @@ export const CorporateHeader: React.FC<HeaderProps> = ({
 
         {/* Mobile Navigation Drawer */}
         {mobileMenuOpen && (
-          <div className="lg:hidden bg-stone-900 text-stone-100 px-6 py-8 border-b border-stone-800 animate-fadeIn">
+          <div className="se-mobile-drawer lg:hidden bg-stone-900 text-stone-100 px-6 py-8 border-b border-stone-800 animate-fadeIn">
             <div className="space-y-4 mb-6">
               <button
                 onClick={() => handleNavClick('/')}
-                className="block text-left w-full text-sm uppercase tracking-widest text-stone-300 py-1"
+                className="se-mobile-link block text-left w-full text-sm uppercase tracking-widest text-stone-300 py-1"
               >
                 Beranda
               </button>
@@ -249,7 +249,7 @@ export const CorporateHeader: React.FC<HeaderProps> = ({
                   <button
                     key={proj.route}
                     onClick={() => handleNavClick(proj.route)}
-                    className="block text-left w-full text-xs text-stone-400 hover:text-white"
+                    className="se-mobile-link block text-left w-full text-xs text-stone-400 hover:text-white"
                   >
                     • {proj.name} ({proj.type})
                   </button>
@@ -269,7 +269,7 @@ export const CorporateHeader: React.FC<HeaderProps> = ({
               </button>
               <button
                 onClick={() => handleNavClick('/admin')}
-                className="block text-left w-full text-xs uppercase tracking-widest text-amber-400 py-2 border-t border-stone-800"
+                className="se-mobile-link block text-left w-full text-xs uppercase tracking-widest text-amber-400 py-2 border-t border-stone-800"
               >
                 Akses CMS Internal PT ZIA
               </button>
@@ -280,7 +280,7 @@ export const CorporateHeader: React.FC<HeaderProps> = ({
                 href={getWaLink()}
                 target="_blank"
                 rel="noreferrer"
-                className="w-full py-3 bg-white text-stone-900 text-center text-xs uppercase tracking-widest font-semibold"
+                className="se-button se-button--light w-full py-3 bg-white text-stone-900 text-center text-xs uppercase tracking-widest font-semibold"
               >
                 Hubungi via WhatsApp
               </a>
@@ -290,7 +290,7 @@ export const CorporateHeader: React.FC<HeaderProps> = ({
       </header>
 
       {/* Floating Mobile Direct Action Bar (Bottom) */}
-      <div className="fixed bottom-0 inset-x-0 bg-stone-900 border-t border-stone-800 text-white py-3 px-4 z-40 lg:hidden flex items-center justify-between shadow-2xl">
+      <div className="se-mobile-actionbar fixed bottom-0 inset-x-0 bg-stone-900 border-t border-stone-800 text-white py-3 px-4 z-40 lg:hidden flex items-center justify-between shadow-2xl">
         <div className="flex flex-col">
           <span className="text-[10px] uppercase tracking-widest text-stone-400">
             PT ZIA Properti Indonesia
@@ -302,7 +302,7 @@ export const CorporateHeader: React.FC<HeaderProps> = ({
         <div className="flex items-center gap-2">
           <a
             href={`tel:${settings.phone}`}
-            className="px-3 py-2 bg-stone-800 text-stone-200 text-xs uppercase tracking-wider flex items-center gap-1.5"
+            className="se-button--phone px-3 py-2 bg-stone-800 text-stone-200 text-xs uppercase tracking-wider flex items-center gap-1.5"
           >
             <Phone className="w-3.5 h-3.5" />
             Telepon
@@ -311,7 +311,7 @@ export const CorporateHeader: React.FC<HeaderProps> = ({
             href={getWaLink()}
             target="_blank"
             rel="noreferrer"
-            className="px-3.5 py-2 bg-emerald-700 text-white text-xs uppercase tracking-wider font-semibold flex items-center gap-1.5"
+            className="se-button--whatsapp px-3.5 py-2 bg-emerald-700 text-white text-xs uppercase tracking-wider font-semibold flex items-center gap-1.5"
           >
             <MessageSquare className="w-3.5 h-3.5" />
             WhatsApp
@@ -327,13 +327,13 @@ export const CorporateFooter: React.FC<{
   onNavigate: (route: string) => void;
 }> = ({ settings, onNavigate }) => {
   return (
-    <footer className="bg-stone-950 text-stone-400 border-t border-stone-800 pt-16 pb-24 lg:pb-12">
+    <footer className="se-footer bg-stone-950 text-stone-400 border-t border-stone-800 pt-16 pb-24 lg:pb-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
           {/* Corporate Profile Column */}
           <div className="lg:col-span-2 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 bg-white text-stone-950 flex items-center justify-center font-serif text-lg font-bold">
+              <div className="se-footer__brand-mark w-9 h-9 bg-white text-stone-950 flex items-center justify-center font-serif text-lg font-bold">
                 Z
               </div>
               <span className="font-serif text-xl tracking-wider text-white font-bold">
@@ -457,7 +457,7 @@ export const CorporateFooter: React.FC<{
                 href={`https://wa.me/${cleanWhatsAppNumber(settings.emeraldWhatsApp, '6281288889922')}?text=${encodeURIComponent('Halo Tim Sales ZIA Emerald, saya ingin informasi mengenai hunian American Classic.')}`}
                 target="_blank"
                 rel="noreferrer"
-                className="block p-2.5 bg-stone-900 border border-stone-800 hover:border-stone-700 transition-colors"
+                className="se-footer__service block p-2.5 bg-stone-900 border border-stone-800 hover:border-stone-700 transition-colors"
               >
                 <div className="text-[10px] text-emerald-400 uppercase tracking-wider font-semibold">Residensial</div>
                 <div className="text-stone-300 font-medium">WhatsApp ZIA Emerald</div>
@@ -494,7 +494,7 @@ export const CorporateFooter: React.FC<{
         </div>
 
         {/* Bottom copyright & legal */}
-        <div className="border-t border-stone-900 pt-8 flex flex-col md:flex-row items-center justify-between text-xs text-stone-600 gap-4">
+        <div className="se-footer__bottom border-t border-stone-900 pt-8 flex flex-col md:flex-row items-center justify-between text-xs text-stone-600 gap-4">
           <p>© {new Date().getFullYear()} PT ZIA Properti Indonesia. Hak Cipta Dilindungi Undang-Undang.</p>
           <div className="flex items-center space-x-6">
             <button onClick={() => onNavigate('/privacy-policy')} className="hover:text-stone-400 transition-colors">

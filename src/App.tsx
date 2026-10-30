@@ -1,5 +1,4 @@
 import React, { lazy, Suspense, useState, useEffect } from 'react';
-import { AuthProvider } from './context/AuthContext';
 import { CorporateHeader, CorporateFooter } from './components/CorporateLayout';
 import { SEOHead } from './components/SEOHead';
 import { WhatsAppFloatingButton } from './components/WhatsAppFloatingButton';
@@ -20,21 +19,7 @@ const ContactPage = lazy(() => import('./features/corporate-refresh/pages/Contac
 const BlogPage = lazy(() => import('./features/corporate-refresh/pages/BlogPage').then((m) => ({ default: m.BlogPage })));
 const BusinessUnitPage = lazy(() => import('./features/corporate-refresh/pages/BusinessUnitPage').then((m) => ({ default: m.BusinessUnitPage })));
 const LegalPages = lazy(() => import('./pages/LegalPages').then((m) => ({ default: m.LegalPages })));
-const AdminDashboard = lazy(() => import('./pages/AdminDashboard').then((m) => ({ default: m.AdminDashboard })));
-import {
-  initializeDatabaseIfEmpty,
-  getCompanySettings,
-  getProjects,
-  getProperties,
-  getKavlingPlots,
-  getPosts,
-  getFAQs,
-  getTestimonials,
-  getPages,
-  getSections,
-  getPromotions,
-  getNavigation
-} from './services/dataService';
+const AdminRoute = lazy(() => import('./features/corporate-refresh/pages/AdminRoute').then((m) => ({ default: m.AdminRoute })));
 import {
   INITIAL_SETTINGS,
   INITIAL_PROJECTS,
@@ -86,24 +71,29 @@ export default function App() {
     return () => window.removeEventListener('gmp-quota-exceeded', handleQuota);
   }, []);
 
-  // Initialize and load live data from Firestore
+  // Load Firestore only after the first page has rendered. Initial data remains
+  // available immediately, and live CMS content replaces it when the async
+  // service module is ready.
   useEffect(() => {
+    let cancelled = false;
     const init = async () => {
-      await initializeDatabaseIfEmpty();
       try {
+        const dataService = await import('./services/dataService');
+        await dataService.initializeDatabaseIfEmpty();
         const [stgs, pjs, props, pls, pts, fqs, tsts, pgs, secs, prms, navs] = await Promise.all([
-          getCompanySettings(),
-          getProjects(),
-          getProperties(),
-          getKavlingPlots(),
-          getPosts(),
-          getFAQs(),
-          getTestimonials(),
-          getPages(),
-          getSections(),
-          getPromotions(),
-          getNavigation()
+          dataService.getCompanySettings(),
+          dataService.getProjects(),
+          dataService.getProperties(),
+          dataService.getKavlingPlots(),
+          dataService.getPosts(),
+          dataService.getFAQs(),
+          dataService.getTestimonials(),
+          dataService.getPages(),
+          dataService.getSections(),
+          dataService.getPromotions(),
+          dataService.getNavigation()
         ]);
+        if (cancelled) return;
         if (stgs) setSettings(stgs);
         if (pjs.length) setProjects(pjs);
         if (props.length) setProperties(props);
@@ -116,10 +106,11 @@ export default function App() {
         if (prms.length) setPromotions(prms);
         if (navs.length) setNavigation(navs);
       } catch (e) {
-        console.warn('Init error, utilizing initial robust datasets', e);
+        if (!cancelled) console.warn('Init error, utilizing initial robust datasets', e);
       }
     };
-    init();
+    void init();
+    return () => { cancelled = true; };
   }, []);
 
   // Handle client-side routing & history
@@ -140,11 +131,9 @@ export default function App() {
   // Admin CMS layout
   if (route.startsWith('/admin')) {
     return (
-      <AuthProvider>
-        <Suspense fallback={<div className="se-route-loading" role="status">Memuat panel administrasi...</div>}>
-        <AdminDashboard onNavigatePublic={navigateTo} />
+      <Suspense fallback={<div className="se-route-loading" role="status">Memuat panel administrasi...</div>}>
+        <AdminRoute onNavigatePublic={navigateTo} />
       </Suspense>
-      </AuthProvider>
     );
   }
 
@@ -402,7 +391,6 @@ export default function App() {
   };
 
   return (
-    <AuthProvider>
       <SEOHead
         title={seoData.title}
         description={seoData.description}
@@ -452,6 +440,5 @@ export default function App() {
           projects={projects}
         />
       </div>
-    </AuthProvider>
   );
 }

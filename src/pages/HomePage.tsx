@@ -36,7 +36,7 @@ export const HomePage: React.FC<HomePageProps> = ({
     const rawNumber = settings.contactWhatsApp || settings.corporateWhatsApp;
     const cleanNumber = cleanWhatsAppNumber(rawNumber);
     return `https://wa.me/${cleanNumber}?text=${encodeURIComponent(
-      'Halo Tim PT ZIA Properti Indonesia, saya ingin berkonsultasi mengenai proyek dan ekosistem bisnis ZIA.'
+      'Halo Tim ZIA Corporate, saya ingin berkonsultasi mengenai proyek dan ekosistem bisnis ZIA.'
     )}`;
   };
 
@@ -44,13 +44,10 @@ export const HomePage: React.FC<HomePageProps> = ({
     <div className="se-home min-h-screen bg-stone-50">
       {/* 1. HERO SECTION */}
       <section className="se-hero relative min-h-[92vh] flex items-center bg-stone-950 text-white overflow-hidden">
-        {/* Authentic Background Architecture Canvas with subtle gradient overlay */}
+        {/* Reference-inspired corporate canvas. Official photography will be supplied separately. */}
         <div className="se-hero__media absolute inset-0 z-0">
-          <img
-            src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2000&q=85"
-            alt="Arsitektur Residensial PT ZIA Properti Indonesia"
-            className="w-full h-full object-cover opacity-35 filter saturate-[0.85] contrast-[1.05]"
-          />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_25%,rgba(80,120,101,0.36),transparent_30%),linear-gradient(125deg,#0c1511_0%,#1d2a22_52%,#0d1713_100%)]" />
+          <div className="absolute -right-24 bottom-0 h-[75%] w-[58%] border-l border-t border-stone-400/20 bg-[linear-gradient(90deg,transparent_0%,rgba(201,168,76,0.08)_100%)] [clip-path:polygon(22%_100%,22%_24%,42%_4%,42%_100%,59%_100%,59%_38%,80%_14%,80%_100%,100%_100%,100%_0%,0%_0%,0%_100%)]" aria-hidden="true" />
           <div className="se-hero__overlay--horizontal absolute inset-0 bg-gradient-to-r from-stone-950 via-stone-950/80 to-transparent" />
           <div className="se-hero__overlay--bottom absolute inset-0 bg-gradient-to-t from-stone-950 via-transparent to-stone-950/40" />
         </div>
@@ -133,7 +130,7 @@ export const HomePage: React.FC<HomePageProps> = ({
               </h2>
               <div className="w-12 h-0.5 bg-stone-900 mb-6" />
               <p className="text-stone-600 text-sm leading-relaxed mb-6">
-                PT ZIA Properti Indonesia adalah perusahaan pengembang properti yang berkedudukan di Kabupaten Bekasi, Jawa Barat. Kami memadukan perencanaan tata letak arsitektur yang beretika dengan tata kelola bisnis yang disiplin.
+                ZIA Corporate adalah ekosistem usaha lintas sektor yang bertumbuh dari fondasi tata kelola bisnis yang disiplin, pengembangan bernilai jangka panjang, dan kemitraan yang dapat dipercaya.
               </p>
               <p className="text-stone-600 text-sm leading-relaxed mb-8">
                 Bagi kami, properti bukan sekadar struktur fisik, melainkan ruang bertumbuh bagi keluarga dan instrumen pelindung nilai aset bagi generasi mendatang.
@@ -208,7 +205,7 @@ export const HomePage: React.FC<HomePageProps> = ({
               Corporate Master Brand
             </span>
             <h2 className="text-3xl sm:text-4xl font-serif text-stone-900 mb-4">
-              Ekosistem Usaha PT ZIA Properti Indonesia
+              Ekosistem Usaha ZIA Corporate
             </h2>
             <p className="text-sm text-stone-600 leading-relaxed">
               Setiap entitas dirancang dengan identitas mandiri, standar keunggulan fungsional, dan etika bisnis yang terpercaya.
@@ -229,11 +226,12 @@ export const HomePage: React.FC<HomePageProps> = ({
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-6 relative">
               <div className="relative z-10 border border-stone-200 overflow-hidden shadow-xl">
-                <img
-                  src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80"
-                  alt="ZIA Emerald House Type"
-                  className="w-full h-[450px] object-cover"
-                />
+                <div className="h-[450px] bg-[linear-gradient(145deg,#10231a,#284b36_55%,#c9a84c_210%)] p-8 flex items-end" role="img" aria-label="Visual referensi ZIA Emerald">
+                  <div className="border border-white/25 p-6 max-w-xs text-white/90">
+                    <span className="block text-[10px] uppercase tracking-[0.28em] text-amber-200 mb-3">ZIA Emerald</span>
+                    <span className="font-serif text-3xl leading-tight">A place to grow, with lasting value.</span>
+                  </div>
+                </div>
               </div>
               <div className="absolute -bottom-6 -right-6 w-64 h-64 bg-emerald-950/10 -z-0 hidden md:block" />
             </div>
@@ -294,7 +292,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                 Publikasi & Analisis
               </span>
               <h2 className="text-3xl font-serif text-stone-900">
-                Wawasan Resmi PT ZIA Properti Indonesia
+                Wawasan Resmi ZIA Corporate
               </h2>
             </div>
             <button
@@ -348,7 +346,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                 Konsultasi & Kemitraan
               </span>
               <h2 className="text-3xl sm:text-4xl font-serif text-white leading-tight">
-                Hubungi Representatif Resmi PT ZIA Properti Indonesia
+                Hubungi Representatif Resmi ZIA Corporate
               </h2>
               <p className="text-stone-400 text-sm leading-relaxed">
                 Tim profesional kami siap melayani pertanyaan seputar pemesanan unit residensial ZIA Emerald, kavling Kav Hillside, kemitraan agrikultur ZIA Farm, maupun ekspor vanilla Altara ZIA International.
@@ -373,7 +371,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             <div className="lg:col-span-7">
               <LeadCaptureForm
                 projectSlug="corporate-general"
-                projectName="PT ZIA Properti Indonesia (Corporate)"
+                projectName="ZIA Corporate"
                 propertyOptions={[
                   'ZIA Emerald (Rumah American Classic)',
                   'Kav Hillside (Kavling Siap Bangun)',

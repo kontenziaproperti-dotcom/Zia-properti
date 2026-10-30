@@ -10,7 +10,10 @@ interface ContactPageProps {
 }
 
 export const ContactPage: React.FC<ContactPageProps> = ({ settings }) => {
-  const mapSearchUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(settings.fullAddress)}`;
+  const hasVerifiedAddress = Boolean(settings.fullAddress?.trim());
+  const mapSearchUrl = hasVerifiedAddress
+    ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(settings.fullAddress)}`
+    : '';
   const channels = [
     { name: 'ZIA Emerald', sector: 'Properti · Residensial', number: settings.emeraldWhatsApp, message: 'Halo Tim ZIA Emerald, saya ingin informasi mengenai hunian.' },
     { name: 'Kav Hillside', sector: 'Properti · Kavling', number: settings.kavWhatsApp, message: 'Halo Tim Kav Hillside, saya ingin informasi mengenai kavling.' },
@@ -36,10 +39,17 @@ export const ContactPage: React.FC<ContactPageProps> = ({ settings }) => {
               <p className="se-section-eyebrow">Kantor korporat</p>
               <h2 className="se-section-title">Kami siap membantu.</h2>
             </div>
-            <div className="se-contact-detail-card">
-              <MapPin size={20} aria-hidden="true" />
-              <div><strong>Alamat</strong><p>{settings.fullAddress}</p></div>
-            </div>
+            {hasVerifiedAddress ? (
+              <div className="se-contact-detail-card">
+                <MapPin size={20} aria-hidden="true" />
+                <div><strong>Alamat</strong><p>{settings.fullAddress}</p></div>
+              </div>
+            ) : (
+              <div className="se-contact-detail-card">
+                <MapPin size={20} aria-hidden="true" />
+                <div><strong>Alamat</strong><p>Alamat kantor korporat sedang dalam proses konfirmasi.</p></div>
+              </div>
+            )}
             <div className="se-contact-detail-card">
               <Clock3 size={20} aria-hidden="true" />
               <div><strong>Jam operasional</strong><p>{settings.officeHours}</p></div>
@@ -57,7 +67,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ settings }) => {
           <div className="se-contact-form-wrap">
             <LeadCaptureForm
               projectSlug="contact-page-inquiry"
-              projectName="PT ZIA Properti Indonesia"
+              projectName="ZIA Corporate"
               propertyOptions={[
                 'Konsultasi ZIA Emerald (Residensial)',
                 'Konsultasi Kav Hillside (Kavling)',
@@ -120,10 +130,16 @@ export const ContactPage: React.FC<ContactPageProps> = ({ settings }) => {
             <span className="se-contact-map__icon"><MapPin size={24} aria-hidden="true" /></span>
             <p className="se-section-eyebrow">Alamat dari pengaturan korporat</p>
             <h3>{settings.companyName}</h3>
-            <p className="se-contact-map__address">{settings.fullAddress}</p>
-            <a href={mapSearchUrl} target="_blank" rel="noreferrer">
-              Cari alamat ini di Google Maps <ArrowUpRight size={16} aria-hidden="true" />
-            </a>
+            {hasVerifiedAddress ? (
+              <>
+                <p className="se-contact-map__address">{settings.fullAddress}</p>
+                <a href={mapSearchUrl} target="_blank" rel="noreferrer">
+                  Cari alamat ini di Google Maps <ArrowUpRight size={16} aria-hidden="true" />
+                </a>
+              </>
+            ) : (
+              <p className="se-contact-map__address">Alamat dan tautan peta akan ditampilkan setelah dikonfirmasi oleh ZIA Corporate.</p>
+            )}
             <small>Direktori titik lokasi unit usaha akan ditampilkan setelah alamat operasional dan koordinat setiap lokasi dikonfirmasi.</small>
           </div>
         </div>

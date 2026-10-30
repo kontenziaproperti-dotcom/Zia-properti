@@ -65,6 +65,18 @@ export const CorporateHeader: React.FC<HeaderProps> = ({
       type: 'Eksportir Vanilla Indonesia',
       route: '/projects/altara-zia-international',
       badge: 'Global B2B Market'
+    },
+    {
+      name: 'ZIA Raya',
+      type: 'Retail & Perdagangan',
+      route: '/business/zia-raya',
+      badge: 'Lifestyle & Trade'
+    },
+    {
+      name: 'ZIA Direct',
+      type: 'Penjualan Langsung & Kemitraan',
+      route: '/business/zia-direct',
+      badge: 'Direct Selling'
     }
   ];
 
@@ -118,8 +130,11 @@ export const CorporateHeader: React.FC<HeaderProps> = ({
                       onMouseLeave={() => setProjectDropdownOpen(false)}
                     >
                       <button
+                        aria-expanded={projectDropdownOpen}
+                        aria-haspopup="true"
+                        onClick={() => setProjectDropdownOpen((open) => !open)}
                         className={`flex items-center gap-1.5 text-xs uppercase tracking-widest font-medium py-2 transition-colors ${
-                          currentRoute.startsWith('/projects/')
+                          (currentRoute.startsWith('/projects/') || currentRoute.startsWith('/business/'))
                             ? 'text-stone-900 font-bold border-b-2 border-stone-900'
                             : 'text-stone-600 hover:text-stone-900'
                         }`}
@@ -399,6 +414,16 @@ export const CorporateFooter: React.FC<{
                   className="hover:text-white transition-colors"
                 >
                   Altara ZIA International (Ekspor)
+                </button>
+              </li>
+              <li>
+                <button onClick={() => onNavigate('/business/zia-raya')} className="hover:text-white transition-colors">
+                  ZIA Raya (Retail & Perdagangan)
+                </button>
+              </li>
+              <li>
+                <button onClick={() => onNavigate('/business/zia-direct')} className="hover:text-white transition-colors">
+                  ZIA Direct (Direct Selling)
                 </button>
               </li>
               <li>

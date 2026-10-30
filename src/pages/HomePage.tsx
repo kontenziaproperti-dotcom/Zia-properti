@@ -14,6 +14,8 @@ import {
 import { CompanySettings, ProjectEntity, PostItem } from '../types';
 import { LeadCaptureForm } from '../components/LeadCaptureForm';
 import { cleanWhatsAppNumber, formatIndonesianPhone } from '../lib/contactUtils';
+import { ADDITIONAL_BUSINESS_UNITS, BusinessDirectoryItem } from '../features/corporate-refresh/businessUnits';
+import { CorporateBusinessCard } from '../features/corporate-refresh/components/CorporateBusinessCard';
 
 interface HomePageProps {
   settings: CompanySettings;
@@ -28,6 +30,16 @@ export const HomePage: React.FC<HomePageProps> = ({
   posts,
   onNavigate
 }) => {
+  const directoryItems: BusinessDirectoryItem[] = [
+    ...projects.map((project): BusinessDirectoryItem => {
+      const category: BusinessDirectoryItem['category'] = project.slug === 'zia-farm' ? 'agriculture' : project.slug === 'altara-zia-international' ? 'export' : 'property';
+      const visual: BusinessDirectoryItem['visual'] = project.slug === 'zia-emerald' ? 'emerald' : project.slug === 'kav-hillside' ? 'moss' : project.slug === 'zia-farm' ? 'earth' : 'vanilla';
+      const icon: BusinessDirectoryItem['icon'] = project.slug === 'zia-emerald' ? 'building' : project.slug === 'kav-hillside' ? 'land' : project.slug === 'zia-farm' ? 'farm' : 'globe';
+      return { slug: project.slug, name: project.name, sector: project.category, category, location: project.location, summary: project.shortDescription || project.tagline, route: `/projects/${project.slug}`, visual, icon, heroImage: project.heroImage, tagline: project.tagline };
+    }),
+    ...ADDITIONAL_BUSINESS_UNITS.filter((unit) => !projects.some((project) => project.slug === unit.slug)),
+  ];
+
   const getWaCorporateLink = () => {
     const rawNumber = settings.contactWhatsApp || settings.corporateWhatsApp;
     const cleanNumber = cleanWhatsAppNumber(rawNumber);
@@ -56,7 +68,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             {/* Architectural Corporate Badge */}
             <div className="se-hero__eyebrow inline-flex items-center gap-2.5 px-3 py-1.5 border border-stone-700 bg-stone-900/80 backdrop-blur-sm text-stone-300 text-[11px] uppercase tracking-[0.25em] font-medium mb-6">
               <span className="se-hero__eyebrow-dot w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-              Pengembang Properti • Kabupaten Bekasi, Jawa Barat
+              ZIA Corporate · Kelompok Usaha Diversifikasi
             </div>
 
             {/* Headline */}
@@ -67,7 +79,7 @@ export const HomePage: React.FC<HomePageProps> = ({
 
             {/* Supporting Copy */}
             <p className="se-hero__copy text-base sm:text-lg text-stone-300 font-sans font-light leading-relaxed mb-10 max-w-2xl">
-              PT ZIA Properti Indonesia mengembangkan kawasan hunian dan ekosistem bisnis terencana yang berorientasi pada kualitas bangunan, fungsionalitas tata ruang, kepastian legalitas, dan penciptaan nilai berkelanjutan.
+              ZIA Corporate mengembangkan ekosistem usaha lintas sektor, mulai dari properti, agribisnis, ekspor, retail, perdagangan, hingga direct selling. Setiap lini bisnis memiliki fokus tersendiri dalam membangun nilai jangka panjang bagi pelanggan dan mitra.
             </p>
 
             {/* CTAs */}
@@ -94,7 +106,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             {/* Corporate Value Metrics */}
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 pt-16 border-t border-stone-800/80 mt-16">
               <div>
-                <span className="se-hero__metric-number block text-2xl lg:text-3xl font-serif text-white font-light">4 Pilar</span>
+                <span className="se-hero__metric-number block text-2xl lg:text-3xl font-serif text-white font-light">6 Lini</span>
                 <span className="se-hero__metric-label text-[11px] uppercase tracking-wider text-stone-400">Ekosistem Usaha Terpadu</span>
               </div>
               <div>
@@ -102,8 +114,8 @@ export const HomePage: React.FC<HomePageProps> = ({
                 <span className="se-hero__metric-label text-[11px] uppercase tracking-wider text-stone-400">Kantor Pusat & Basis Operasi</span>
               </div>
               <div className="col-span-2 sm:col-span-1">
-                <span className="se-hero__metric-number block text-2xl lg:text-3xl font-serif text-white font-light">100%</span>
-                <span className="se-hero__metric-label text-[11px] uppercase tracking-wider text-stone-400">Transparansi Legalitas</span>
+                <span className="se-hero__metric-number block text-2xl lg:text-3xl font-serif text-white font-light">Multi-sektor</span>
+                <span className="se-hero__metric-label text-[11px] uppercase tracking-wider text-stone-400">Properti, agribisnis, retail & perdagangan</span>
               </div>
             </div>
           </div>
@@ -152,7 +164,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                   Integritas Legalitas
                 </h3>
                 <p className="text-xs text-stone-600 leading-relaxed">
-                  Menjamin seluruh sertifikat tanah induk, izin tapak, dan PBG diproses transparan sebelum penawaran unit dilakukan.
+                  Mengutamakan keterbukaan informasi dan proses yang dapat ditelusuri pada setiap pengembangan properti.
                 </p>
               </div>
 
@@ -211,50 +223,10 @@ export const HomePage: React.FC<HomePageProps> = ({
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {projects.map((proj) => {
-              const route = `/projects/${proj.slug}`;
-              return (
-                <div
-                  key={proj.slug}
-                  className="se-card se-card--project bg-white border border-stone-200 flex flex-col group hover:shadow-xl transition-all duration-300"
-                >
-                  <div className="relative h-56 overflow-hidden bg-stone-900">
-                    <img
-                      src={proj.heroImage}
-                      alt={proj.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                    />
-                    <div className="absolute inset-0 bg-stone-950/20 group-hover:bg-transparent transition-colors" />
-                    <span className="se-card__tag absolute top-4 left-4 text-[10px] uppercase tracking-wider font-semibold bg-white text-stone-900 px-2.5 py-1 shadow-sm">
-                      {proj.category.split(' ')[0]}
-                    </span>
-                  </div>
-
-                  <div className="p-6 flex-1 flex flex-col justify-between">
-                    <div>
-                      <span className="text-[10px] uppercase tracking-widest text-stone-400 block mb-1">
-                        {proj.location}
-                      </span>
-                      <h3 className="font-serif text-xl font-bold text-stone-900 mb-2 group-hover:text-stone-700 transition-colors">
-                        {proj.name}
-                      </h3>
-                      <p className="text-xs text-stone-600 leading-relaxed line-clamp-3 mb-6">
-                        {proj.shortDescription}
-                      </p>
-                    </div>
-
-                    <button
-                      onClick={() => onNavigate(route)}
-                      className="se-card__action w-full py-3 border border-stone-900 text-stone-900 text-xs uppercase tracking-widest font-semibold hover:bg-stone-900 hover:text-white transition-colors flex items-center justify-center gap-2"
-                    >
-                      Eksplorasi {proj.name}
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
+          <div className="se-business-grid">
+            {directoryItems.map((item) => (
+              <CorporateBusinessCard key={item.slug} item={item} onNavigate={onNavigate} />
+            ))}
           </div>
         </div>
       </section>

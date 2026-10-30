@@ -225,6 +225,10 @@ export const CorporateHeader: React.FC<HeaderProps> = ({
                 <MessageSquare className="w-4 h-4" />
               </a>
               <button
+                type="button"
+                aria-label={mobileMenuOpen ? 'Tutup menu navigasi' : 'Buka menu navigasi'}
+                aria-expanded={mobileMenuOpen}
+                aria-controls="se-mobile-navigation"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 className="se-mobile-icon-button p-2 text-stone-800 hover:bg-stone-100 rounded-none"
               >
@@ -236,7 +240,7 @@ export const CorporateHeader: React.FC<HeaderProps> = ({
 
         {/* Mobile Navigation Drawer */}
         {mobileMenuOpen && (
-          <div className="se-mobile-drawer lg:hidden bg-stone-900 text-stone-100 px-6 py-8 border-b border-stone-800 animate-fadeIn">
+          <div id="se-mobile-navigation" className="se-mobile-drawer lg:hidden bg-stone-900 text-stone-100 px-6 py-8 border-b border-stone-800 animate-fadeIn">
             <div className="space-y-4 mb-6">
               <button
                 onClick={() => handleNavClick('/')}

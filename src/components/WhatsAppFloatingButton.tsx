@@ -54,6 +54,12 @@ export const WhatsAppFloatingButton: React.FC<WhatsAppFloatingButtonProps> = ({
     if (currentRoute === '/projects' || currentRoute === '/properties') {
       return `Halo Tim Sales PT ZIA Properti Indonesia, saya sedang meninjau katalog portofolio proyek dan ingin mendapatkan rekomendasi properti yang sesuai dengan kebutuhan saya.`;
     }
+    if (currentRoute === '/business/zia-raya') {
+      return `Halo Tim ZIA Raya, saya ingin informasi mengenai koleksi retail, apparel, lifestyle, dan perdagangan.`;
+    }
+    if (currentRoute === '/business/zia-direct') {
+      return `Halo Tim ZIA Direct, saya ingin informasi mengenai perlengkapan rumah tangga dan program kemitraan.`;
+    }
     if (currentRoute === '/contact') {
       return `Halo Tim Sales PT ZIA Properti Indonesia, saya ingin menjadwalkan kunjungan lokasi (site visit) dan berkonsultasi langsung dengan sales representative resmi.`;
     }

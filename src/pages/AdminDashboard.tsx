@@ -163,6 +163,8 @@ export type CMSActiveTab =
 
 export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onNavigatePublic }) => {
   const { currentUser, userProfile, loading: authLoading, logout, login, resetPassword, loginWithGoogle, isAdmin, role } = useAuth();
+  const canManageContent = ['super_admin', 'admin', 'editor'].includes(role || '');
+  const canManageUserAccounts = ['super_admin', 'admin'].includes(role || '');
 
   const [activeTab, setActiveTab] = useState<CMSActiveTab>('dashboard');
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
@@ -229,7 +231,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onNavigatePublic
         getMediaAssets(),
         getFAQs(),
         getTestimonials(),
-        getUsers(),
+        canManageUserAccounts ? getUsers() : Promise.resolve([]),
         getPages(),
         getSections(),
         getPromotions(),
@@ -559,12 +561,11 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onNavigatePublic
       ]
     }
   ];
-  const canManageContent = ['super_admin', 'admin', 'editor'].includes(role || '');
   const staffAllowedTabs: CMSActiveTab[] = ['dashboard', 'leads', 'workspace', 'maps'];
   const visibleSidebarGroups = sidebarGroups
     .map((group) => ({
       ...group,
-      items: group.items.filter((item) => canManageContent || staffAllowedTabs.includes(item.id))
+      items: group.items.filter((item) => (item.id === 'users' ? canManageUserAccounts : canManageContent || staffAllowedTabs.includes(item.id)))
     }))
     .filter((group) => group.items.length > 0);
 

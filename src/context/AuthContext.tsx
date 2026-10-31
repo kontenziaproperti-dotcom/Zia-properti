@@ -138,6 +138,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
       } catch (error) {
         console.error('Gagal memuat profil administrator dari Firebase:', error);
+        // The Firebase observer can report a null user; never treat a cached or
+        // fallback profile as an authenticated CMS session.
+        if (!user) {
+          setUserProfile(null);
+          return;
+        }
         const designated = getDesignatedAdminInfo(user.uid, user.email);
         if (designated) {
           // A designated account may enter the CMS only while Firebase Auth

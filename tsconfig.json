@@ -23,5 +23,10 @@
     },
     "allowImportingTsExtensions": true,
     "noEmit": true
-  }
+  },
+  "exclude": [
+    "legacy-backup",
+    "node_modules",
+    "dist"
+  ]
 }

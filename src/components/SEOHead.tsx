@@ -18,7 +18,9 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
   project,
   settings
 }) => {
-  const companyName = settings?.companyName || 'PT ZIA PROPERTI INDONESIA';
+  // CMS data may still carry the former entity name. Public SEO must use the
+  // approved corporate master brand until that record is migrated.
+  const companyName = 'ZIA Corporate';
   const finalTitle = title
     ? `${title} | ${companyName}`
     : `${companyName} | Building Better Places, Creating Long Term Value`;

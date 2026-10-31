@@ -90,7 +90,7 @@ export const CorporateHeader: React.FC<HeaderProps> = ({
     const rawNumber = settings.contactWhatsApp || settings.corporateWhatsApp;
     const cleanNumber = cleanWhatsAppNumber(rawNumber);
     return `https://wa.me/${cleanNumber}?text=${encodeURIComponent(
-      'Halo Tim PT ZIA Properti Indonesia, saya ingin berkonsultasi mengenai proyek dan ekosistem bisnis ZIA.'
+      'Halo Tim ZIA Corporate, saya ingin berkonsultasi mengenai proyek dan ekosistem bisnis ZIA.'
     )}`;
   };
 
@@ -110,7 +110,7 @@ export const CorporateHeader: React.FC<HeaderProps> = ({
               </div>
               <div className="flex flex-col">
                 <span className="se-header__brand-title font-serif text-lg tracking-wider font-bold text-stone-900 leading-tight group-hover:text-stone-700 transition-colors uppercase">
-                  PT ZIA Properti Indonesia
+                  ZIA Corporate
                 </span>
                 <span className="se-header__brand-subtitle text-[10px] uppercase tracking-[0.25em] text-stone-500 font-medium">
                   Pengembang Properti & Ekosistem Bisnis
@@ -312,7 +312,7 @@ export const CorporateHeader: React.FC<HeaderProps> = ({
       <div className="se-mobile-actionbar fixed bottom-0 inset-x-0 bg-stone-900 border-t border-stone-800 text-white py-3 px-4 z-40 lg:hidden flex items-center justify-between shadow-2xl">
         <div className="flex flex-col">
           <span className="text-[10px] uppercase tracking-widest text-stone-400">
-            PT ZIA Properti Indonesia
+            ZIA Corporate
           </span>
           <span className="text-xs font-serif font-medium text-stone-200">
             Konsultasi & Kunjungan Lokasi
@@ -524,7 +524,7 @@ export const CorporateFooter: React.FC<{
 
         {/* Bottom copyright & legal */}
         <div className="se-footer__bottom border-t border-stone-900 pt-8 flex flex-col md:flex-row items-center justify-between text-xs text-stone-600 gap-4">
-          <p>© {new Date().getFullYear()} PT ZIA Properti Indonesia. Hak Cipta Dilindungi Undang-Undang.</p>
+          <p>© {new Date().getFullYear()} ZIA Corporate. Hak Cipta Dilindungi Undang-Undang.</p>
           <div className="flex items-center space-x-6">
             <button onClick={() => onNavigate('/privacy-policy')} className="hover:text-stone-400 transition-colors">
               Kebijakan Privasi

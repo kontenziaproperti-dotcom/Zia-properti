@@ -150,7 +150,7 @@ export default function App() {
       const p = projects.find(item => item.slug === 'zia-emerald');
       return {
         title: 'ZIA Emerald | Perumahan American Classic Tarumajaya Bekasi',
-        description: p?.shortDescription || 'Hunian American Classic berplafon tinggi di Tarumajaya, Kabupaten Bekasi oleh PT ZIA Properti Indonesia.',
+        description: p?.shortDescription || 'Hunian American Classic berplafon tinggi di Tarumajaya, Kabupaten Bekasi oleh ZIA Corporate.',
         project: p || null
       };
     }
@@ -183,7 +183,7 @@ export default function App() {
       const p = projects.find(item => item.slug === slug);
       if (p) {
         return {
-          title: `${p.name} | Portofolio PT ZIA Properti Indonesia`,
+          title: `${p.name} | Portofolio ZIA Corporate`,
           description: p.shortDescription || p.tagline,
           project: p
         };
@@ -204,28 +204,28 @@ export default function App() {
     if (route === '/projects' || route === '/properties') {
       return {
         title: 'Direktori Proyek & Ekosistem Bisnis',
-        description: 'Jelajahi seluruh portofolio hunian, kavling, agrikultur, dan komoditas ekspor PT ZIA Properti Indonesia.',
+        description: 'Jelajahi seluruh portofolio hunian, kavling, agrikultur, dan komoditas ekspor ZIA Corporate.',
         project: null
       };
     }
     if (route === '/about') {
       return {
         title: 'Profil & Filosofi Korporat',
-        description: 'Mengenal visi, misi, dan komitmen PT ZIA Properti Indonesia dalam menghadirkan nilai jangka panjang.',
+        description: 'Mengenal visi, misi, dan komitmen ZIA Corporate dalam menghadirkan nilai jangka panjang.',
         project: null
       };
     }
     if (route === '/contact') {
       return {
         title: 'Hubungi Kami & Layanan Konsumen',
-        description: 'Kantor resmi, representatif per unit bisnis, dan konsultasi survei lokasi PT ZIA Properti Indonesia.',
+        description: 'Kantor resmi, representatif per unit bisnis, dan konsultasi survei lokasi ZIA Corporate.',
         project: null
       };
     }
     if (route === '/blog' || route === '/news') {
       return {
         title: 'Wawasan, Berita & Artikel Resmi',
-        description: 'Analisis arsitektur, dinamika koridor properti Bekasi, dan artikel edukasi dari PT ZIA Properti Indonesia.',
+        description: 'Analisis arsitektur, dinamika koridor properti Bekasi, dan artikel edukasi dari ZIA Corporate.',
         project: null
       };
     }
@@ -234,14 +234,14 @@ export default function App() {
     const matchedCustomPage = pages.find((p) => p.slug === cleanSlug && (p.status === 'published' || !p.status));
     if (matchedCustomPage) {
       return {
-        title: matchedCustomPage.seoTitle || `${matchedCustomPage.title} | PT ZIA Properti Indonesia`,
-        description: matchedCustomPage.seoDescription || matchedCustomPage.summary || 'Informasi resmi PT ZIA Properti Indonesia.',
+        title: matchedCustomPage.seoTitle || `${matchedCustomPage.title} | ZIA Corporate`,
+        description: matchedCustomPage.seoDescription || matchedCustomPage.summary || 'Informasi resmi ZIA Corporate.',
         project: null
       };
     }
     return {
-      title: 'PT ZIA Properti Indonesia',
-      description: 'Official corporate website & project ecosystem PT ZIA Properti Indonesia.',
+      title: 'ZIA Corporate',
+      description: 'Official corporate website & business ecosystem ZIA Corporate.',
       project: null
     };
   };

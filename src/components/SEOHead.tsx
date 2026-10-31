@@ -27,7 +27,7 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
     description ||
     project?.seoDescription ||
     project?.shortDescription ||
-    'PT ZIA Properti Indonesia - Pengembang properti dan ekosistem bisnis terpercaya di Kabupaten Bekasi, Jawa Barat. Menghadirkan ZIA Emerald, Kav Hillside, ZIA Farm, dan Altara ZIA International.';
+    'ZIA Corporate - Ekosistem bisnis lintas sektor yang menghadirkan ZIA Emerald, Kav Hillside, ZIA Farm, Altara ZIA International, ZIA Raya, dan ZIA Direct.';
 
   const finalImage =
     image ||

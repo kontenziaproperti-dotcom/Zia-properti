@@ -1,0 +1,41 @@
+name: Validate ZIA Corporate
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches:
+      - main
+      - fix/cms-auth-firestore-save
+
+permissions:
+  contents: read
+
+concurrency:
+  group: validate-zia-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: TypeScript and production build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.4
+
+      - name: Install locked dependencies
+        run: bun install --frozen-lockfile
+
+      - name: TypeScript check
+        run: bun run lint
+
+      - name: Production build
+        run: bun run build

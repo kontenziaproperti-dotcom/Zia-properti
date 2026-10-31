@@ -39,7 +39,11 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
 
   // Do not inject stock imagery into corporate metadata. A verified corporate
   // image can be supplied through the image prop or migrated CMS project data.
-  const finalImage = image || project?.heroImage || '';
+  const candidateProjectImage = project?.heroImage?.trim() || '';
+  const verifiedProjectImage = candidateProjectImage && !/images\.unsplash\.com/i.test(candidateProjectImage)
+    ? candidateProjectImage
+    : '';
+  const finalImage = image || verifiedProjectImage || '';
 
   useEffect(() => {
     // 1. Update Document Title

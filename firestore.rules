@@ -38,6 +38,12 @@ service cloud.firestore {
       );
     }
 
+    function canManageUsers() {
+      return isRootAdmin() || (
+        isAuthenticated() && getUserRole() in ['super_admin', 'admin']
+      );
+    }
+
     function isInitialBootstrap() {
       return !exists(/databases/$(database)/documents/settings/global);
     }
@@ -120,26 +126,25 @@ service cloud.firestore {
       allow read, update, delete: if hasAdminRole();
     }
 
-    // User collection with RBAC and privilege escalation protection
+    // User collection: staff roles are provisioned by an administrator.
+    // Self-registration must never grant sales/marketing access to CRM data.
     match /users/{userId} {
       allow read: if isAuthenticated() && (request.auth.uid == userId || hasAdminRole());
-      // Only root admin or admin can assign administrative roles ('super_admin', 'admin', 'editor')
-      // A normal user registering can only initialize unprivileged roles ('sales', 'marketing') or none
-      allow create: if isAuthenticated() && (
-        isRootAdmin() ||
-        hasAdminRole() ||
-        (request.auth.uid == userId && (
-          !('role' in request.resource.data) ||
-          request.resource.data.role in ['sales', 'marketing']
-        ))
+
+      allow create: if canManageUsers() && (
+        request.resource.data.role in ['admin', 'editor', 'sales', 'marketing'] ||
+        (isRootAdmin() && request.resource.data.role == 'super_admin')
       );
-      // Users CANNOT elevate their own role: only root admin or admin can modify roles
-      allow update: if isAuthenticated() && (
-        isRootAdmin() ||
-        hasAdminRole() ||
-        (request.auth.uid == userId && request.resource.data.role == resource.data.role)
+
+      allow update: if canManageUsers() && (
+        (
+          resource.data.role != 'super_admin' &&
+          request.resource.data.role in ['admin', 'editor', 'sales', 'marketing']
+        ) ||
+        (isRootAdmin() && request.resource.data.role in ['super_admin', 'admin', 'editor', 'sales', 'marketing'])
       );
-      allow delete: if isRootAdmin() || hasAdminRole();
+
+      allow delete: if isRootAdmin();
     }
   }
 }

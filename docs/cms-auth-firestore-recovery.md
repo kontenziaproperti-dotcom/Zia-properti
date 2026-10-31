@@ -9,7 +9,15 @@ Dokumen ini menjelaskan langkah operasional setelah perubahan pada branch `fix/c
 3. Pastikan provider **Email/Password** aktif jika login menggunakan email dan kata sandi.
 4. Buka **Authentication → Users** dan pastikan akun administrator yang dipakai memang terdaftar dan tidak dinonaktifkan.
 5. Jika akun sudah terdaftar tetapi kata sandi tidak lagi diketahui, gunakan menu **Lupa kata sandi?** di halaman login CMS. Tautan reset dikirim Firebase ke email akun.
-6. Untuk login Google, aktifkan provider Google dan pastikan domain produksi website sudah ada di daftar **Authorized domains**. Domain preview perlu ditambahkan hanya jika memang akan dipakai untuk menguji login.
+6. Login Google sudah diaktifkan pada project yang diperiksa.
+7. Screenshot Firebase Console yang diberikan pada 31 Oktober 2026 menunjukkan domain `zia-properti-two.vercel.app`, `gen-lang-client-0898986678.firebaseapp.com`, dan `gen-lang-client-0898986678.web.app` sudah ada di **Authorized domains**. Jangan menambahkan ulang domain-domain tersebut.
+8. Karena popup Firebase menampilkan `The requested action is invalid.`, periksa konfigurasi Google Provider:
+   - Buka **Authentication → Sign-in method → Google → Edit**.
+   - Pastikan **Web SDK configuration** memuat OAuth Web Client ID dan Web Client Secret.
+   - Di Google Cloud Console → **APIs & Services → Credentials → OAuth 2.0 Client IDs**, cocokkan Client ID tersebut dengan client berjenis **Web application**. Jangan membagikan Client Secret; cukup verifikasi sendiri atau kirim screenshot dengan secret tertutup.
+   - Pastikan Authorized Redirect URI OAuth Web Client mencakup `https://gen-lang-client-0898986678.firebaseapp.com/__/auth/handler`.
+9. Cocokkan Firebase Web API Key pada **Project settings → General → Your apps → Web app SDK setup** dengan `apiKey` di `src/firebase-applet-config.json`. Repository memuat nilai yang sama pada file root dan file dalam `src`, tetapi kesesuaian dengan nilai aktif di Firebase Console masih perlu dikonfirmasi.
+10. Jika API key menggunakan API restrictions, pastikan **Firebase Authentication API / Identity Toolkit API** diizinkan. Periksa juga application restrictions agar permintaan dari domain Firebase Auth handler dan website produksi tidak diblokir.
 
 > Kode CMS tidak membuat akun administrator otomatis. Akun baru dan peran pengguna harus dibuat oleh administrator melalui Firebase/otorisasi yang sah. Error `auth/invalid-credential` berasal dari proses Firebase Authentication; periksa status akun dan gunakan reset kata sandi, bukan membuat akun baru melalui form login.
 

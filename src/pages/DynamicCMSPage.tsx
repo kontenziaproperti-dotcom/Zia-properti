@@ -23,7 +23,7 @@ export const DynamicCMSPage: React.FC<DynamicCMSPageProps> = ({
   const getWaLink = () => {
     const rawNumber = settings.contactWhatsApp || settings.corporateWhatsApp || '6281288889911';
     const cleanNumber = cleanWhatsAppNumber(rawNumber, '6281288889911');
-    const msg = `Halo Tim PT ZIA Properti Indonesia, saya membaca halaman "${page.title}" dan ingin berkonsultasi lebih lanjut.`;
+    const msg = `Halo Tim ZIA Corporate, saya membaca halaman "${page.title}" dan ingin berkonsultasi lebih lanjut.`;
     return `https://wa.me/${cleanNumber}?text=${encodeURIComponent(msg)}`;
   };
 
@@ -151,7 +151,7 @@ export const DynamicCMSPage: React.FC<DynamicCMSPageProps> = ({
                 Butuh Informasi Lebih Lanjut?
               </h3>
               <p className="text-stone-300 text-xs sm:text-sm leading-relaxed mb-6 font-light">
-                Tim representatif PT ZIA Properti Indonesia siap membantu memberikan penjelasan komprehensif, penjadwalan survei, atau penawaran resmi.
+                Tim representatif ZIA Corporate siap membantu memberikan penjelasan komprehensif, penjadwalan survei, atau penawaran resmi.
               </p>
               <div className="flex flex-col sm:flex-row gap-3">
                 <a

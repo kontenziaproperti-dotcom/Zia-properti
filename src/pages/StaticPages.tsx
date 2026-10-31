@@ -14,7 +14,7 @@ export const ContactPage: React.FC<{ settings: CompanySettings }> = ({ settings 
             Pusat Komunikasi & Layanan
           </span>
           <h1 className="text-3xl sm:text-5xl font-serif text-white tracking-tight mb-4">
-            Hubungi PT ZIA Properti Indonesia
+            Hubungi ZIA Corporate
           </h1>
           <p className="text-stone-400 text-sm max-w-2xl leading-relaxed">
             Representatif kami siap menyambut pertanyaan Anda mengenai unit hunian ZIA Emerald, kavling Kav Hillside, peternakan ZIA Farm, maupun ekspor vanilla Altara ZIA.
@@ -131,7 +131,7 @@ export const ContactPage: React.FC<{ settings: CompanySettings }> = ({ settings 
           <div className="lg:col-span-7">
             <LeadCaptureForm
               projectSlug="contact-page-inquiry"
-              projectName="PT ZIA Properti Indonesia"
+              projectName="ZIA Corporate"
               propertyOptions={[
                 'Konsultasi Residensial ZIA Emerald',
                 'Konsultasi Kavling Kav Hillside',
@@ -192,7 +192,7 @@ export const BlogPage: React.FC<{
             Wawasan Resmi & Publikasi
           </span>
           <h1 className="text-3xl sm:text-5xl font-serif text-white tracking-tight mb-4">
-            Kabar & Artikel PT ZIA Properti Indonesia
+            Kabar & Artikel ZIA Corporate
           </h1>
           <p className="text-stone-400 text-sm max-w-2xl leading-relaxed">
             Artikel seputar arsitektur American Classic, pertumbuhan koridor properti Bekasi, tata kelola peternakan modern, serta dinamika komoditas ekspor vanilla Indonesia.

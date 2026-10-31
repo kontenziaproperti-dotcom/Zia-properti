@@ -141,7 +141,7 @@ export const ZiaEmeraldPage: React.FC<ZiaEmeraldProps> = ({
                   'Plafon ruang utama ekstra tinggi mendukung opsi mezzanine modular masa depan',
                   'Sistem keamanan satu gerbang (one-gate security) dengan akses kartu penghuni',
                   'Infrastruktur jalan lingkungan rapi dan sistem drainase tertutup bebas genangan',
-                  'Legalitas terverifikasi resmi oleh PT ZIA Properti Indonesia'
+                  'Informasi legalitas proyek dapat dikonfirmasi melalui kanal resmi ZIA Corporate'
                 ].map((item, idx) => (
                   <div key={idx} className="flex items-start gap-3 text-xs text-stone-700">
                     <div className="w-4 h-4 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center shrink-0 mt-0.5">

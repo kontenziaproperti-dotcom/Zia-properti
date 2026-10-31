@@ -49,7 +49,7 @@ export const ProjectDirectoryPage: React.FC<ProjectDirectoryProps> = ({
       <section className="bg-stone-900 text-stone-100 py-16 sm:py-20 border-b border-stone-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <span className="text-[11px] uppercase tracking-[0.25em] text-stone-400 font-semibold block mb-2">
-            PT ZIA Properti Indonesia
+            ZIA Corporate
           </span>
           <h1 className="text-3xl sm:text-5xl font-serif text-white tracking-tight mb-4">
             Direktori Proyek & Ekosistem Usaha

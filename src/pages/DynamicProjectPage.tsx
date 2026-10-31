@@ -45,7 +45,7 @@ export const DynamicProjectPage: React.FC<DynamicProjectProps> = ({
   const getWaLink = () => {
     const rawNumber = project.contactWhatsApp || settings.contactWhatsApp || settings.corporateWhatsApp || '6281288889911';
     const cleanNumber = cleanWhatsAppNumber(rawNumber, '6281288889911');
-    const msg = `Halo Tim PT ZIA Properti Indonesia, saya tertarik dengan informasi proyek ${project.name}. Mohon informasi ketersediaan unit dan jadwal survei.`;
+    const msg = `Halo Tim ZIA Corporate, saya tertarik dengan informasi proyek ${project.name}. Mohon informasi ketersediaan unit dan jadwal survei.`;
     return `https://wa.me/${cleanNumber}?text=${encodeURIComponent(msg)}`;
   };
 
@@ -141,7 +141,7 @@ export const DynamicProjectPage: React.FC<DynamicProjectProps> = ({
                   'Pengembangan terencana dengan standar arsitektur teruji',
                   'Integritas kepemilikan dan perizinan resmi terverifikasi',
                   'Fasilitas lingkungan asri dengan aksesibilitas terencana',
-                  'Dukungan penuh tim representatif PT ZIA Properti Indonesia'
+                  'Dukungan penuh tim representatif ZIA Corporate'
                 ].map((item, idx) => (
                   <div key={idx} className="flex items-start gap-3 text-xs text-stone-700">
                     <div className="w-4 h-4 rounded-full bg-stone-900 text-white flex items-center justify-center shrink-0 mt-0.5">
@@ -280,7 +280,7 @@ export const DynamicProjectPage: React.FC<DynamicProjectProps> = ({
                 Hubungi Representatif {project.name}
               </h2>
               <p className="text-stone-300 text-sm leading-relaxed">
-                Dapatkan informasi lengkap brosur, denah, spesifikasi, dan jadwal survei lokasi bersama tim konsultan PT ZIA Properti Indonesia.
+                Dapatkan informasi lengkap brosur, denah, spesifikasi, dan jadwal survei lokasi bersama tim konsultan ZIA Corporate.
               </p>
             </div>
 

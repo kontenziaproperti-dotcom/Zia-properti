@@ -17,7 +17,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ settings, onNavigate }) =>
             Profil Perusahaan
           </span>
           <h1 className="text-3xl sm:text-5xl font-serif text-white tracking-tight mb-4">
-            Tentang PT ZIA Properti Indonesia
+            Tentang ZIA Corporate
           </h1>
           <p className="text-stone-400 text-sm max-w-2xl leading-relaxed">
             Membangun kawasan dan ekosistem bisnis dengan perencanaan arsitektur beretika, integritas hukum yang kokoh, dan komitmen keberlanjutan di Kabupaten Bekasi, Jawa Barat.
@@ -37,7 +37,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ settings, onNavigate }) =>
                 "Building Better Places, Creating Long Term Value"
               </h2>
               <p className="text-stone-600 text-sm leading-relaxed">
-                PT ZIA Properti Indonesia adalah entitas pengembang properti yang berakar dan berkantor pusat di Kabupaten Bekasi, Jawa Barat. Kami memandang pembangunan bukan semata menumpuk bata atau memasarkan lahan, melainkan menciptakan ruang hidup yang memuliakan manusia dan memberi daya ungkit ekonomi nyata.
+                ZIA Corporate merupakan kelompok usaha yang berakar di Kabupaten Bekasi, Jawa Barat, dengan portofolio lintas sektor yang mencakup properti, kavling, agribisnis, perdagangan, ekspor, dan penjualan langsung. Kami memandang pembangunan bukan semata menumpuk bata atau memasarkan lahan, melainkan menciptakan ruang hidup dan peluang usaha yang memberi nilai jangka panjang bagi pelanggan, mitra, dan komunitas.
               </p>
               <p className="text-stone-600 text-sm leading-relaxed">
                 Melalui kurasi arsitektur American Classic yang abadi, kami memastikan setiap rumah memiliki sirkulasi udara optimal, pencahayaan alami, serta material berdaya tahan tinggi yang minim biaya perawatan jangka panjang.

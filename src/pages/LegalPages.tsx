@@ -8,7 +8,7 @@ export const LegalPages: React.FC<{
     <div className="min-h-screen bg-stone-50 font-sans py-20">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 bg-white p-8 md:p-12 border border-stone-200">
         <span className="text-[11px] uppercase tracking-[0.25em] text-stone-500 font-semibold block mb-2">
-          Legal & Compliance PT ZIA Properti Indonesia
+          Legal & Compliance · ZIA Corporate
         </span>
 
         {type === 'privacy' ? (
@@ -18,7 +18,7 @@ export const LegalPages: React.FC<{
             </h1>
             <div className="space-y-4 text-xs text-stone-600 leading-relaxed">
               <p>
-                PT ZIA Properti Indonesia ("kami") berkomitmen untuk melindungi dan menghormati privasi data pribadi Anda sesuai regulasi perlindungan data yang berlaku di Republik Indonesia.
+                ZIA Corporate ("kami") berkomitmen untuk melindungi dan menghormati privasi data pribadi Anda sesuai regulasi perlindungan data yang berlaku di Republik Indonesia.
               </p>
               <h2 className="font-serif text-base font-bold text-stone-900 pt-2">
                 1. Pengumpulan Informasi
@@ -30,7 +30,7 @@ export const LegalPages: React.FC<{
                 2. Kerahasiaan Data
               </h2>
               <p>
-                Kami tidak pernah menjual, menyewakan, atau mendistribusikan data kontak pribadi Anda kepada pihak ketiga manapun untuk tujuan pemasaran di luar kepentingan resmi transaksi PT ZIA Properti Indonesia.
+                Kami tidak pernah menjual, menyewakan, atau mendistribusikan data kontak pribadi Anda kepada pihak ketiga manapun untuk tujuan pemasaran di luar layanan dan kepentingan sah yang terkait dengan ekosistem ZIA Corporate.
               </p>
               <h2 className="font-serif text-base font-bold text-stone-900 pt-2">
                 3. Keamanan Informasi
@@ -47,7 +47,7 @@ export const LegalPages: React.FC<{
             </h1>
             <div className="space-y-4 text-xs text-stone-600 leading-relaxed">
               <p>
-                Selamat datang di platform resmi PT ZIA Properti Indonesia. Dengan mengakses situs web ini, Anda menyetujui ketentuan-ketentuan berikut.
+                Selamat datang di situs web resmi ZIA Corporate. Dengan mengakses situs web ini, Anda menyetujui ketentuan-ketentuan berikut.
               </p>
               <h2 className="font-serif text-base font-bold text-stone-900 pt-2">
                 1. Informasi Properti & Penawaran
@@ -59,7 +59,7 @@ export const LegalPages: React.FC<{
                 2. Hak Kekayaan Intelektual
               </h2>
               <p>
-                Seluruh merek dagang ZIA Emerald, Kav Hillside, ZIA Farm, dan Altara ZIA International beserta logo, tata desain, dan teks merupakan kekayaan intelektual milik PT ZIA Properti Indonesia.
+                Nama, logo, tata desain, dan materi pada situs ini digunakan dalam ekosistem ZIA Corporate. Hak atas masing-masing merek dan aset mengikuti ketentuan hukum serta perjanjian yang berlaku.
               </p>
             </div>
           </div>

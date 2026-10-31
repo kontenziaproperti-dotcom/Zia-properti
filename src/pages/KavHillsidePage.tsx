@@ -252,7 +252,7 @@ export const KavHillsidePage: React.FC<KavHillsideProps> = ({
           </div>
 
           <div className="mt-4 text-xs text-stone-500 flex items-center justify-between">
-            <span>* Status kavling diperbarui berkala melalui CMS resmi PT ZIA Properti Indonesia.</span>
+            <span>* Status kavling diperbarui berkala melalui CMS resmi ZIA Corporate.</span>
             <span>Menampilkan {filteredPlots.length} dari {plots.length} kavling</span>
           </div>
         </div>

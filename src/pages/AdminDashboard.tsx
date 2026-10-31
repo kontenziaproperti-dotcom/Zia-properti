@@ -162,7 +162,7 @@ export type CMSActiveTab =
   | 'maps';
 
 export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onNavigatePublic }) => {
-  const { currentUser, userProfile, loading: authLoading, logout, login, resetPassword, loginWithGoogle, isAdmin } = useAuth();
+  const { currentUser, userProfile, loading: authLoading, logout, login, resetPassword, loginWithGoogle, isAdmin, role } = useAuth();
 
   const [activeTab, setActiveTab] = useState<CMSActiveTab>('dashboard');
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
@@ -404,10 +404,21 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onNavigatePublic
               type="button"
               onClick={async () => {
                 setLoginLoading(true);
+                setLoginError('');
+                setLoginNotice('');
                 try {
                   await loginWithGoogle();
                 } catch (err: any) {
-                  setLoginError(err.message || 'Google login gagal.');
+                  const code = err?.code || '';
+                  setLoginError(code === 'auth/unauthorized-domain'
+                    ? 'Domain website belum diizinkan pada Firebase Authentication.'
+                    : code === 'auth/operation-not-allowed'
+                      ? 'Metode login Google belum diaktifkan pada Firebase Authentication.'
+                      : code === 'auth/popup-blocked'
+                        ? 'Browser memblokir jendela login Google. Izinkan pop-up lalu coba kembali.'
+                        : code === 'auth/popup-closed-by-user'
+                          ? 'Jendela login Google ditutup sebelum proses selesai.'
+                          : 'Login Google gagal. Periksa provider Google dan domain yang diizinkan di Firebase.');
                 } finally {
                   setLoginLoading(false);
                 }
@@ -548,6 +559,21 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onNavigatePublic
       ]
     }
   ];
+  const canManageContent = ['super_admin', 'admin', 'editor'].includes(role || '');
+  const staffAllowedTabs: CMSActiveTab[] = ['dashboard', 'leads', 'workspace', 'maps'];
+  const visibleSidebarGroups = sidebarGroups
+    .map((group) => ({
+      ...group,
+      items: group.items.filter((item) => canManageContent || staffAllowedTabs.includes(item.id))
+    }))
+    .filter((group) => group.items.length > 0);
+
+  useEffect(() => {
+    if (!canManageContent && !staffAllowedTabs.includes(activeTab)) {
+      setActiveTab('dashboard');
+    }
+  }, [canManageContent, activeTab]);
+
 
   return (
     <div className="min-h-screen bg-stone-900 text-stone-100 flex flex-col font-sans selection:bg-amber-400 selection:text-stone-950">
@@ -628,7 +654,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onNavigatePublic
           }`}
         >
           <div className="h-full overflow-y-auto p-4 space-y-6 text-xs">
-            {sidebarGroups.map((grp) => (
+            {visibleSidebarGroups.map((grp) => (
               <div key={grp.group} className="space-y-1">
                 <span className="text-[9px] uppercase tracking-[0.2em] font-bold text-stone-500 px-3 block mb-1">
                   {grp.group}

@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { Search, SlidersHorizontal } from 'lucide-react';
 import { ProjectEntity, PropertyItem } from '../../../types';
 import { BusinessCategory, getBusinessDirectoryItems } from '../businessUnits';
+import { isPublicProjectVisible } from '../publicProjectVisibility';
 import { CorporateBusinessCard } from '../components/CorporateBusinessCard';
 import { CorporatePageHero } from '../components/CorporatePageHero';
 
@@ -28,7 +29,10 @@ export const ProjectDirectoryPage: React.FC<ProjectDirectoryProps> = ({
   const [selectedCategory, setSelectedCategory] = useState<'all' | BusinessCategory>('all');
   const [searchQuery, setSearchQuery] = useState('');
 
-  const items = useMemo(() => getBusinessDirectoryItems(projects), [projects]);
+  const items = useMemo(
+    () => getBusinessDirectoryItems(projects).filter((item) => isPublicProjectVisible(item.slug)),
+    [projects]
+  );
 
   const filteredItems = items.filter((item) => {
     const matchesCategory = selectedCategory === 'all' || item.category === selectedCategory;

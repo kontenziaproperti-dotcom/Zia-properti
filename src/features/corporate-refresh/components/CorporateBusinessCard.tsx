@@ -24,7 +24,7 @@ export const CorporateBusinessCard: React.FC<CorporateBusinessCardProps> = ({
 }) => {
   const Icon = icons[item.icon];
   // Never present known stock photography as an official ZIA business asset.
-  const hasApprovedImage = Boolean(item.heroImage?.trim() && !/images\\.unsplash\\.com/i.test(item.heroImage));
+  const hasApprovedImage = Boolean(item.heroImage?.trim() && !/images\.unsplash\.com/i.test(item.heroImage));
 
   return (
     <article className={`se-business-card se-business-card--${item.visual} ${featured ? 'se-business-card--featured' : ''}`}>

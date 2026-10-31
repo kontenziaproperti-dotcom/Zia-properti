@@ -22,42 +22,40 @@ export enum OperationType {
   WRITE = 'write',
 }
 
-export interface FirestoreErrorInfo {
-  error: string;
-  operationType: OperationType;
-  path: string | null;
-  authInfo: {
-    userId?: string | null;
-    email?: string | null;
-    emailVerified?: boolean | null;
-    isAnonymous?: boolean | null;
-    tenantId?: string | null;
-    providerInfo?: {
-      providerId?: string | null;
-      email?: string | null;
-    }[];
-  };
+export function getFirestoreFailureMessage(error: unknown): string {
+  const code = error && typeof error === 'object' && 'code' in error
+    ? String((error as { code?: unknown }).code || '')
+    : '';
+
+  if (code === 'permission-denied') {
+    return 'Perubahan belum tersimpan: Firebase menolak akses database. Pastikan Anda masuk dengan akun yang berwenang dan aturan Firestore telah diterapkan pada database yang digunakan website.';
+  }
+  if (code === 'unauthenticated') {
+    return 'Sesi Firebase tidak aktif. Silakan keluar dari CMS, masuk kembali, lalu ulangi perubahan.';
+  }
+  if (code === 'unavailable' || code === 'deadline-exceeded') {
+    return 'Database sedang tidak dapat dijangkau. Periksa koneksi internet lalu coba kembali.';
+  }
+  if (code === 'not-found') {
+    return 'Data yang akan diperbarui tidak ditemukan di database.';
+  }
+  return 'Gagal menyimpan perubahan ke database. Tidak ada perubahan yang dinyatakan berhasil.';
 }
 
 export function handleFirestoreError(error: unknown, operationType: OperationType, path: string | null): never {
-  const errInfo: FirestoreErrorInfo = {
-    error: error instanceof Error ? error.message : String(error),
-    authInfo: {
-      userId: auth.currentUser?.uid,
-      email: auth.currentUser?.email,
-      emailVerified: auth.currentUser?.emailVerified,
-      isAnonymous: auth.currentUser?.isAnonymous,
-      tenantId: auth.currentUser?.tenantId,
-      providerInfo: auth.currentUser?.providerData?.map(provider => ({
-        providerId: provider.providerId,
-        email: provider.email,
-      })) || []
-    },
+  const code = error && typeof error === 'object' && 'code' in error
+    ? String((error as { code?: unknown }).code || 'unknown')
+    : 'unknown';
+
+  // Keep diagnostics useful without logging administrator email or provider data.
+  console.error('Firestore operation failed:', {
+    code,
     operationType,
-    path
-  };
-  console.error('Firestore Error: ', JSON.stringify(errInfo));
-  throw new Error(JSON.stringify(errInfo));
+    path,
+    authenticated: !!auth.currentUser
+  });
+
+  throw new Error(getFirestoreFailureMessage(error));
 }
 
 export async function testConnection() {

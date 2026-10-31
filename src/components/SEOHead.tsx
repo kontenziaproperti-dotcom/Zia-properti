@@ -31,10 +31,9 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
     project?.shortDescription ||
     'ZIA Corporate - Ekosistem bisnis lintas sektor yang menghadirkan ZIA Emerald, Kav Hillside, ZIA Farm, Altara ZIA International, ZIA Raya, dan ZIA Direct.';
 
-  const finalImage =
-    image ||
-    project?.heroImage ||
-    'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80';
+  // Do not inject stock imagery into corporate metadata. A verified corporate
+  // image can be supplied through the image prop or migrated CMS project data.
+  const finalImage = image || project?.heroImage || '';
 
   useEffect(() => {
     // 1. Update Document Title
@@ -54,12 +53,17 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
     setMeta('name', 'description', finalDesc);
     setMeta('property', 'og:title', finalTitle);
     setMeta('property', 'og:description', finalDesc);
-    setMeta('property', 'og:image', finalImage);
+    if (finalImage) {
+      setMeta('property', 'og:image', finalImage);
+      setMeta('name', 'twitter:image', finalImage);
+    } else {
+      document.querySelector('meta[property="og:image"]')?.remove();
+      document.querySelector('meta[name="twitter:image"]')?.remove();
+    }
     setMeta('property', 'og:type', project ? 'product' : 'website');
     setMeta('property', 'og:url', window.location.href);
     setMeta('name', 'twitter:title', finalTitle);
     setMeta('name', 'twitter:description', finalDesc);
-    setMeta('name', 'twitter:image', finalImage);
 
     // 3. Schema.org JSON-LD structured data
     let scriptTag = document.getElementById('schema-jsonld') as HTMLScriptElement | null;
@@ -80,20 +84,16 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
           'url': 'https://ziaproperti.co.id',
           'logo': 'https://ziaproperti.co.id/logo.png',
           'description': finalDesc,
-          'telephone': settings?.phone || '+62 21 8899 7654',
-          'address': {
-            '@type': 'PostalAddress',
-            'streetAddress': settings?.fullAddress || 'Jl. Raya Tarumajaya No. 88',
-            'addressLocality': 'Kabupaten Bekasi',
-            'addressRegion': 'Jawa Barat',
-            'postalCode': '17215',
-            'addressCountry': 'ID'
-          },
-          'geo': {
-            '@type': 'GeoCoordinates',
-            'latitude': -6.1852,
-            'longitude': 106.9944
-          }
+          ...(settings?.phone ? { 'telephone': settings.phone } : {}),
+          ...(settings?.fullAddress?.trim()
+            ? {
+                'address': {
+                  '@type': 'PostalAddress',
+                  'streetAddress': settings.fullAddress,
+                  'addressCountry': 'ID'
+                }
+              }
+            : {})
         },
         project ? {
           '@type': 'Product',

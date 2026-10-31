@@ -311,11 +311,22 @@ export const HomePage: React.FC<HomePageProps> = ({
                 className="se-card se-card--article bg-white border border-stone-200 overflow-hidden cursor-pointer group hover:shadow-md transition-all"
               >
                 <div className="h-48 overflow-hidden bg-stone-900">
-                  <img
-                    src={post.coverImage}
-                    alt={post.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
+                  {post.coverImage && !/images\\.unsplash\\.com/i.test(post.coverImage) ? (
+                    <img
+                      src={post.coverImage}
+                      alt={post.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex flex-col items-center justify-center gap-3 bg-[radial-gradient(circle_at_50%_25%,rgba(201,168,76,0.18),transparent_42%),linear-gradient(135deg,#101a16,#26372e)] text-stone-300">
+                      <div className="w-14 h-14 border border-amber-300/40 rounded-full flex items-center justify-center">
+                        <Building size={30} strokeWidth={1.15} className="text-amber-200" aria-hidden="true" />
+                      </div>
+                      <span className="text-[10px] uppercase tracking-[0.24em] text-stone-300/75">ZIA Corporate · Insights</span>
+                    </div>
+                  )}
                 </div>
                 <div className="p-6">
                   <span className="text-[10px] uppercase tracking-wider text-stone-500 font-semibold block mb-2">

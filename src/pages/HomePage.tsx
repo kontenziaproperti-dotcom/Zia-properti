@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ArrowRight,
   ShieldCheck,
@@ -31,6 +31,56 @@ export const HomePage: React.FC<HomePageProps> = ({
   onNavigate
 }) => {
   const directoryItems = getBusinessDirectoryItems(projects);
+  const [headOfficePhotoUrl, setHeadOfficePhotoUrl] = useState('');
+
+  useEffect(() => {
+    let cancelled = false;
+    let objectUrl: string | undefined;
+    const parts = [
+      'zia-corporate-head-office.webp.part-01',
+      'zia-corporate-head-office.webp.part-02',
+      'zia-corporate-head-office.webp.part-03',
+      'zia-corporate-head-office.webp.part-04',
+      'zia-corporate-head-office.webp.part-05',
+      'zia-corporate-head-office.webp.part-06',
+    ];
+
+    const loadHeadOfficePhoto = async () => {
+      const responses = await Promise.all(
+        parts.map((part) => fetch(`/images/${part}`))
+      );
+      if (responses.some((response) => !response.ok)) {
+        throw new Error('Official ZIA Corporate image could not be loaded.');
+      }
+
+      const buffers = await Promise.all(responses.map((response) => response.arrayBuffer()));
+      const totalBytes = buffers.reduce((total, buffer) => total + buffer.byteLength, 0);
+      const imageBytes = new Uint8Array(totalBytes);
+      let offset = 0;
+
+      buffers.forEach((buffer) => {
+        const bytes = new Uint8Array(buffer);
+        imageBytes.set(bytes, offset);
+        offset += bytes.byteLength;
+      });
+
+      objectUrl = URL.createObjectURL(new Blob([imageBytes], { type: 'image/webp' }));
+      if (cancelled) {
+        URL.revokeObjectURL(objectUrl);
+        return;
+      }
+      setHeadOfficePhotoUrl(objectUrl);
+    };
+
+    void loadHeadOfficePhoto().catch(() => {
+      // Keep the dark corporate fallback visible if the image cannot be loaded.
+    });
+
+    return () => {
+      cancelled = true;
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
+    };
+  }, []);
 
   const getWaCorporateLink = () => {
     const rawNumber = settings.contactWhatsApp || settings.corporateWhatsApp;
@@ -45,14 +95,16 @@ export const HomePage: React.FC<HomePageProps> = ({
       {/* 1. HERO SECTION */}
       <section className="se-hero relative min-h-[92vh] flex items-center bg-stone-950 text-white overflow-hidden">
         {/* Official ZIA Corporate Head Office photography supplied by the company. */}
-        <div className="se-hero__media absolute inset-0 z-0">
-          <img
-            src="/images/zia-corporate-head-office.webp"
-            alt=""
-            className="absolute inset-0 h-full w-full object-cover object-center"
-            loading="eager"
-            decoding="async"
-          />
+        <div className="se-hero__media absolute inset-0 z-0 bg-[radial-gradient(circle_at_78%_25%,rgba(80,120,101,0.36),transparent_30%),linear-gradient(125deg,#0c1511_0%,#1d2a22_52%,#0d1713_100%)]">
+          {headOfficePhotoUrl ? (
+            <img
+              src={headOfficePhotoUrl}
+              alt=""
+              className="absolute inset-0 h-full w-full object-cover object-center"
+              loading="eager"
+              decoding="async"
+            />
+          ) : null}
           <div className="absolute inset-0 bg-gradient-to-r from-stone-950/90 via-stone-950/60 to-stone-950/10" />
           <div className="absolute inset-0 bg-gradient-to-t from-stone-950/75 via-transparent to-stone-950/15" />
         </div>

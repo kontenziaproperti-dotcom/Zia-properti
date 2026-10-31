@@ -43,7 +43,7 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
   const verifiedProjectImage = candidateProjectImage && !/images\.unsplash\.com/i.test(candidateProjectImage)
     ? candidateProjectImage
     : '';
-  const finalImage = image || verifiedProjectImage || '/images/zia-corporate-head-office.webp';
+  const finalImage = image || verifiedProjectImage || '';
 
   useEffect(() => {
     // 1. Update Document Title

@@ -37,22 +37,22 @@ export const WhatsAppFloatingButton: React.FC<WhatsAppFloatingButtonProps> = ({
   // Construct contextual pre-filled message for sales
   const getContextualMessage = () => {
     if (currentProject && currentProject.slug !== 'zia-emerald' && currentProject.slug !== 'kav-hillside' && currentProject.slug !== 'zia-farm' && currentProject.slug !== 'altara-zia-international') {
-      return `Halo Tim Sales PT ZIA Properti Indonesia, saya sedang melihat proyek "${currentProject.name}" di website dan ingin berkonsultasi mengenai ketersediaan unit, simulasi pembayaran, serta jadwal survei lokasi.`;
+      return `Halo Tim Sales ZIA Corporate, saya sedang melihat proyek "${currentProject.name}" di website dan ingin berkonsultasi mengenai ketersediaan unit, simulasi pembayaran, serta jadwal survei lokasi.`;
     }
     if (currentRoute === '/projects/zia-emerald') {
-      return `Halo Tim Sales ZIA Emerald (PT ZIA Properti Indonesia), saya tertarik dengan hunian American Classic di Tarumajaya Bekasi dan ingin menanyakan tipe unit, ketersediaan, serta promo booking fee.`;
+      return `Halo Tim Sales ZIA Emerald (ZIA Corporate), saya tertarik dengan hunian American Classic di Tarumajaya Bekasi dan ingin menanyakan tipe unit, ketersediaan, serta promo booking fee.`;
     }
     if (currentRoute === '/projects/kav-hillside') {
-      return `Halo Tim Sales Kav Hillside (PT ZIA Properti Indonesia), saya tertarik dengan kavling tanah siap bangun dan ingin informasi site plan, ukuran luas, serta skema pembayaran tunai/bertahap.`;
+      return `Halo Tim Sales Kav Hillside (ZIA Corporate), saya tertarik dengan kavling tanah siap bangun dan ingin informasi site plan, ukuran luas, serta skema pembayaran tunai/bertahap.`;
     }
     if (currentRoute === '/projects/zia-farm') {
-      return `Halo Tim ZIA Farm (PT ZIA Properti Indonesia), saya ingin informasi pemesanan ternak qurban/aqiqah dan program kemitraan peternakan terpadu.`;
+      return `Halo Tim ZIA Farm (ZIA Corporate), saya ingin informasi pemesanan ternak qurban/aqiqah dan program kemitraan peternakan terpadu.`;
     }
     if (currentRoute === '/projects/altara-zia-international') {
       return `Halo Tim Altara ZIA International, saya ingin berkonsultasi mengenai ekspor komoditas vanilla beans Indonesia grade gourmet & extraction untuk kebutuhan B2B.`;
     }
     if (currentRoute === '/projects' || currentRoute === '/properties') {
-      return `Halo Tim Sales PT ZIA Properti Indonesia, saya sedang meninjau katalog portofolio proyek dan ingin mendapatkan rekomendasi properti yang sesuai dengan kebutuhan saya.`;
+      return `Halo Tim Sales ZIA Corporate, saya sedang meninjau katalog portofolio proyek dan ingin mendapatkan rekomendasi properti yang sesuai dengan kebutuhan saya.`;
     }
     if (currentRoute === '/business/zia-raya') {
       return `Halo Tim ZIA Raya, saya ingin informasi mengenai koleksi retail, apparel, lifestyle, dan perdagangan.`;
@@ -61,15 +61,15 @@ export const WhatsAppFloatingButton: React.FC<WhatsAppFloatingButtonProps> = ({
       return `Halo Tim ZIA Direct, saya ingin informasi mengenai perlengkapan rumah tangga dan program kemitraan.`;
     }
     if (currentRoute === '/contact') {
-      return `Halo Tim Sales PT ZIA Properti Indonesia, saya ingin menjadwalkan kunjungan lokasi (site visit) dan berkonsultasi langsung dengan sales representative resmi.`;
+      return `Halo Tim Sales ZIA Corporate, saya ingin menjadwalkan kunjungan lokasi (site visit) dan berkonsultasi langsung dengan sales representative resmi.`;
     }
     if (currentRoute === '/about') {
-      return `Halo Tim PT ZIA Properti Indonesia, saya membaca profil korporat dan ingin informasi lebih lanjut mengenai peluang investasi serta portofolio pengembangan properti Anda.`;
+      return `Halo Tim ZIA Corporate, saya membaca profil korporat dan ingin informasi lebih lanjut mengenai peluang investasi serta portofolio pengembangan properti Anda.`;
     }
     if (currentRoute.startsWith('/blog') || currentRoute.startsWith('/news')) {
-      return `Halo Tim Sales PT ZIA Properti Indonesia, saya membaca artikel di website dan ingin berkonsultasi lebih lanjut mengenai panduan properti dan informasi terkini.`;
+      return `Halo Tim Sales ZIA Corporate, saya membaca artikel di website dan ingin berkonsultasi lebih lanjut mengenai panduan properti dan informasi terkini.`;
     }
-    return `Halo Tim Sales PT ZIA Properti Indonesia, saya sedang mengunjungi website resmi ziaproperti.co.id dan ingin berkonsultasi langsung mengenai produk hunian, kavling, atau investasi.`;
+    return `Halo Tim Sales ZIA Corporate, saya sedang mengunjungi website resmi ziaproperti.co.id dan ingin berkonsultasi langsung mengenai produk hunian, kavling, atau investasi.`;
   };
 
   const messageText = getContextualMessage();
@@ -88,7 +88,7 @@ export const WhatsAppFloatingButton: React.FC<WhatsAppFloatingButtonProps> = ({
 
   return (
     <aside
-      aria-label="Layanan WhatsApp Tim Sales PT ZIA Properti Indonesia"
+      aria-label="Layanan WhatsApp Tim Sales ZIA Corporate"
       className="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-50 flex flex-col items-end pointer-events-none"
     >
       {/* Expandable Chat Card / Dialog */}
@@ -210,7 +210,7 @@ export const WhatsAppFloatingButton: React.FC<WhatsAppFloatingButtonProps> = ({
           <button
             onClick={togglePopup}
             onDoubleClick={handleOpenDirectly}
-            aria-label="Hubungi Tim Sales PT ZIA Properti Indonesia via WhatsApp"
+            aria-label="Hubungi Tim Sales ZIA Corporate via WhatsApp"
             aria-expanded={isOpen}
             className="relative flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#25D366] hover:bg-[#20bd5a] text-white shadow-2xl shadow-emerald-950/60 transition-all duration-300 hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-emerald-400/40"
           >

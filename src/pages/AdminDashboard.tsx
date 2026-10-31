@@ -162,7 +162,7 @@ export type CMSActiveTab =
   | 'maps';
 
 export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onNavigatePublic }) => {
-  const { currentUser, userProfile, logout, login, loginWithGoogle, demoLogin, isAdmin } = useAuth();
+  const { currentUser, userProfile, loading: authLoading, logout, login, resetPassword, loginWithGoogle, isAdmin } = useAuth();
 
   const [activeTab, setActiveTab] = useState<CMSActiveTab>('dashboard');
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
@@ -190,6 +190,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onNavigatePublic
   const [loginPassword, setLoginPassword] = useState('');
   const [loginLoading, setLoginLoading] = useState(false);
   const [loginError, setLoginError] = useState('');
+  const [loginNotice, setLoginNotice] = useState('');
 
   // Toast Trigger Helper
   const showToast = (message: string, type: 'success' | 'error' = 'success') => {
@@ -257,10 +258,10 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onNavigatePublic
   };
 
   useEffect(() => {
-    if (currentUser || userProfile) {
+    if (currentUser && isAdmin && !authLoading) {
       loadAllData();
     }
-  }, [currentUser, userProfile]);
+  }, [currentUser, isAdmin, authLoading]);
 
   // Handle Login
   const handleLoginSubmit = async (e: React.FormEvent) => {
@@ -274,17 +275,67 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onNavigatePublic
     setLoginError('');
 
     try {
+      setLoginNotice('');
       await login(loginEmail, loginPassword);
-      showToast('Berhasil masuk ke portal CMS.');
+      setLoginPassword('');
     } catch (err: any) {
-      setLoginError(err.message || 'Login gagal. Periksa kembali email dan kata sandi Anda.');
+      const code = err?.code || '';
+      const message = code === 'auth/invalid-credential' || code === 'auth/wrong-password' || code === 'auth/user-not-found' || code === 'auth/invalid-login-credentials'
+        ? 'Email atau kata sandi tidak cocok. Periksa kembali, atau gunakan Lupa Kata Sandi.'
+        : code === 'auth/too-many-requests'
+          ? 'Terlalu banyak percobaan masuk. Tunggu beberapa saat sebelum mencoba kembali.'
+          : code === 'auth/network-request-failed'
+            ? 'Koneksi internet bermasalah. Periksa jaringan lalu coba kembali.'
+            : code === 'auth/unauthorized-domain'
+              ? 'Domain website belum diizinkan pada Firebase Authentication.'
+              : code === 'auth/operation-not-allowed'
+                ? 'Metode Email/Kata Sandi belum diaktifkan pada Firebase Authentication.'
+                : 'Login gagal. Periksa konfigurasi akun Firebase atau coba reset kata sandi.';
+      setLoginError(message);
     } finally {
       setLoginLoading(false);
     }
   };
 
-  // If user is not authenticated, show professional CMS Login Gate
-  if (!currentUser && !userProfile) {
+  const handlePasswordReset = async () => {
+    if (!loginEmail.trim()) {
+      setLoginError('Masukkan email administrator terlebih dahulu.');
+      return;
+    }
+    setLoginLoading(true);
+    setLoginError('');
+    setLoginNotice('');
+    try {
+      await resetPassword(loginEmail);
+      setLoginNotice('Jika email terdaftar menggunakan metode Email/Kata Sandi, tautan reset akan dikirim. Periksa kotak masuk dan folder spam.');
+    } catch (err: any) {
+      const code = err?.code || '';
+      setLoginError(
+        code === 'auth/invalid-email'
+          ? 'Format alamat email belum benar.'
+          : code === 'auth/too-many-requests'
+            ? 'Terlalu banyak permintaan reset. Coba kembali beberapa saat lagi.'
+            : 'Permintaan reset kata sandi belum dapat dikirim. Periksa alamat email dan konfigurasi Firebase.'
+      );
+    } finally {
+      setLoginLoading(false);
+    }
+  };
+
+  // Wait until Firebase restores the real authentication session.
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-stone-950 flex items-center justify-center p-6 text-stone-300">
+        <div className="text-center">
+          <div className="w-10 h-10 border-2 border-amber-400 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-xs uppercase tracking-widest">Memverifikasi sesi Firebase...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // A CMS session is valid only when Firebase Auth has a current user.
+  if (!currentUser) {
     return (
       <div className="min-h-screen bg-stone-950 flex flex-col justify-center items-center p-4 selection:bg-amber-400 selection:text-stone-950 font-sans">
         <div className="w-full max-w-md bg-stone-900 border border-stone-800 p-8 shadow-2xl relative overflow-hidden">
@@ -300,8 +351,13 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onNavigatePublic
             </p>
           </div>
 
+          {loginNotice && (
+            <div className="mb-6 p-3 bg-emerald-950/50 border border-emerald-800 text-emerald-200 text-xs leading-relaxed" role="status">
+              {loginNotice}
+            </div>
+          )}
           {loginError && (
-            <div className="mb-6 p-3 bg-red-950/60 border border-red-800 text-red-300 text-xs flex items-center gap-2">
+            <div className="mb-6 p-3 bg-red-950/60 border border-red-800 text-red-300 text-xs flex items-center gap-2" role="alert">
               <Lock className="w-4 h-4 shrink-0" />
               <span>{loginError}</span>
             </div>
@@ -369,41 +425,15 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onNavigatePublic
             </button>
           </form>
 
-          {/* Quick Demo Access for Testing / Auditing */}
-          <div className="mt-8 pt-6 border-t border-stone-800 text-center">
-            <span className="text-[10px] uppercase tracking-widest text-stone-500 block mb-3 font-semibold">
-              — Quick Access untuk Auditor / Penguji —
-            </span>
-            <div className="grid grid-cols-2 gap-2 text-[11px]">
-              <button
-                type="button"
-                onClick={() => demoLogin('super_admin')}
-                className="p-2 bg-stone-950 hover:bg-stone-800 border border-stone-800 text-amber-300 font-semibold"
-              >
-                Super Admin
-              </button>
-              <button
-                type="button"
-                onClick={() => demoLogin('admin')}
-                className="p-2 bg-stone-950 hover:bg-stone-800 border border-stone-800 text-stone-300 font-semibold"
-              >
-                Administrator
-              </button>
-              <button
-                type="button"
-                onClick={() => demoLogin('sales')}
-                className="p-2 bg-stone-950 hover:bg-stone-800 border border-stone-800 text-emerald-300 font-semibold"
-              >
-                Sales & CRM
-              </button>
-              <button
-                type="button"
-                onClick={() => demoLogin('editor')}
-                className="p-2 bg-stone-950 hover:bg-stone-800 border border-stone-800 text-blue-300 font-semibold"
-              >
-                Editor Konten
-              </button>
-            </div>
+          <div className="mt-4 text-center">
+            <button
+              type="button"
+              onClick={handlePasswordReset}
+              disabled={loginLoading}
+              className="text-[11px] text-amber-300 hover:text-amber-200 underline underline-offset-4 disabled:opacity-50"
+            >
+              Lupa kata sandi?
+            </button>
           </div>
 
           <div className="mt-6 text-center">

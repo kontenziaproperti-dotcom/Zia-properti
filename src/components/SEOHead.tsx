@@ -67,11 +67,28 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
       document.querySelector('meta[name="twitter:image"]')?.remove();
     }
     setMeta('property', 'og:type', project ? 'product' : 'website');
-    setMeta('property', 'og:url', window.location.href);
+    const canonicalUrl = canonicalPath
+      ? new URL(canonicalPath, window.location.origin).toString()
+      : window.location.href.split(/[?#]/)[0];
+
+    setMeta('property', 'og:url', canonicalUrl);
     setMeta('name', 'twitter:title', finalTitle);
     setMeta('name', 'twitter:description', finalDesc);
 
-    // 3. Schema.org JSON-LD structured data
+    // Keep a canonical link aligned with the current public route. This is
+    // client-side metadata for the current SPA; prerender/SSR is a separate
+    // SEO improvement and is not implied by this update.
+    let canonicalLink = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
+    if (!canonicalLink) {
+      canonicalLink = document.createElement('link');
+      canonicalLink.rel = 'canonical';
+      document.head.appendChild(canonicalLink);
+    }
+    canonicalLink.href = canonicalUrl;
+
+    // 3. Schema.org JSON-LD structured data.
+    // ZIA Corporate is a multi-sector business ecosystem, not a single
+    // real-estate-agent listing. Do not invent a price or availability offer.
     let scriptTag = document.getElementById('schema-jsonld') as HTMLScriptElement | null;
     if (!scriptTag) {
       scriptTag = document.createElement('script');
@@ -80,15 +97,15 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
       document.head.appendChild(scriptTag);
     }
 
+    const organizationId = `${window.location.origin}/#organization`;
     const structuredData = {
       '@context': 'https://schema.org',
       '@graph': [
         {
-          '@type': 'RealEstateAgent',
-          '@id': 'https://ziaproperti.co.id/#organization',
+          '@type': 'Organization',
+          '@id': organizationId,
           'name': companyName,
-          'url': 'https://ziaproperti.co.id',
-          'logo': 'https://ziaproperti.co.id/logo.png',
+          'url': window.location.origin,
           'description': finalDesc,
           ...(settings?.phone ? { 'telephone': settings.phone } : {}),
           ...(settings?.fullAddress?.trim()
@@ -101,27 +118,28 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
               }
             : {})
         },
-        project ? {
-          '@type': 'Product',
-          'name': project.name,
-          'description': project.shortDescription,
-          'image': project.heroImage,
-          'brand': {
-            '@type': 'Brand',
-            'name': companyName
-          },
-          'offers': {
-            '@type': 'Offer',
-            'availability': 'https://schema.org/InStock',
-            'priceCurrency': 'IDR',
-            'price': '0',
-            'seller': {
-              '@type': 'Organization',
-              'name': companyName
-            }
+        {
+          '@type': 'WebPage',
+          '@id': `${canonicalUrl}#webpage`,
+          'url': canonicalUrl,
+          'name': finalTitle,
+          'description': finalDesc,
+          'about': project
+            ? {
+                '@type': 'Thing',
+                'name': project.name,
+                ...(project.shortDescription ? { 'description': project.shortDescription } : {}),
+                ...(project.heroImage ? { 'image': project.heroImage } : {})
+              }
+            : { '@id': organizationId },
+          'isPartOf': {
+            '@type': 'WebSite',
+            '@id': `${window.location.origin}/#website`,
+            'name': companyName,
+            'url': window.location.origin
           }
-        } : null
-      ].filter(Boolean)
+        }
+      ]
     };
 
     scriptTag.text = JSON.stringify(structuredData);

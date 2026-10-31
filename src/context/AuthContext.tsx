@@ -111,18 +111,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             }, { merge: true });
           }
           setUserProfile(data);
-        } else {
-          const assignedRole: UserRole = designated ? designated.role : 'sales';
+        } else if (designated) {
           const defaultProfile: UserProfile = {
             uid: user.uid,
             email: user.email || '',
-            displayName: user.displayName || designated?.displayName || user.email?.split('@')[0] || 'Pengguna CMS',
-            role: assignedRole,
+            displayName: user.displayName || designated.displayName,
+            role: designated.role,
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString()
           };
+          // The designated administrator allowlist may bootstrap only its own
+          // profile. Other staff accounts must be provisioned by an admin.
           await setDoc(userDocRef, defaultProfile);
           setUserProfile(defaultProfile);
+        } else {
+          // A valid Google/Firebase login alone does not grant CMS or CRM roles.
+          setUserProfile(null);
         }
       } catch (error) {
         console.error('Gagal memuat profil administrator dari Firebase:', error);

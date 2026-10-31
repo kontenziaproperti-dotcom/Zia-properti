@@ -22,8 +22,8 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
   // approved corporate master brand until that record is migrated.
   const companyName = 'ZIA Corporate';
   const normalizeCorporateName = (value: string) =>
-    value.replace(/\\bPT\\s+ZIA\\s+PROPERTI\\s+INDONESIA\\b/gi, companyName)
-      .replace(/\\bZIA\\s+PROPERTI\\s+INDONESIA\\b/gi, companyName);
+    value.replace(/\bPT\s+ZIA\s+PROPERTI\s+INDONESIA\b/gi, companyName)
+      .replace(/\bZIA\s+PROPERTI\s+INDONESIA\b/gi, companyName);
 
   const normalizedTitle = title ? normalizeCorporateName(title) : '';
   const finalTitle = normalizedTitle

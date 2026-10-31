@@ -23,6 +23,8 @@ export const CorporateBusinessCard: React.FC<CorporateBusinessCardProps> = ({
   featured = false,
 }) => {
   const Icon = icons[item.icon];
+  // Never present known stock photography as an official ZIA business asset.
+  const hasApprovedImage = Boolean(item.heroImage?.trim() && !/images\\.unsplash\\.com/i.test(item.heroImage));
 
   return (
     <article className={`se-business-card se-business-card--${item.visual} ${featured ? 'se-business-card--featured' : ''}`}>
@@ -32,7 +34,7 @@ export const CorporateBusinessCard: React.FC<CorporateBusinessCardProps> = ({
         onClick={() => onNavigate(item.route)}
         aria-label={`Buka ${item.name}`}
       >
-        {item.heroImage ? (
+        {hasApprovedImage ? (
           <img src={item.heroImage} alt="" loading="lazy" decoding="async" />
         ) : (
           <span className="se-business-card__symbol" aria-hidden="true">

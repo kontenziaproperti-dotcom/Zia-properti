@@ -311,7 +311,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                 className="se-card se-card--article bg-white border border-stone-200 overflow-hidden cursor-pointer group hover:shadow-md transition-all"
               >
                 <div className="h-48 overflow-hidden bg-stone-900">
-                  {post.coverImage && !/images\\.unsplash\\.com/i.test(post.coverImage) ? (
+                  {post.coverImage && !/images\.unsplash\.com/i.test(post.coverImage) ? (
                     <img
                       src={post.coverImage}
                       alt={post.title}

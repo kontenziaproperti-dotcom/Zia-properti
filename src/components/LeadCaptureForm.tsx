@@ -18,7 +18,7 @@ export const LeadCaptureForm: React.FC<LeadFormProps> = ({
   projectName,
   propertyOptions = [],
   title = 'Konsultasi & Reservasi Eksklusif',
-  subtitle = 'Dapatkan brosur spesifikasi lengkap, simulasi pembiayaan, atau jadwalkan survei privat langsung dengan representatif PT ZIA Properti Indonesia.',
+  subtitle = 'Dapatkan brosur spesifikasi lengkap, simulasi pembiayaan, atau jadwalkan survei privat langsung dengan representatif ZIA Corporate.',
   accentColorClass = 'text-stone-900',
   buttonColorClass = 'bg-stone-900 hover:bg-stone-800 text-white',
   onSuccess
@@ -245,7 +245,7 @@ export const LeadCaptureForm: React.FC<LeadFormProps> = ({
         </div>
 
         <p className="se-form-privacy text-[11px] text-stone-500 text-center pt-2">
-          Privasi Anda terlindungi. Kami tidak membagikan kontak Anda kepada pihak ketiga manapun di luar PT ZIA Properti Indonesia.
+          Privasi Anda terlindungi. Kami tidak membagikan kontak Anda kepada pihak ketiga manapun di luar ZIA Corporate.
         </p>
       </form>
     </div>

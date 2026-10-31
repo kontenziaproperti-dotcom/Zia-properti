@@ -21,15 +21,21 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
   // CMS data may still carry the former entity name. Public SEO must use the
   // approved corporate master brand until that record is migrated.
   const companyName = 'ZIA Corporate';
-  const finalTitle = title
-    ? `${title} | ${companyName}`
+  const normalizeCorporateName = (value: string) =>
+    value.replace(/\\bPT\\s+ZIA\\s+PROPERTI\\s+INDONESIA\\b/gi, companyName)
+      .replace(/\\bZIA\\s+PROPERTI\\s+INDONESIA\\b/gi, companyName);
+
+  const normalizedTitle = title ? normalizeCorporateName(title) : '';
+  const finalTitle = normalizedTitle
+    ? `${normalizedTitle} | ${companyName}`
     : `${companyName} | Building Better Places, Creating Long Term Value`;
 
-  const finalDesc =
+  const finalDesc = normalizeCorporateName(
     description ||
     project?.seoDescription ||
     project?.shortDescription ||
-    'ZIA Corporate - Ekosistem bisnis lintas sektor yang menghadirkan ZIA Emerald, Kav Hillside, ZIA Farm, Altara ZIA International, ZIA Raya, dan ZIA Direct.';
+    'ZIA Corporate - Ekosistem bisnis lintas sektor yang menghadirkan ZIA Emerald, Kav Hillside, ZIA Farm, Altara ZIA International, ZIA Raya, dan ZIA Direct.'
+  );
 
   // Do not inject stock imagery into corporate metadata. A verified corporate
   // image can be supplied through the image prop or migrated CMS project data.

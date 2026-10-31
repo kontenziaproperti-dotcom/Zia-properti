@@ -129,7 +129,7 @@ service cloud.firestore {
     // User collection: staff roles are provisioned by an administrator.
     // Self-registration must never grant sales/marketing access to CRM data.
     match /users/{userId} {
-      allow read: if isAuthenticated() && (request.auth.uid == userId || hasAdminRole());
+      allow read: if isAuthenticated() && (request.auth.uid == userId || canManageUsers());
 
       allow create: if canManageUsers() && (
         request.resource.data.role in ['admin', 'editor', 'sales', 'marketing'] ||

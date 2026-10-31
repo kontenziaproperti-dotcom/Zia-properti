@@ -17,9 +17,9 @@ import {
 export const INITIAL_SETTINGS: CompanySettings = {
   companyName: 'ZIA Corporate',
   tagline: 'Building Better Places, Creating Long Term Value',
-  headquarters: 'Kabupaten Bekasi, Jawa Barat, Indonesia',
-  // Do not publish an address until Corporate has confirmed the official location.
-  fullAddress: '',
+  headquarters: 'Bekasi Utara, Kota Bekasi, Jawa Barat, Indonesia',
+  fullAddress: 'Q2JH+87J, Jl. Perjuangan, RT.005/RW.01, Tlk. Pucung, Kec. Bekasi Utara, Kota Bks, Jawa Barat 17121',
+  marketingAddress: 'VX6X+6GG, Jl. Pahlawan Setia, Pahlawan Setia, Kec. Tarumajaya, Kabupaten Bekasi, Jawa Barat 17216',
   email: 'corporate@ziaproperti.co.id',
   phone: '+62 21 8899 7654',
   contactWhatsApp: '6281288889911',

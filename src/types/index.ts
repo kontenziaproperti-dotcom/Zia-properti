@@ -140,6 +140,7 @@ export interface CompanySettings {
   tagline: string;
   headquarters: string;
   fullAddress: string;
+  marketingAddress?: string;
   email: string;
   phone: string;
   contactWhatsApp?: string;

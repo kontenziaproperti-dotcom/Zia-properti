@@ -44,12 +44,17 @@ export const HomePage: React.FC<HomePageProps> = ({
     <div className="se-home min-h-screen bg-stone-50">
       {/* 1. HERO SECTION */}
       <section className="se-hero relative min-h-[92vh] flex items-center bg-stone-950 text-white overflow-hidden">
-        {/* Reference-inspired corporate canvas. Official photography will be supplied separately. */}
+        {/* Official ZIA Corporate Head Office photography supplied by the company. */}
         <div className="se-hero__media absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_25%,rgba(80,120,101,0.36),transparent_30%),linear-gradient(125deg,#0c1511_0%,#1d2a22_52%,#0d1713_100%)]" />
-          <div className="absolute -right-24 bottom-0 h-[75%] w-[58%] border-l border-t border-stone-400/20 bg-[linear-gradient(90deg,transparent_0%,rgba(201,168,76,0.08)_100%)] [clip-path:polygon(22%_100%,22%_24%,42%_4%,42%_100%,59%_100%,59%_38%,80%_14%,80%_100%,100%_100%,100%_0%,0%_0%,0%_100%)]" aria-hidden="true" />
-          <div className="se-hero__overlay--horizontal absolute inset-0 bg-gradient-to-r from-stone-950 via-stone-950/80 to-transparent" />
-          <div className="se-hero__overlay--bottom absolute inset-0 bg-gradient-to-t from-stone-950 via-transparent to-stone-950/40" />
+          <img
+            src="/images/zia-corporate-head-office.webp"
+            alt=""
+            className="absolute inset-0 h-full w-full object-cover object-center"
+            loading="eager"
+            decoding="async"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-stone-950/90 via-stone-950/60 to-stone-950/10" />
+          <div className="absolute inset-0 bg-gradient-to-t from-stone-950/75 via-transparent to-stone-950/15" />
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">

@@ -11,8 +11,12 @@ interface ContactPageProps {
 
 export const ContactPage: React.FC<ContactPageProps> = ({ settings }) => {
   const hasVerifiedAddress = Boolean(settings.fullAddress?.trim());
-  const mapSearchUrl = hasVerifiedAddress
+  const hasMarketingAddress = Boolean(settings.marketingAddress?.trim());
+  const headOfficeMapUrl = hasVerifiedAddress
     ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(settings.fullAddress)}`
+    : '';
+  const marketingOfficeMapUrl = hasMarketingAddress
+    ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(settings.marketingAddress || '')}`
     : '';
   const channels = [
     { name: 'ZIA Emerald', sector: 'Properti · Residensial', number: settings.emeraldWhatsApp, message: 'Halo Tim ZIA Emerald, saya ingin informasi mengenai hunian.' },
@@ -39,17 +43,22 @@ export const ContactPage: React.FC<ContactPageProps> = ({ settings }) => {
               <p className="se-section-eyebrow">Kantor korporat</p>
               <h2 className="se-section-title">Kami siap membantu.</h2>
             </div>
-            {hasVerifiedAddress ? (
-              <div className="se-contact-detail-card">
-                <MapPin size={20} aria-hidden="true" />
-                <div><strong>Alamat</strong><p>{settings.fullAddress}</p></div>
+            <div className="se-contact-detail-card">
+              <MapPin size={20} aria-hidden="true" />
+              <div>
+                <strong>ZIA Corporate Head Office</strong>
+                <p>{hasVerifiedAddress ? settings.fullAddress : 'Alamat kantor pusat belum tersedia.'}</p>
+                {hasVerifiedAddress ? <a href={headOfficeMapUrl} target="_blank" rel="noreferrer">Lihat Head Office di Google Maps <ArrowUpRight size={14} aria-hidden="true" /></a> : null}
               </div>
-            ) : (
-              <div className="se-contact-detail-card">
-                <MapPin size={20} aria-hidden="true" />
-                <div><strong>Alamat</strong><p>Alamat kantor korporat sedang dalam proses konfirmasi.</p></div>
+            </div>
+            <div className="se-contact-detail-card">
+              <MapPin size={20} aria-hidden="true" />
+              <div>
+                <strong>Kantor Marketing Pemasaran ZIA Properti Indonesia</strong>
+                <p>{hasMarketingAddress ? settings.marketingAddress : 'Alamat kantor marketing belum tersedia.'}</p>
+                {hasMarketingAddress ? <a href={marketingOfficeMapUrl} target="_blank" rel="noreferrer">Lihat Marketing Office di Google Maps <ArrowUpRight size={14} aria-hidden="true" /></a> : null}
               </div>
-            )}
+            </div>
             <div className="se-contact-detail-card">
               <Clock3 size={20} aria-hidden="true" />
               <div><strong>Jam operasional</strong><p>{settings.officeHours}</p></div>
@@ -122,26 +131,31 @@ export const ContactPage: React.FC<ContactPageProps> = ({ settings }) => {
       <section className="se-section">
         <div className="se-page-container">
           <div className="se-section-heading se-section-heading--left">
-            <p className="se-section-eyebrow">Navigasi & lokasi</p>
-            <h2 className="se-section-title">Peta kantor dan jaringan lokasi ZIA.</h2>
-            <p className="se-section-description">Gunakan peta untuk melihat titik lokasi yang tersedia pada direktori peta perusahaan.</p>
+            <p className="se-section-eyebrow">Lokasi resmi ZIA</p>
+            <h2 className="se-section-title">Head Office & Marketing Office.</h2>
+            <p className="se-section-description">Dua alamat kantor dengan fungsi yang berbeda dalam operasional ZIA.</p>
           </div>
-          <div className="se-contact-map se-contact-map--link">
-            <span className="se-contact-map__icon"><MapPin size={24} aria-hidden="true" /></span>
-            <p className="se-section-eyebrow">Alamat dari pengaturan korporat</p>
-            <h3>{settings.companyName}</h3>
-            {hasVerifiedAddress ? (
-              <>
-                <p className="se-contact-map__address">{settings.fullAddress}</p>
-                <a href={mapSearchUrl} target="_blank" rel="noreferrer">
-                  Cari alamat ini di Google Maps <ArrowUpRight size={16} aria-hidden="true" />
-                </a>
-              </>
-            ) : (
-              <p className="se-contact-map__address">Alamat dan tautan peta akan ditampilkan setelah dikonfirmasi oleh ZIA Corporate.</p>
-            )}
-            <small>Direktori titik lokasi unit usaha akan ditampilkan setelah alamat operasional dan koordinat setiap lokasi dikonfirmasi.</small>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="se-contact-map se-contact-map--link">
+              <span className="se-contact-map__icon"><MapPin size={24} aria-hidden="true" /></span>
+              <p className="se-section-eyebrow">Kantor Pusat</p>
+              <h3>ZIA Corporate Head Office</h3>
+              <p className="se-contact-map__address">{settings.fullAddress}</p>
+              <a href={headOfficeMapUrl} target="_blank" rel="noreferrer">
+                Buka Head Office di Google Maps <ArrowUpRight size={16} aria-hidden="true" />
+              </a>
+            </div>
+            <div className="se-contact-map se-contact-map--link">
+              <span className="se-contact-map__icon"><MapPin size={24} aria-hidden="true" /></span>
+              <p className="se-section-eyebrow">Kantor Pemasaran</p>
+              <h3>ZIA Properti Indonesia · Marketing Office</h3>
+              <p className="se-contact-map__address">{settings.marketingAddress}</p>
+              <a href={marketingOfficeMapUrl} target="_blank" rel="noreferrer">
+                Buka Marketing Office di Google Maps <ArrowUpRight size={16} aria-hidden="true" />
+              </a>
+            </div>
           </div>
+          <small>Alamat ditampilkan sesuai informasi yang diberikan oleh perusahaan. Titik peta dibuka melalui pencarian alamat pada Google Maps.</small>
         </div>
       </section>
     </div>

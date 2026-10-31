@@ -369,8 +369,14 @@ export const CorporateFooter: React.FC<{
             <div className="pt-4 space-y-2 text-xs text-stone-400">
               <p className="flex items-start gap-2">
                 <MapPin className="w-4 h-4 text-stone-500 shrink-0 mt-0.5" />
-                <span>{settings.fullAddress}</span>
+                <span><strong className="block text-stone-300">ZIA Corporate Head Office</strong>{settings.fullAddress}</span>
               </p>
+              {settings.marketingAddress ? (
+                <p className="flex items-start gap-2">
+                  <MapPin className="w-4 h-4 text-stone-500 shrink-0 mt-0.5" />
+                  <span><strong className="block text-stone-300">Marketing Office · ZIA Properti Indonesia</strong>{settings.marketingAddress}</span>
+                </p>
+              ) : null}
               <p className="flex items-center gap-2">
                 <Mail className="w-4 h-4 text-stone-500 shrink-0" />
                 <span>{settings.email}</span>

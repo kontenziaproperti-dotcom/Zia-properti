@@ -195,12 +195,6 @@ export default function App() {
     if (route === '/business/zia-direct') {
       return { title: 'ZIA Direct | Direct Selling & Kemitraan', description: 'Informasi produk perlengkapan rumah tangga dan program kemitraan ZIA Direct.', project: null };
     }
-    if (route === '/business/zia-raya') {
-      return { title: 'ZIA Raya | Retail & Perdagangan ZIA Corporate', description: 'Informasi lini retail, apparel, aksesori, lifestyle, dan perdagangan umum ZIA Raya.', project: null };
-    }
-    if (route === '/business/zia-direct') {
-      return { title: 'ZIA Direct | Direct Selling & Kemitraan', description: 'Informasi produk perlengkapan rumah tangga dan program kemitraan ZIA Direct.', project: null };
-    }
     if (route === '/projects' || route === '/properties') {
       return {
         title: 'Direktori Proyek & Ekosistem Bisnis',

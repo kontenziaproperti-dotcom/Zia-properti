@@ -8,14 +8,8 @@ service cloud.firestore {
     }
 
     function isRootAdmin() {
-      return isAuthenticated() && (
-        request.auth.uid == "str6aMtNRzVF3ttdQtG0Z7pVUTX2" ||
-        request.auth.uid == "jI2BH93v4JPWPZ6ULONFA9LaDdz1" ||
-        request.auth.token.email == "ziaproperti@corporate.co.id" ||
-        request.auth.token.email == "konten.ziaproperti@gmail.com" ||
-        request.auth.token.email == "garenkdeathcore@gmail.com" ||
-        request.auth.token.email == "admin@ziaproperti.co.id"
-      );
+      return isAuthenticated() &&
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid));
     }
 
     function userDocExists() {
@@ -40,6 +34,13 @@ service cloud.firestore {
 
     function isInitialBootstrap() {
       return !exists(/databases/$(database)/documents/settings/global);
+    }
+
+    // Admin registry — UID sebagai document ID, hanya root admin yang bisa menulis
+    // Untuk menambah admin: buat document di koleksi ini dengan UID sebagai ID-nya
+    match /admins/{adminUid} {
+      allow read: if isAuthenticated() && (request.auth.uid == adminUid || isRootAdmin());
+      allow write: if isRootAdmin();
     }
 
     // Connection test probe

@@ -70,9 +70,7 @@ export async function testConnection() {
   }
 }
 
-// Test initial connection as per skill instructions
-if (typeof window !== 'undefined') {
-  testConnection();
-}
+// testConnection() dipanggil secara eksplisit dari komponen yang membutuhkan,
+// bukan otomatis saat module diload, untuk mengurangi Firestore read yang tidak perlu.
 
 export default app;

@@ -15,6 +15,7 @@ import { CompanySettings, ProjectEntity, PostItem } from '../types';
 import { LeadCaptureForm } from '../components/LeadCaptureForm';
 import { cleanWhatsAppNumber, formatIndonesianPhone } from '../lib/contactUtils';
 import { getBusinessDirectoryItems } from '../features/corporate-refresh/businessUnits';
+import { isPublicProjectVisible } from '../features/corporate-refresh/publicProjectVisibility';
 import { CorporateBusinessCard } from '../features/corporate-refresh/components/CorporateBusinessCard';
 
 interface HomePageProps {
@@ -32,8 +33,7 @@ export const HomePage: React.FC<HomePageProps> = ({
 }) => {
   // Hide this listing from the corporate homepage only. The project record,
   // CMS data and direct detail route remain untouched.
-  const directoryItems = getBusinessDirectoryItems(projects)
-    .filter((item) => item.slug !== 'proyek-1792842863315');
+  const directoryItems = getBusinessDirectoryItems(projects).filter((item) => isPublicProjectVisible(item.slug));
 
   const getWaCorporateLink = () => {
     const rawNumber = settings.contactWhatsApp || settings.corporateWhatsApp;

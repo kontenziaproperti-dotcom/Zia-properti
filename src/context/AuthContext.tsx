@@ -97,9 +97,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           return;
         }
 
+        const designated = getDesignatedAdminInfo(user.uid, user.email);
+
+        // Only an authenticated, designated root administrator may initialize
+        // an empty named Firestore database.
+        if (designated?.role === 'super_admin') {
+          const dataService = await import('../services/dataService');
+          await dataService.initializeDatabaseIfEmpty();
+        }
+
         const userDocRef = doc(db, 'users', user.uid);
         const snap = await getDoc(userDocRef);
-        const designated = getDesignatedAdminInfo(user.uid, user.email);
 
         if (snap.exists()) {
           const data = snap.data() as UserProfile;

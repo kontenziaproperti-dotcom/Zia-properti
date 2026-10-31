@@ -3,6 +3,7 @@ import { CorporateHeader, CorporateFooter } from './components/CorporateLayout';
 import { SEOHead } from './components/SEOHead';
 import { WhatsAppFloatingButton } from './components/WhatsAppFloatingButton';
 import { X } from 'lucide-react';
+import { normalizePublicProjectRoute } from './features/corporate-refresh/publicProjectVisibility';
 
 // Public and internal routes are split into on-demand chunks to keep the
 // first corporate page load smaller and defer the CMS/maps until requested.
@@ -49,7 +50,8 @@ import {
 
 export default function App() {
   const [route, setRoute] = useState<string>(() => {
-    return window.location.pathname === '/' ? '/' : window.location.pathname;
+    const currentPath = window.location.pathname;
+    return normalizePublicProjectRoute(currentPath);
   });
 
   const [settings, setSettings] = useState<CompanySettings>(INITIAL_SETTINGS);
@@ -115,17 +117,26 @@ export default function App() {
 
   // Handle client-side routing & history
   const navigateTo = (newRoute: string) => {
-    setRoute(newRoute);
-    window.history.pushState({}, '', newRoute);
+    const safeRoute = normalizePublicProjectRoute(newRoute);
+    setRoute(safeRoute);
+    window.history.pushState({}, '', safeRoute);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   useEffect(() => {
-    const onPop = () => {
-      setRoute(window.location.pathname);
+    const normalizeCurrentLocation = () => {
+      const currentPath = window.location.pathname;
+      const safePath = normalizePublicProjectRoute(currentPath);
+      if (safePath !== currentPath) {
+        window.history.replaceState({}, '', safePath);
+      }
+      setRoute(safePath);
     };
-    window.addEventListener('popstate', onPop);
-    return () => window.removeEventListener('popstate', onPop);
+
+    // Replace a bookmarked/direct link to a hidden project with the directory.
+    normalizeCurrentLocation();
+    window.addEventListener('popstate', normalizeCurrentLocation);
+    return () => window.removeEventListener('popstate', normalizeCurrentLocation);
   }, []);
 
   // Admin CMS layout

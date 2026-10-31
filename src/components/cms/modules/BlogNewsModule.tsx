@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
 import {
-  FileText,
   Edit2,
   Trash2,
-  ExternalLink,
   Newspaper,
   BookOpen,
   Calendar,
   User,
-  Plus
 } from 'lucide-react';
 import { PostItem, ContentStatus } from '../../../types';
 import {
@@ -19,6 +16,20 @@ import {
   CMSConfirmDialog,
   CMSEmptyState
 } from '../CMSUI';
+
+const BLOG_CATEGORIES = [
+  'Arsitektur American Classic',
+  'Tips Pemilihan Kavling',
+  'Investasi Jangka Panjang',
+  'Agribisnis',
+] as const;
+
+const NEWS_CATEGORIES = [
+  'Siaran Pers Resmi',
+  'Berita Korporat',
+  'Agenda & Acara',
+  'Ekspor & Agribisnis',
+] as const;
 
 interface BlogNewsModuleProps {
   posts: PostItem[];
@@ -156,7 +167,7 @@ export const BlogNewsModule: React.FC<BlogNewsModuleProps> = ({
           setEditingPost({
             title: '',
             slug: `artikel-${Date.now()}`,
-            category: activeType === 'news' ? 'Siaran Pers Resmi' : 'Arsitektur & Konsep',
+            category: activeType === 'news' ? NEWS_CATEGORIES[0] : BLOG_CATEGORIES[0],
             summary: '',
             content: '',
             author: 'Tim Komunikasi PT ZIA',
@@ -185,7 +196,7 @@ export const BlogNewsModule: React.FC<BlogNewsModuleProps> = ({
         sortOptions={[
           { label: 'Terbaru Ditulis', value: 'newest' },
           { label: 'Terlama', value: 'oldest' },
-          { label: 'Judul (A-Z)', value: 'title' }
+          { label: 'Judul A sampai Z', value: 'title' }
         ]}
       />
 
@@ -199,7 +210,7 @@ export const BlogNewsModule: React.FC<BlogNewsModuleProps> = ({
             setEditingPost({
               title: 'Judul Publikasi Baru PT ZIA',
               slug: `artikel-${Date.now()}`,
-              category: activeType === 'news' ? 'Berita Korporat' : 'Wawasan Properti',
+              category: activeType === 'news' ? NEWS_CATEGORIES[1] : BLOG_CATEGORIES[0],
               summary: 'Ringkasan singkat ulasan materi...',
               content: 'Isi lengkap analisis dan wawasan korporat...',
               author: 'Tim Editorial PT ZIA',
@@ -318,13 +329,15 @@ export const BlogNewsModule: React.FC<BlogNewsModuleProps> = ({
                 <label className="text-stone-400 uppercase tracking-wider block mb-1">
                   Kategori Topik
                 </label>
-                <input
-                  type="text"
-                  placeholder="Arsitektur & Konsep / Ekspor / Investasi"
-                  value={editingPost.category || ''}
+                <select
+                  value={editingPost.category || (activeType === 'news' ? NEWS_CATEGORIES[0] : BLOG_CATEGORIES[0])}
                   onChange={(e) => setEditingPost({ ...editingPost, category: e.target.value })}
                   className="w-full bg-stone-950 border border-stone-800 p-2.5 text-white"
-                />
+                >
+                  {(activeType === 'news' ? NEWS_CATEGORIES : BLOG_CATEGORIES).map((cat) => (
+                    <option key={cat} value={cat}>{cat}</option>
+                  ))}
+                </select>
               </div>
 
               <div>

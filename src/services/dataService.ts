@@ -144,7 +144,7 @@ export async function getCompanySettings(): Promise<CompanySettings> {
 }
 
 export async function updateCompanySettings(data: Partial<CompanySettings>): Promise<CompanySettings> {
-  // Normalize and sanitize WhatsApp numbers if provided
+  // Normalize and sanitize WhatsApp numbers if provided.
   const sanitized: Partial<CompanySettings> = { ...data };
   if (sanitized.contactWhatsApp) {
     sanitized.contactWhatsApp = cleanWhatsAppNumber(sanitized.contactWhatsApp);
@@ -169,24 +169,33 @@ export async function updateCompanySettings(data: Partial<CompanySettings>): Pro
   const updatedAt = new Date().toISOString();
   let merged: CompanySettings = { ...INITIAL_SETTINGS, ...sanitized, updatedAt };
 
+  // Prepare the merged client value, but do not change cache or UI before the
+  // authoritative Firestore write succeeds.
   if (typeof window !== 'undefined') {
     try {
       const current = localStorage.getItem('zia_cached_settings');
       const parsed = current ? JSON.parse(current) : INITIAL_SETTINGS;
       merged = { ...parsed, ...sanitized, updatedAt };
-      localStorage.setItem('zia_cached_settings', JSON.stringify(merged));
-      // Dispatch reactive event so other mounted components update immediately
-      window.dispatchEvent(new CustomEvent('zia_settings_updated', { detail: merged }));
-    } catch {}
+    } catch {
+      // A malformed cache must not prevent saving the canonical Firestore data.
+    }
   }
 
   const path = 'settings/global';
   try {
-    const ref = doc(db, 'settings', 'global');
-    await setDoc(ref, { ...sanitized, updatedAt }, { merge: true });
+    await setDoc(doc(db, 'settings', 'global'), { ...sanitized, updatedAt }, { merge: true });
+
+    if (typeof window !== 'undefined') {
+      try {
+        localStorage.setItem('zia_cached_settings', JSON.stringify(merged));
+        window.dispatchEvent(new CustomEvent('zia_settings_updated', { detail: merged }));
+      } catch (cacheError) {
+        console.warn('Settings saved to Firestore, but local cache refresh failed:', cacheError);
+      }
+    }
+
     return merged;
   } catch (error) {
-    // If user lacks permission or Firestore error occurs
     handleFirestoreError(error, OperationType.WRITE, path);
   }
 }

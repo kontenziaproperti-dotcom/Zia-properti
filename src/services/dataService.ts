@@ -48,6 +48,10 @@ import {
 } from '../types';
 
 export async function initializeDatabaseIfEmpty() {
+  // Public visitors must never bootstrap Firestore writes. A designated
+  // administrator session triggers this initializer from AuthContext.
+  if (!auth.currentUser) return;
+
   try {
     const settingsDoc = await getDoc(doc(db, 'settings', 'global'));
     if (!settingsDoc.exists()) {

@@ -3,7 +3,7 @@ import {
   User,
   onAuthStateChanged,
   signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
   signInWithPopup,
   GoogleAuthProvider,
   signOut
@@ -59,8 +59,8 @@ interface AuthContextType {
   isAdmin: boolean;
   role: UserRole | null;
   login: (email: string, pass: string) => Promise<void>;
+  resetPassword: (email: string) => Promise<void>;
   loginWithGoogle: () => Promise<void>;
-  demoLogin: (role?: UserRole) => void;
   logout: () => Promise<void>;
 }
 
@@ -71,129 +71,108 @@ const AuthContext = createContext<AuthContextType>({
   isAdmin: false,
   role: null,
   login: async () => {},
+  resetPassword: async () => {},
   loginWithGoogle: async () => {},
-  demoLogin: () => {},
   logout: async () => {}
 });
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [userProfile, setUserProfile] = useState<UserProfile | null>(() => {
-    try {
-      const saved = localStorage.getItem('zia_admin_session');
-      return saved ? JSON.parse(saved) : null;
-    } catch {
-      return null;
-    }
-  });
+  // Admin privileges must be reconstructed from a live Firebase Auth session.
+  // A browser-only cached profile is never an authentication source.
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      setLoading(true);
       setCurrentUser(user);
-      if (user) {
-        try {
-          const userDocRef = doc(db, 'users', user.uid);
-          const snap = await getDoc(userDocRef);
-          const designated = getDesignatedAdminInfo(user.uid, user.email);
+      setUserProfile(null);
 
-          if (snap.exists()) {
-            const data = snap.data() as UserProfile;
-            // If user is a designated administrator, ensure their active session has admin role
-            if (designated && data.role !== 'super_admin' && data.role !== 'admin') {
-              data.role = designated.role;
-              await setDoc(userDocRef, { role: designated.role, updatedAt: new Date().toISOString() }, { merge: true });
-            }
-            setUserProfile(data);
-            localStorage.setItem('zia_admin_session', JSON.stringify(data));
-          } else {
-            // New user registration / first login
-            const assignedRole: UserRole = designated ? designated.role : 'sales';
-            const defaultProfile: UserProfile = {
-              uid: user.uid,
-              email: user.email || '',
-              displayName: user.displayName || designated?.displayName || user.email?.split('@')[0] || 'Pengguna CMS',
-              role: assignedRole,
-              createdAt: new Date().toISOString(),
-              updatedAt: new Date().toISOString()
-            };
-            await setDoc(userDocRef, defaultProfile);
-            setUserProfile(defaultProfile);
-            localStorage.setItem('zia_admin_session', JSON.stringify(defaultProfile));
-          }
-        } catch (e) {
-          console.error('Error fetching user profile:', e);
-          const designated = getDesignatedAdminInfo(user.uid, user.email);
-          if (designated) {
-            const fallbackProfile: UserProfile = {
-              uid: user.uid,
-              email: user.email || '',
-              displayName: user.displayName || designated.displayName,
-              role: designated.role,
-              createdAt: new Date().toISOString(),
-              updatedAt: new Date().toISOString()
-            };
-            setUserProfile(fallbackProfile);
-            localStorage.setItem('zia_admin_session', JSON.stringify(fallbackProfile));
-          } else {
-            // Non-authorized user: do NOT grant super_admin
-            setUserProfile(null);
+      try {
+        if (!user) {
+          if (typeof window !== 'undefined') {
             localStorage.removeItem('zia_admin_session');
           }
+          return;
         }
-      } else {
-        // Not authenticated
-        setUserProfile(null);
-        localStorage.removeItem('zia_admin_session');
+
+        const userDocRef = doc(db, 'users', user.uid);
+        const snap = await getDoc(userDocRef);
+        const designated = getDesignatedAdminInfo(user.uid, user.email);
+
+        if (snap.exists()) {
+          const data = snap.data() as UserProfile;
+          if (designated && !['super_admin', 'admin'].includes(data.role)) {
+            data.role = designated.role;
+            await setDoc(userDocRef, {
+              role: designated.role,
+              updatedAt: new Date().toISOString()
+            }, { merge: true });
+          }
+          setUserProfile(data);
+        } else {
+          const assignedRole: UserRole = designated ? designated.role : 'sales';
+          const defaultProfile: UserProfile = {
+            uid: user.uid,
+            email: user.email || '',
+            displayName: user.displayName || designated?.displayName || user.email?.split('@')[0] || 'Pengguna CMS',
+            role: assignedRole,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+          };
+          await setDoc(userDocRef, defaultProfile);
+          setUserProfile(defaultProfile);
+        }
+      } catch (error) {
+        console.error('Gagal memuat profil administrator dari Firebase:', error);
+        const designated = getDesignatedAdminInfo(user.uid, user.email);
+        if (designated) {
+          // A designated account may enter the CMS only while Firebase Auth
+          // confirms the actual user. Firestore writes still require valid rules.
+          setUserProfile({
+            uid: user.uid,
+            email: user.email || '',
+            displayName: user.displayName || designated.displayName,
+            role: designated.role,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+          });
+        } else {
+          setUserProfile(null);
+        }
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     });
 
     return () => unsubscribe();
   }, []);
 
   const login = async (email: string, pass: string) => {
-    try {
-      await signInWithEmailAndPassword(auth, email, pass);
-    } catch (err: any) {
-      // Auto-create account ONLY if it is a designated administrator and user does not exist in Auth
-      if (
-        err.code === 'auth/user-not-found' ||
-        err.code === 'auth/invalid-credential' ||
-        err.code === 'auth/invalid-login-credentials'
-      ) {
-        const designated = getDesignatedAdminInfo(null, email);
-        if (designated) {
-          try {
-            await createUserWithEmailAndPassword(auth, email, pass);
-            return;
-          } catch (createErr) {
-            console.warn('Firebase createUser failed for designated admin:', createErr);
-          }
-        }
-      }
-      // Re-throw so authentication failure is properly displayed and unauthorized users are blocked
-      throw err;
+    const normalizedEmail = email.trim().toLowerCase();
+    if (!normalizedEmail || !pass) {
+      throw new Error('Email dan kata sandi wajib diisi.');
     }
+
+    // Never create a privileged account from the login form. Account creation,
+    // role assignment and password recovery are managed through Firebase.
+    await signInWithEmailAndPassword(auth, normalizedEmail, pass);
+  };
+
+  const resetPassword = async (email: string) => {
+    const normalizedEmail = email.trim().toLowerCase();
+    if (!normalizedEmail) {
+      throw new Error('Masukkan alamat email terlebih dahulu.');
+    }
+
+    await sendPasswordResetEmail(auth, normalizedEmail);
   };
 
   const loginWithGoogle = async () => {
     const provider = new GoogleAuthProvider();
+    provider.setCustomParameters({ prompt: 'select_account' });
     await signInWithPopup(auth, provider);
-  };
-
-  const demoLogin = (role: UserRole = 'super_admin') => {
-    const demoProfile: UserProfile = {
-      uid: 'user-demo-admin',
-      email: 'admin@ziaproperti.co.id',
-      displayName: role === 'super_admin' ? 'Super Administrator' : 'Administrator CMS',
-      role,
-      phone: '+6289699703304',
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
-    };
-    setUserProfile(demoProfile);
-    localStorage.setItem('zia_admin_session', JSON.stringify(demoProfile));
   };
 
   const logout = async () => {
@@ -203,12 +182,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       console.warn('Firebase signOut notice:', e);
     }
     setUserProfile(null);
-    localStorage.removeItem('zia_admin_session');
+    if (typeof window !== 'undefined') localStorage.removeItem('zia_admin_session');
   };
 
-  const isAuthorizedRole = !!userProfile && ['super_admin', 'admin', 'editor', 'sales', 'marketing'].includes(userProfile.role);
-  const isDesignated = !!currentUser && !!getDesignatedAdminInfo(currentUser.uid, currentUser.email);
-  const isAdmin = isAuthorizedRole || isDesignated;
+  const isAuthorizedRole = !!currentUser && !!userProfile && ['super_admin', 'admin', 'editor', 'sales', 'marketing'].includes(userProfile.role);
+  const designatedInfo = currentUser ? getDesignatedAdminInfo(currentUser.uid, currentUser.email) : null;
+  const isAdmin = !!currentUser && (isAuthorizedRole || !!designatedInfo);
 
   return (
     <AuthContext.Provider
@@ -217,10 +196,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         userProfile,
         loading,
         isAdmin,
-        role: userProfile?.role || (isDesignated ? 'admin' : null),
+        role: userProfile?.role || designatedInfo?.role || null,
         login,
+        resetPassword,
         loginWithGoogle,
-        demoLogin,
         logout
       }}
     >

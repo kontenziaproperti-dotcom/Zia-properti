@@ -165,6 +165,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onNavigatePublic
   const { currentUser, userProfile, loading: authLoading, logout, login, resetPassword, loginWithGoogle, isAdmin, role } = useAuth();
   const canManageContent = ['super_admin', 'admin', 'editor'].includes(role || '');
   const canManageUserAccounts = ['super_admin', 'admin'].includes(role || '');
+  const staffAllowedTabs: CMSActiveTab[] = ['dashboard', 'leads', 'workspace', 'maps'];
 
   const [activeTab, setActiveTab] = useState<CMSActiveTab>('dashboard');
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
@@ -264,6 +265,12 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onNavigatePublic
       loadAllData();
     }
   }, [currentUser, isAdmin, authLoading]);
+
+  useEffect(() => {
+    if (!canManageContent && !staffAllowedTabs.includes(activeTab)) {
+      setActiveTab('dashboard');
+    }
+  }, [canManageContent, activeTab]);
 
   // Handle Login
   const handleLoginSubmit = async (e: React.FormEvent) => {
@@ -561,7 +568,6 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onNavigatePublic
       ]
     }
   ];
-  const staffAllowedTabs: CMSActiveTab[] = ['dashboard', 'leads', 'workspace', 'maps'];
   const visibleSidebarGroups = sidebarGroups
     .map((group) => ({
       ...group,
@@ -569,11 +575,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onNavigatePublic
     }))
     .filter((group) => group.items.length > 0);
 
-  useEffect(() => {
-    if (!canManageContent && !staffAllowedTabs.includes(activeTab)) {
-      setActiveTab('dashboard');
-    }
-  }, [canManageContent, activeTab]);
+
 
 
   return (
